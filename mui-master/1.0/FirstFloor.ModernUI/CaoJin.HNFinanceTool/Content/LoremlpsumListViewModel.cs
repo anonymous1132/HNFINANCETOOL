@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using FirstFloor.ModernUI.Presentation;
+
+namespace CaoJin.HNFinanceTool.Content
+{
+   public class LoremlpsumListViewModel:NotifyPropertyChanged
+    {
+        public LoremlpsumListViewModel()
+        {
+
+        }
+    }
+}
