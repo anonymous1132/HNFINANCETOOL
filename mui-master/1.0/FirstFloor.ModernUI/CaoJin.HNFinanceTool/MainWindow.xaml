@@ -16,6 +16,7 @@
         <mui:LinkGroup DisplayName="Welcome">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Project" Source="/Pages/Welcome.xaml" />
+                <mui:Link DisplayName="table" Source="/Pages/Table1.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         
