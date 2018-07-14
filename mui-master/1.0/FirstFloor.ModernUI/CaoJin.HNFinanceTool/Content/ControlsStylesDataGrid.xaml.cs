@@ -13,29 +13,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CaoJin.HNFinanceTool.Bll;
+using CaoJin.HNFinanceTool.Dal;
+using CaoJin.HNFinanceTool.Basement;
+using System.Data;
 
 namespace CaoJin.HNFinanceTool.Content
 {
-
-    public class ExpanseItem
-    {
-        public string ProjectName { get; set; } //项目名称
-        public string ProjectCode { get; set; } //项目编码
-        public string IndividualProjectName { get; set; } //单项工程名称
-        public string IndividualProjectCode { get; set; } //单项工程编码
-        public string ExpanseCategory { get; set; } //费用类别
-        public string WBSCode { get; set; }//wbs识别码
-        public double EstimateNumber { get; set; }//概算数
-        public double InternalControl { get; set; }//内控系数
-        public string DeductibleVATRatio { get; set; }//可抵扣增值税比例
-        public double TotalInvestmentWithTax { get; set; }//总投资预算（含税）
-        public double TotalInvestmentWithoutTax { get; set; }//总投资预算（不含税）
-        public double MaxInternalControl { get; set; }//内控系数上限
-        public string MaxDeductibleVATRatio { get; set; }//可抵扣增值税比例上限
-        public string MinDeductibleVATRatio { get; set; }//可抵扣增值税比例下限
-
-    }
-
 
     /// <summary>
     /// Interaction logic for ControlsStylesDataGrid.xaml
@@ -46,18 +30,24 @@ namespace CaoJin.HNFinanceTool.Content
         {
             InitializeComponent();
 
-            ObservableCollection<ExpanseItem> custdata = GetData();
+            ObservableCollection<ProjectEstimateViewModel> financedata = GetData();
 
-            //Bind the DataGrid to the customer data
-            DG1.DataContext = custdata;
+            //Bind the DataGrid 
+            DG1.DataContext = financedata;
         }
 
-        private ObservableCollection<ExpanseItem> GetData()
-        {
-            var expanseitems = new ObservableCollection<ExpanseItem>();
- 
+        private string datapath="App\\data\\";
 
-            return expanseitems;
+        public string datafile = "demo.est";
+
+        private ObservableCollection<ProjectEstimateViewModel> GetData()
+        {
+
+           DataSet ds= XmlOperate.GetDataSet(datafile);
+            DataTable dt = ds.Tables[0];
+
+            var estimate = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToObc(dt);
+            return estimate;
         }
     }
 }

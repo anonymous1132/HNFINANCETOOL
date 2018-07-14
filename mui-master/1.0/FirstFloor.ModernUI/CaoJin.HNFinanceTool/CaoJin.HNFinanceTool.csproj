@@ -92,6 +92,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Basement\ModelConvertHelper.cs" />
     <Compile Include="Basement\XmlHelper.cs" />
     <Compile Include="BingImage.cs" />
     <Compile Include="Content\ControlsStylesDataGrid.xaml.cs">
@@ -103,7 +104,6 @@
     <Compile Include="Content\LoremIpsumList.xaml.cs">
       <DependentUpon>LoremIpsumList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Content\LoremlpsumListViewModel.cs" />
     <Compile Include="Bll\ProjectEstimateViewModel.cs" />
     <Compile Include="Content\SettingsAppearance.xaml.cs">
       <DependentUpon>SettingsAppearance.xaml</DependentUpon>
@@ -135,6 +135,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\FIleOper.cs" />
     <Compile Include="Dal\Operate.cs" />
     <Compile Include="LoremIpsumLoader.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -186,7 +187,10 @@
       <Name>FirstFloor.ModernUI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App\config\" />
+    <Folder Include="App\data\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\background.kitty.png" />
     <Resource Include="Assets\background.love.jpg" />
