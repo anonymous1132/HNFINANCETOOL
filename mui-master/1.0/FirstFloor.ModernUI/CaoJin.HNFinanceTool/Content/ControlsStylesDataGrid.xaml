@@ -7,26 +7,44 @@
              xmlns:local="clr-namespace:CaoJin.HNFinanceTool.Content"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="600">
     <Grid>
         <DockPanel>
-            <TextBlock DockPanel.Dock="Top" Text="工程概预算表单" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
+            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8" Orientation="Horizontal">
+                <TextBlock  Text="电网基建概算数表单" Style="{StaticResource Heading2}"  />
+                <ComboBox  MinWidth="100" SelectedIndex="0" Margin="50 0 0 0" Name="combobox_title" >
+                    <ComboBoxItem Content="项目名称" />
+                    <ComboBoxItem Content="项目编码" />
+                    <ComboBoxItem Content="wbs识别码" />
+                    <ComboBoxItem Content="内控系数" />
+                    <ComboBoxItem Content="可抵扣增值税比例" />
+                    <ComboBoxItem Content="内控系数上限" />
+                    <ComboBoxItem Content="可抵扣增值税比例上限" />
+                    <ComboBoxItem Content="可抵扣增值税比例下限" />
+                </ComboBox>
+                <TextBox Width="150" Name="textbox_setcontent">
+                </TextBox>
+                <Button Content="全置" Name="button_allset" Click="button_allset_Click"    />
+                <Button Content="保存" Name="button_save" Margin="50 0 0 0" Click="button_save_Click"/>
+                <Button Content="导出至excel" Name="button_export" Margin="10 0 0 0" Click="button_export_Click"/>
+            </StackPanel>
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" >
                 <DataGrid.Columns>
-                    <mui:DataGridTextColumn Header="项目名称"  Binding="{Binding FirstName}"/>
-                    <mui:DataGridTextColumn Header="项目编码" Binding="{Binding LastName}" />
-                    <mui:DataGridTextColumn Header="单项工程名称" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="单项工程编码" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="费用类别" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="WBS识别码" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="概算数" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="内控系数" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="可抵扣增值税比例" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="总投资预算（含税）" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="总投资预算（不含税）" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="内控系数上限" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="可抵扣增值税比例（上限）" Binding="{Binding Email}"/>
-                    <mui:DataGridTextColumn Header="可抵扣增值税比例（下限）" Binding="{Binding Email}"/>
+                    <mui:DataGridTextColumn Header="序号"  Binding="{Binding id}"/>
+                    <mui:DataGridTextColumn Header="项目名称"  Binding="{Binding ProjectName}"/>
+                    <mui:DataGridTextColumn Header="项目编码" Binding="{Binding ProjectCode}" />
+                    <mui:DataGridTextColumn Header="单项工程名称" Binding="{Binding IndividualProjectName}"/>
+                    <mui:DataGridTextColumn Header="单项工程编码" Binding="{Binding IndividualProjectCode}"/>
+                    <mui:DataGridTextColumn Header="费用类别" Binding="{Binding ExpanseCategory}"/>
+                    <mui:DataGridTextColumn Header="WBS识别码" Binding="{Binding WBSCode}"/>
+                    <mui:DataGridTextColumn Header="概算数" Binding="{Binding EstimateNumber}"/>
+                    <mui:DataGridTextColumn Header="内控系数" Binding="{Binding InternalControl}"/>
+                    <mui:DataGridTextColumn Header="可抵扣增值税比例" Binding="{Binding DeductibleVATRatio}"/>
+                    <mui:DataGridTextColumn Header="总投资预算（含税）" Binding="{Binding TotalInvestmentWithTax}"/>
+                    <mui:DataGridTextColumn Header="总投资预算（不含税）" Binding="{Binding TotalInvestmentWithoutTax}"/>
+                    <mui:DataGridTextColumn Header="内控系数上限" Binding="{Binding MaxInternalControl}"/>
+                    <mui:DataGridTextColumn Header="可抵扣增值税比例（上限）" Binding="{Binding MaxDeductibleVATRatio}"/>
+                    <mui:DataGridTextColumn Header="可抵扣增值税比例（下限）" Binding="{Binding MinDeductibleVATRatio}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

@@ -5,7 +5,7 @@
                   xmlns:app="clr-namespace:CaoJin.HNFinanceTool"
                   Title="海宁财务工具" IsTitleVisible="True"
                   ContentSource="/Pages/Welcome.xaml"
-                  Width="800" Height="700">
+                  Width="1000" Height="700" WindowState="Maximized" >
     
     <mui:ModernWindow.TitleLinks>
         <mui:Link DisplayName="Settings" Source="/Pages/Settings.xaml" />

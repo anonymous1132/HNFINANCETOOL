@@ -19,6 +19,12 @@ namespace CaoJin.HNFinanceTool.Bll
     public class ProjectEstimateViewModel : NotifyPropertyChanged
 
     {
+        private string _id;
+        public string  id
+        {
+            get { return _id; }
+            set { _id = value;OnPropertyChanged("id"); }
+        }
 
         private string _projectName; //项目名称
 
@@ -104,9 +110,9 @@ namespace CaoJin.HNFinanceTool.Bll
 
 
 
-        private double _estimateNumber;//概算数
+        private string _estimateNumber;//概算数
 
-        public double EstimateNumber
+        public string EstimateNumber
 
         {
 
@@ -118,9 +124,9 @@ namespace CaoJin.HNFinanceTool.Bll
 
 
 
-        private double _internalControl;//内控系数
+        private string _internalControl;//内控系数
 
-        public double InternalControl
+        public string InternalControl
 
         {
 
@@ -137,21 +143,21 @@ namespace CaoJin.HNFinanceTool.Bll
             set { _deductibleVATRatio = value;OnPropertyChanged("DeductibleVATRatio"); }
         }
 
-        private double _totalInvestmentWithTax;//总投资预算（含税）
-        public double TotalInvestmentWithTax
+        private string _totalInvestmentWithTax;//总投资预算（含税）
+        public string TotalInvestmentWithTax
         {
             get { return _totalInvestmentWithTax; }
             set { _totalInvestmentWithTax = value;OnPropertyChanged("TotalInvestmentWithTax"); }
         }
-        private double _totalInvestmentWithoutTax;//总投资预算（不含税）
-        public double TotalInvestmentWithoutTax
+        private string _totalInvestmentWithoutTax;//总投资预算（不含税）
+        public string TotalInvestmentWithoutTax
         {
             get { return _totalInvestmentWithoutTax; }
             set { _totalInvestmentWithoutTax = value;OnPropertyChanged("TotalInvestmentWithoutTax"); }
         }
 
-        private double _maxInternalControl;//内控系数上限
-        public double MaxInternalControl
+        private string _maxInternalControl;//内控系数上限
+        public string MaxInternalControl
         {
             get { return _maxInternalControl; }
             set { _maxInternalControl = value;OnPropertyChanged("MaxInternalControl"); }

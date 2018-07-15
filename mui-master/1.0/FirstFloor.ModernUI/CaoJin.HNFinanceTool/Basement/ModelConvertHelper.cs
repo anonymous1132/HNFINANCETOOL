@@ -98,9 +98,9 @@ namespace CaoJin.HNFinanceTool.Basement
                         object value = dr[tempName];
                         if (value != DBNull.Value)
                         {
-                            //if (value is DateTime)
+                            //if (value is Int32)
                             //{
-                            //    pi.SetValue(t, ((DateTime)value).ToShortDateString(), null);
+                            //    pi.SetValue(t, Convert.ToInt32(value), null);
                             //}
                             //else { pi.SetValue(t, value, null); }
                             pi.SetValue(t, value, null);

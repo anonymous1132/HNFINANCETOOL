@@ -30,24 +30,97 @@ namespace CaoJin.HNFinanceTool.Content
         {
             InitializeComponent();
 
-            ObservableCollection<ProjectEstimateViewModel> financedata = GetData();
+            financedata = GetData();
 
             //Bind the DataGrid 
             DG1.DataContext = financedata;
         }
 
-        private string datapath="App\\data\\";
 
-        public string datafile = "demo.est";
+        private string _datapath="App\\data\\";
+
+        public string DataFileName = "demo.est";
+
+        private ObservableCollection<ProjectEstimateViewModel> financedata;
 
         private ObservableCollection<ProjectEstimateViewModel> GetData()
         {
 
-           DataSet ds= XmlOperate.GetDataSet(datafile);
+            string datafile = _datapath + DataFileName;
+            DataSet ds= XmlOperate.GetDataSet(datafile);
             DataTable dt = ds.Tables[0];
 
             var estimate = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToObc(dt);
             return estimate;
+        }
+
+        private void button_allset_Click(object sender, RoutedEventArgs e)
+        {
+            switch (this.combobox_title.SelectedIndex)
+            {
+                case 0:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.ProjectName = this.textbox_setcontent.Text;
+                    }
+                    break;
+                case 1:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.ProjectCode = this.textbox_setcontent.Text;
+                    }
+                    break;
+                case 2:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.WBSCode = this.textbox_setcontent.Text;
+                    }
+                    break;
+                case 3:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.InternalControl = this.textbox_setcontent.Text;
+                    }
+                    break;
+                case 4:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.DeductibleVATRatio = this.textbox_setcontent.Text;
+                    }
+                    break;
+                case 5:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.MaxInternalControl = this.textbox_setcontent.Text;
+                    }
+                    break;
+                case 6:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.MaxDeductibleVATRatio = this.textbox_setcontent.Text;
+                    }
+                    break;
+                case 7:
+                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    {
+                        pjvm.MinDeductibleVATRatio= this.textbox_setcontent.Text;
+                    }
+                    break;
+                default:
+
+                    break;
+
+            }
+        }
+
+        private void button_save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void button_export_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -173,6 +173,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App\data\demo.est">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -189,7 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\config\" />
-    <Folder Include="App\data\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\background.kitty.png" />
