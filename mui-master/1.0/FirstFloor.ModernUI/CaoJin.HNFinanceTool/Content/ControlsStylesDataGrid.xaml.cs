@@ -29,11 +29,6 @@ namespace CaoJin.HNFinanceTool.Content
         public ControlsStylesDataGrid()
         {
             InitializeComponent();
-
-            financedata = GetData();
-
-            //Bind the DataGrid 
-            DG1.DataContext = financedata;
         }
 
 
@@ -115,12 +110,20 @@ namespace CaoJin.HNFinanceTool.Content
 
         private void button_save_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show(this.DataFileName);
         }
 
         private void button_export_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            financedata = GetData();
+
+            //Bind the DataGrid 
+            DG1.DataContext = financedata;
         }
     }
 }

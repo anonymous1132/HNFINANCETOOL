@@ -9,6 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Style="{StaticResource ContentRoot}">
-        <content:ControlsStylesDataGrid />
+        <content:ControlsStylesDataGrid/>
     </Grid>
 </UserControl>

@@ -23,6 +23,9 @@ namespace CaoJin.HNFinanceTool.Pages
         public Table1()
         {
             InitializeComponent();
+
+           // MessageBox.Show(FileName);
         }
+        public string FileName = "";
     }
 }
