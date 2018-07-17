@@ -3,7 +3,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   xmlns:app="clr-namespace:CaoJin.HNFinanceTool"
-                  Title="海宁财务工具" IsTitleVisible="True"
+                  Title="财务概算工具" IsTitleVisible="True"
                   ContentSource="/Pages/Welcome.xaml"
                   Width="1000" Height="700" WindowState="Maximized" >
     

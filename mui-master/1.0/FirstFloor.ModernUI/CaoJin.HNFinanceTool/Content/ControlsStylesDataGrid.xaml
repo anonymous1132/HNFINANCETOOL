@@ -26,6 +26,7 @@
                 </TextBox>
                 <Button Content="全置" Name="button_allset" Click="button_allset_Click"    />
                 <Button Content="保存" Name="button_save" Margin="50 0 0 0" Click="button_save_Click"/>
+                <Button Content="从Excel导入" Name="button_import" Margin="10 0 0 0" Click="button_import_Click"/>
                 <Button Content="导出至excel" Name="button_export" Margin="10 0 0 0" Click="button_export_Click"/>
             </StackPanel>
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" >

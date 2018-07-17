@@ -79,7 +79,7 @@ namespace CaoJin.HNFinanceTool.Basement
         {
             ObservableCollection<T> obc = new ObservableCollection<T>();
             // 获得此模型的类型   
-            Type type = typeof(T);
+          //  Type type = typeof(T);
             string tempName = "";
             foreach (DataRow dr in dt.Rows)
             {
@@ -113,6 +113,65 @@ namespace CaoJin.HNFinanceTool.Basement
 
             return obc;
         }
-    
+
+        public static DataTable ConvertToDt(ObservableCollection<T> obc)
+        {
+            DataTable dt = new DataTable();
+            T temp = new T();
+            PropertyInfo[] propertys = temp.GetType().GetProperties();
+            foreach (PropertyInfo pi in propertys)
+            {
+                if (!pi.CanWrite) continue;
+                dt.Columns.Add(pi.Name,GetCoreType(pi.PropertyType));
+            }
+
+
+                foreach (T t in obc)
+            {
+                PropertyInfo[] property = t.GetType().GetProperties();
+                DataRow dr=dt.NewRow();
+                foreach (PropertyInfo pi in propertys)
+                {
+                    if (!pi.CanWrite) continue;
+                    
+                    dr[pi.Name] = pi.GetValue(t,null);
+
+                }
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        /// <summary>
+        /// Return underlying type if type is Nullable otherwise return the type
+        /// </summary>
+        public static Type GetCoreType(Type t)
+        {
+            if (t != null && IsNullable(t))
+            {
+                if (!t.IsValueType)
+                {
+                    return t;
+                }
+                else
+                {
+                    return Nullable.GetUnderlyingType(t);
+                }
+            }
+            else
+            {
+                return t;
+            }
+        }
+
+        /// <summary>
+        /// Determine of specified type is nullable
+        /// </summary>
+        public static bool IsNullable(Type t)
+        {
+            return !t.IsValueType || (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>));
+        }
+
+
     }
 }

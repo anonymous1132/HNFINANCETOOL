@@ -24,7 +24,7 @@ namespace CaoJin.HNFinanceTool.Dal
         //创建xml文件
         public static void CreatXmlFile(string filepath)
         {
-            XmlDocument doc = XmlHelper.CreateXmlDocument("CjCodeFileNode","FinanceEstimate");
+            XmlDocument doc = XmlHelper.CreateXmlDocument("finance", "");
             doc.Save(filepath);
         }
 
@@ -33,7 +33,11 @@ namespace CaoJin.HNFinanceTool.Dal
         {
             return XmlHelper.GetDataSet(filepath,XmlHelper.XmlType.File);
         }
+        //插入数据
+        public static void Insert(string filepath,string element,string value)
+        {
 
+        }
  
     }
 }
