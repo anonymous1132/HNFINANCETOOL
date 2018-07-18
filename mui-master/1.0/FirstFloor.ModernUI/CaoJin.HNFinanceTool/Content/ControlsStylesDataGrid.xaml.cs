@@ -17,6 +17,7 @@ using CaoJin.HNFinanceTool.Dal;
 using CaoJin.HNFinanceTool.Basement;
 using System.Data;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace CaoJin.HNFinanceTool.Content
 {
@@ -38,6 +39,7 @@ namespace CaoJin.HNFinanceTool.Content
 
         private ObservableCollection<ProjectEstimateViewModel> financedata;
 
+        //从文件获取数据
         private ObservableCollection<ProjectEstimateViewModel> GetData()
         {
 
@@ -49,13 +51,14 @@ namespace CaoJin.HNFinanceTool.Content
             return estimate;
         }
 
+        //将obc转换为dt
         private DataTable TranslateVM2DT()
         {
             DataTable dt = new DataTable();
             dt = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToDt(financedata);
             return dt;
         }
-
+        //全置button
         private void button_allset_Click(object sender, RoutedEventArgs e)
         {
             switch (this.combobox_title.SelectedIndex)
@@ -114,7 +117,7 @@ namespace CaoJin.HNFinanceTool.Content
 
             }
         }
-
+        //保存至文件
         private void button_save_Click(object sender, RoutedEventArgs e)
         {
             if (DataFileName == "mould")
@@ -133,9 +136,21 @@ namespace CaoJin.HNFinanceTool.Content
                 XmlHelper.SaveTableToFile(TranslateVM2DT(), datafile);
             }
         }
-
+        //导出至excel
         private void button_export_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFile = new SaveFileDialog() { Filter = "Excel Files (*.xlsx)|*.xlsx" };
+            saveFile.Title = "导出文件路径";
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-CN");
+            saveFile.FileName = DateTime.Now.GetDateTimeFormats('D')[0].ToString() + financedata[0].ProjectName;
+            if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
+            string mouldpath = "App\\excel\\mould1.xlsx";
+            if (!System.IO.File.Exists(mouldpath)) { MessageBox.Show("错误：App\\excel\\mould1.xlsx丢失！"); return; }
+            System.IO.File.Copy(mouldpath,saveFile.FileName);
+            ExcelHelper exceloper = new ExcelHelper();
+            exceloper.DT2Excel3(TranslateVM2DT(),saveFile.FileName);
+            MessageBox.Show("操作完成！");
 
         }
 
@@ -149,20 +164,15 @@ namespace CaoJin.HNFinanceTool.Content
 
         private void button_import_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFile = new OpenFileDialog() { Filter = "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls" };
+            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
+            string filepath = openFile.FileName;
+            ExcelHelper exceloper = new ExcelHelper();
+            DataSet ds = exceloper.ExcelToDS(filepath);
+           // MessageBox.Show(d);
 
         }
 
-        private void SavetoEst(string FilePath)
-        {
-            if (System.IO.File.Exists(FilePath))//如果存在文件，则覆盖，否则创建新文件
-            {
-
-            }
-            else
-            {
-
-
-            }
-        }
+       
     }
 }
