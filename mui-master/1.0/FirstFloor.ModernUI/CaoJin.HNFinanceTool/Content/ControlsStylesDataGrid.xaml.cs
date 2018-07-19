@@ -145,12 +145,18 @@ namespace CaoJin.HNFinanceTool.Content
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-CN");
             saveFile.FileName = DateTime.Now.GetDateTimeFormats('D')[0].ToString() + financedata[0].ProjectName;
             if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
-            string mouldpath = "App\\excel\\mould1.xlsx";
-            if (!System.IO.File.Exists(mouldpath)) { MessageBox.Show("错误：App\\excel\\mould1.xlsx丢失！"); return; }
-            System.IO.File.Copy(mouldpath,saveFile.FileName);
-            ExcelHelper exceloper = new ExcelHelper();
-            exceloper.DT2Excel3(TranslateVM2DT(),saveFile.FileName);
-            MessageBox.Show("操作完成！");
+            try
+            {
+                if (System.IO.File.Exists(saveFile.FileName)) { System.IO.File.Delete(saveFile.FileName); }
+                string mouldpath = "App\\excel\\mould1.xlsx";
+                if (!System.IO.File.Exists(mouldpath)) { MessageBox.Show("错误：App\\excel\\mould1.xlsx丢失！"); return; }
+                System.IO.File.Copy(mouldpath, saveFile.FileName);
+                ExcelHelper exceloper = new ExcelHelper();
+                exceloper.DT2Excel3(TranslateVM2DT(), saveFile.FileName);
+                MessageBox.Show("操作完成！");
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
 
         }
 
@@ -164,13 +170,35 @@ namespace CaoJin.HNFinanceTool.Content
 
         private void button_import_Click(object sender, RoutedEventArgs e)
         {
+            if (!CheckImportFile()) return;
+
+
+        }
+
+        private ProjectClass proc;
+        private bool CheckImportFile()
+        {
             OpenFileDialog openFile = new OpenFileDialog() { Filter = "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls" };
-            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
+            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
             string filepath = openFile.FileName;
             ExcelHelper exceloper = new ExcelHelper();
             DataSet ds = exceloper.ExcelToDS(filepath);
-           // MessageBox.Show(d);
-
+            string tablenames = "";
+            //所有表名称拼接
+            for (int i = 0; i < ds.Tables.Count; i++)
+            {
+                tablenames = tablenames + ds.Tables[i].TableName;
+            }
+            if (!(tablenames.Contains("封面") && tablenames.Contains("总概算")))
+            {
+                MessageBox.Show("Excel文件缺少《封面》或《总概算》表");
+                return false;
+            }
+            //获取《封面》内容，根据封面内容获取项目名称、项目编号
+            proc = new ProjectClass();
+            int rownum = exceloper.cellindex(ds.Tables["封面$"], "工 程 名 称:")[1];
+            MessageBox.Show(rownum.ToString());
+            return true;
         }
 
        

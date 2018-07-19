@@ -117,17 +117,36 @@ namespace CaoJin.HNFinanceTool.Basement
             }
         }
 
-        //查找datatable中的字符串首次在第几行
-        public int rowindex(DataTable dt, string str)
+        //查找datatable中的字符串首次在第几行； colnum从0开始
+        public int? rowindex(DataTable dt, string str,int colnum)
         {
             DataView dv = dt.DefaultView;
-            foreach (DataRowView drv in dv)
+            if (colnum < dt.Columns.Count)
             {
-                if (drv[0].ToString() == str)
-                { return dt.Rows.IndexOf(drv.Row); }
+                foreach (DataRowView drv in dv)
+                {
+                    if (drv[colnum].ToString() == str)
+                    { return dt.Rows.IndexOf(drv.Row); }
 
+                }
             }
-            return 0;
+            return null;
+        }
+
+        //colnum、row都是从0开始算起
+        public int[] cellindex(DataTable dt, string str)
+        {
+            for (int r = 0; r < dt.Rows.Count; r++)
+            {
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    if (dt.DefaultView[r][c].ToString()==str)
+                    {
+                        return new int[]{ r,c};
+                    }
+                }
+            }
+            return null;
         }
 
         //dt导出至excel第一个sheet，且将columnname设置为首行
