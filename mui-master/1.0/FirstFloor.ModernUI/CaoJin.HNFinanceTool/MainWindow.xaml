@@ -9,20 +9,20 @@
     
     <mui:ModernWindow.TitleLinks>
         <mui:Link DisplayName="Settings" Source="/Pages/Settings.xaml" />
-        <mui:Link DisplayName="Help" Source="/Pages/Help.xaml" />
+        <mui:Link DisplayName="Help" Source="/Pages/Introduction.xaml" />
     </mui:ModernWindow.TitleLinks>
 
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="Welcome">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Project" Source="/Pages/Welcome.xaml" />
-                <mui:Link DisplayName="New" Source="/Pages/Table1.xaml" />
+                <mui:Link DisplayName="项目总览" Source="/Pages/Welcome.xaml" />
+                <mui:Link DisplayName="新建项目" Source="/Pages/NewProjectLoader.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         
         <mui:LinkGroup DisplayName="Help" GroupKey="help">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Help" Source="/Pages/Help.xaml" />
+                <mui:Link DisplayName="Help" Source="/Pages/Introduction.xaml" />
                 <mui:Link DisplayName="welcome" Source="/Pages/Welcome.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>

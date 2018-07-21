@@ -59,6 +59,10 @@
     </ApplicationDefinition>
     <Compile Include="Basement\ExcelHelper.cs" />
     <Compile Include="Bll\ProjectClass.cs" />
+    <Compile Include="NewProjectPageLoader.cs" />
+    <Compile Include="Pages\NewProjectPage.xaml.cs">
+      <DependentUpon>NewProjectPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Table1Loader.cs" />
     <Page Include="Assets\ModernUI.BingImage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -125,6 +129,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\NewProjectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,6 +185,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App\bak\mould">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App\bak\mould1.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="App\bak\mould2.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App\data\mould">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

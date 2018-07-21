@@ -32,6 +32,7 @@ namespace CaoJin.HNFinanceTool.Bll
         通信及调度自动化,
         架空线路工程,
         电缆线路工程,
-
+        其他费用,
+        建设期贷款利息
     }
 }

@@ -47,7 +47,7 @@ namespace CaoJin.HNFinanceTool.Content
                     {
                         if (i > 10) { break; }
                         Link link = new Link();
-                        link.DisplayName = f.Name;
+                        link.DisplayName =f.Name.Split('.')[0];
                         link.Source = new Uri(f.Name, UriKind.Relative);
                         this.mylist.Links.Add(link);
                        

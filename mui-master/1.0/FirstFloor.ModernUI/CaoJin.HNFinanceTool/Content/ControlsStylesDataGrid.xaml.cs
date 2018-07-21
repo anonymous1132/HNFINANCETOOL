@@ -122,13 +122,15 @@ namespace CaoJin.HNFinanceTool.Content
         {
             if (DataFileName == "mould")
             {
-                SaveFileDialog saveFile = new SaveFileDialog() { Filter = "财务工具文件 (*.est)|*.est" };
-                saveFile.Title = "导出文件路径";
-                saveFile.FileName = DateTime.Now.GetDateTimeFormats('D')[0].ToString() + financedata[0].ProjectName;
-                saveFile.InitialDirectory = System.IO.Directory.GetCurrentDirectory() + "\\App\\data";
-                if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
-                XmlHelper.SaveTableToFile(TranslateVM2DT(), saveFile.FileName);
-                this.DataFileName = System.IO.Path.GetFileName(saveFile.FileName);
+                string filename= string.IsNullOrEmpty(financedata[0].ProjectName.Trim()) ? "mould" : financedata[0].ProjectName.Trim()+".est";
+                string filepath = System.IO.Directory.GetCurrentDirectory() + "\\App\\data\\" + filename;
+                //SaveFileDialog saveFile = new SaveFileDialog() { Filter = "财务工具文件 (*.est)|*.est" };                                   取消自定义文件名的功能
+                //saveFile.Title = "导出文件路径";                                                                                            如果项目名为空，则设置保存为模板
+                //saveFile.FileName =string.IsNullOrEmpty(financedata[0].ProjectName.Trim())?"mould":financedata[0].ProjectName.Trim();       否则保存至%项目名%.est
+                //saveFile.InitialDirectory = System.IO.Directory.GetCurrentDirectory() + "\\App\\data";
+                //if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
+                XmlHelper.SaveTableToFile(TranslateVM2DT(), filepath);
+                this.DataFileName = System.IO.Path.GetFileName(filepath);
             }
             else
             {
@@ -163,7 +165,6 @@ namespace CaoJin.HNFinanceTool.Content
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             financedata = GetData();
-
             //Bind the DataGrid 
             DG1.DataContext = financedata;
         }
@@ -196,8 +197,12 @@ namespace CaoJin.HNFinanceTool.Content
             }
             //获取《封面》内容，根据封面内容获取项目名称、项目编号
             proc = new ProjectClass();
-            int rownum = exceloper.cellindex(ds.Tables["封面$"], "工 程 名 称:")[1];
-            MessageBox.Show(rownum.ToString());
+            proc.ProjectName = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工 程 名 称");
+
+            proc.ProjectCode = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工程编号",7);
+           // cellnum= exceloper.cellindexcontain(ds.Tables["封面$"], "工程编号:");
+           // proc.ProjectCode= ds.Tables["封面$"].DefaultView[cellnum[0]][cellnum[1]+1].ToString();
+            MessageBox.Show(proc.ProjectCode);
             return true;
         }
 

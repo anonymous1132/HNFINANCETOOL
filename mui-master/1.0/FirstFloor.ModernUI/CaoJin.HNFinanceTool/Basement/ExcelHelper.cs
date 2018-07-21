@@ -118,7 +118,7 @@ namespace CaoJin.HNFinanceTool.Basement
         }
 
         //查找datatable中的字符串首次在第几行； colnum从0开始
-        public int? rowindex(DataTable dt, string str,int colnum)
+        public int? Rowindex(DataTable dt, string str,int colnum)
         {
             DataView dv = dt.DefaultView;
             if (colnum < dt.Columns.Count)
@@ -134,7 +134,7 @@ namespace CaoJin.HNFinanceTool.Basement
         }
 
         //colnum、row都是从0开始算起
-        public int[] cellindex(DataTable dt, string str)
+        public int[] Cellindex(DataTable dt, string str)
         {
             for (int r = 0; r < dt.Rows.Count; r++)
             {
@@ -147,6 +147,104 @@ namespace CaoJin.HNFinanceTool.Basement
                 }
             }
             return null;
+        }
+        //colnum、row都是从0开始算起，单元格包含关键词
+        public int[] CellindexContain(DataTable dt, string str)
+        {
+            for (int r = 0; r < dt.Rows.Count; r++)
+            {
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    if (dt.DefaultView[r][c].ToString().Contains(str))
+                    {
+                        return new int[] { r, c };
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        //根据同行关键字获取字段数据
+        public string GetXValueByKeyWord(DataTable dt, string str)
+        {
+            int[] cellnum = Cellindex(dt,str);
+            for (int i = cellnum[1] + 1; i < dt.Columns.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(dt.DefaultView[cellnum[0]][i].ToString()))
+                {
+                    return dt.DefaultView[cellnum[0]][i].ToString();
+                }
+            }
+            return "";
+        }
+        //根据同行关键字获取字段数据，单元格包含关键词
+        public string GetXValueByContainKeyWord(DataTable dt,string str)
+        {
+            int[] cellnum = CellindexContain(dt, str);
+            for (int i = cellnum[1] + 1; i < dt.Columns.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(dt.DefaultView[cellnum[0]][i].ToString()))
+                {
+                    return dt.DefaultView[cellnum[0]][i].ToString();
+                }
+            }
+            return "";
+        }
+        //根据同行关键字获取字段数据，单元格包含关键词设定最多列数差
+        public string GetXValueByContainKeyWord(DataTable dt, string str,int maxskip)
+        {
+            int[] cellnum = CellindexContain(dt, str);
+            if (cellnum[1] + maxskip >=dt.Columns.Count) return GetXValueByContainKeyWord(dt,str);
+            for (int i = cellnum[1] + 1; i <= cellnum[1]+maxskip; i++)
+            {
+                if (!string.IsNullOrEmpty(dt.DefaultView[cellnum[0]][i].ToString()))
+                {
+                    return dt.DefaultView[cellnum[0]][i].ToString();
+                }
+            }
+            return "";
+        }
+        //根据同列关键字获取字段数据
+        public string GetYValueByKeyWord(DataTable dt, string str)
+        {
+            int[] cellnum = Cellindex(dt, str);
+            for (int i = cellnum[1] + 1; i < dt.Rows.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(dt.DefaultView[i][cellnum[1]].ToString()))
+                {
+                    return dt.DefaultView[i][cellnum[1]].ToString();
+                }
+            }
+            return "";
+        }
+        //根据同列关键字获取字段数据，单元格包含关键词
+        public string GetYValueByContainKeyWord(DataTable dt,string str)
+        {
+            int[] cellnum = CellindexContain(dt, str);
+            for (int i = cellnum[1] + 1; i < dt.Rows.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(dt.DefaultView[i][cellnum[1]].ToString()))
+                {
+                    return dt.DefaultView[i][cellnum[1]].ToString();
+                }
+            }
+            return "";
+        }
+        //根据同列关键字获取字段数据，单元格包含关键词,设定最多行数差
+        public string GetYValueByContainKeyWord(DataTable dt, string str,int maxskip)
+        {
+            int[] cellnum = CellindexContain(dt, str);
+            if (cellnum[1] + maxskip > dt.Rows.Count) return GetYValueByContainKeyWord(dt,str);
+            for (int i = cellnum[1] + 1; i < cellnum[1]+maxskip; i++)
+            {
+                if (!string.IsNullOrEmpty(dt.DefaultView[i][cellnum[1]].ToString()))
+                {
+                    return dt.DefaultView[i][cellnum[1]].ToString();
+                }
+            }
+            return "";
+
         }
 
         //dt导出至excel第一个sheet，且将columnname设置为首行
@@ -237,7 +335,7 @@ namespace CaoJin.HNFinanceTool.Basement
             Kill(xlApp);
         }
 
-        //本项目特用
+        //本项目专用
         public void DT2Excel3(DataTable dt, string path)
         {
             if (dt == null || dt.Rows.Count == 0) return;
