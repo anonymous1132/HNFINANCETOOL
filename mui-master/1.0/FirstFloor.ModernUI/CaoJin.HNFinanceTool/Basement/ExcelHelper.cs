@@ -117,8 +117,8 @@ namespace CaoJin.HNFinanceTool.Basement
             }
         }
 
-        //查找datatable中的字符串首次在第几行； colnum从0开始
-        public int? Rowindex(DataTable dt, string str,int colnum)
+        //指定列，查找datatable中的字符串首次在第几行； colnum从0开始
+        public int? RowIndex(DataTable dt, string str,int colnum)
         {
             DataView dv = dt.DefaultView;
             if (colnum < dt.Columns.Count)
@@ -128,6 +128,52 @@ namespace CaoJin.HNFinanceTool.Basement
                     if (drv[colnum].ToString() == str)
                     { return dt.Rows.IndexOf(drv.Row); }
 
+                }
+            }
+            return null;
+        }
+        //指定列，查找datatable中的字符串首次在第几行； colnum从0开始,模糊查询
+        public int? RowIndexContain(DataTable dt, string str, int colnum)
+        {
+            DataView dv = dt.DefaultView;
+            if (colnum < dt.Columns.Count)
+            {
+                foreach (DataRowView drv in dv)
+                {
+                    if (drv[colnum].ToString().Contains(str))
+                    { return dt.Rows.IndexOf(drv.Row); }
+
+                }
+            }
+            return null;
+        }
+
+
+        //指定行，查找datatable中字符串首次在第几列
+        public int? ColumnIndex(DataTable dt,string str,int row)
+        {
+            DataView dv = dt.DefaultView;
+            if (row < dt.Rows.Count)
+            {
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    if (dv[row][i].ToString()==str)
+                    { return i; }
+                }
+            }
+            return null;
+        }
+
+        //指定行，查找datatable中字符串首次在第几列，模糊查询
+        public int? ColumnIndexContain(DataTable dt, string str, int row)
+        {
+            DataView dv = dt.DefaultView;
+            if (row < dt.Rows.Count)
+            {
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    if (dv[row][i].ToString().Replace(" ", "").Contains(str.Replace(" ", "")))
+                    { return i; }
                 }
             }
             return null;
@@ -163,6 +209,8 @@ namespace CaoJin.HNFinanceTool.Basement
             }
             return null;
         }
+
+
 
 
         //根据同行关键字获取字段数据

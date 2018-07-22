@@ -16,7 +16,7 @@
         <mui:LinkGroup DisplayName="Welcome">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="项目总览" Source="/Pages/Welcome.xaml" />
-                <mui:Link DisplayName="新建项目" Source="/Pages/NewProjectLoader.xaml" />
+                <mui:Link DisplayName="新建项目" Source="/Pages/Table1.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         

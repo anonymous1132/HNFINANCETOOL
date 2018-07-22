@@ -25,6 +25,7 @@ namespace CaoJin.HNFinanceTool
             {
                 ControlsStylesDataGrid cdg = new ControlsStylesDataGrid();
                 cdg.DataFileName = uri.ToString();
+                cdg.isadd = false;
                 return cdg;
             }
             else { return new ControlsStylesDataGrid(); }

@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,11 +59,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Basement\ExcelHelper.cs" />
+    <Compile Include="Bll\EstinateOverViewTableCell.cs" />
+    <Compile Include="Bll\EstinateOverViewTableCellsSet.cs" />
+    <Compile Include="Bll\ExcelCellCoordinate.cs" />
     <Compile Include="Bll\ProjectClass.cs" />
-    <Compile Include="NewProjectPageLoader.cs" />
-    <Compile Include="Pages\NewProjectPage.xaml.cs">
-      <DependentUpon>NewProjectPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Bll\ProjectCostCatagory.cs" />
+    <Compile Include="Bll\ProjectCostCatagorySet.cs" />
     <Compile Include="Table1Loader.cs" />
     <Page Include="Assets\ModernUI.BingImage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -128,10 +130,6 @@
     <Page Include="Pages\Introduction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\NewProjectPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
