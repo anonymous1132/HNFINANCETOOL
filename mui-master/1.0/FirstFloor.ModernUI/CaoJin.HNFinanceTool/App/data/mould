@@ -1,12 +1,12 @@
 <?xml version="1.0" standalone="yes"?>
-<Config>
+<Config >
   <Table1>
     <id>0</id>
     <ProjectName />
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目</ExpanseCategory>
     <WBSCode>A0000000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -23,7 +23,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—配电站(开关站)工程—建筑工程</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—配电站（开关站）工程—建筑工程</ExpanseCategory>
     <WBSCode>A1100000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -40,7 +40,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—配电站(开关站)工程—安装工程</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—配电站（开关站）工程—安装工程</ExpanseCategory>
     <WBSCode>A1200000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -57,7 +57,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—配电站(开关站)工程—设备购置</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—配电站（开关站）工程—设备购置</ExpanseCategory>
     <WBSCode>A1300000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -74,7 +74,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—通信及调度自动化—建筑工程</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—通信及调度自动化—建筑工程</ExpanseCategory>
     <WBSCode>A4100000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -91,7 +91,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—通信及调度自动化—安装工程</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—通信及调度自动化—安装工程</ExpanseCategory>
     <WBSCode>A4200000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -108,7 +108,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—通信及调度自动化—设备购置</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—通信及调度自动化—设备购置</ExpanseCategory>
     <WBSCode>A4300000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -125,7 +125,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—架空线路工程—架空线路本体工程</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—架空线路工程—架空线路本体工程</ExpanseCategory>
     <WBSCode>A2100000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -142,7 +142,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—电缆线路工程—电缆本体工程</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—电缆线路工程—电缆本体工程</ExpanseCategory>
     <WBSCode>A3100000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -159,7 +159,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—建设场地征用及清理费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—建设场地征用及清理费</ExpanseCategory>
     <WBSCode>A5100000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -176,7 +176,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设管理费—项目管理经费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—项目管理经费</ExpanseCategory>
     <WBSCode>A5210000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -193,7 +193,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设管理费—项目管理经费—其中：业务招待费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—项目管理经费—其中：业务招待费</ExpanseCategory>
     <WBSCode>TY000009</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -210,7 +210,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设管理费—招标费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—招标费</ExpanseCategory>
     <WBSCode>A5220000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -227,7 +227,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设管理费—工程监理费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—工程监理费</ExpanseCategory>
     <WBSCode>A5230000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -244,7 +244,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设技术服务费—工程勘察费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—工程勘察费</ExpanseCategory>
     <WBSCode>A5310000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -261,7 +261,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设技术服务费—工程设计费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—工程设计费</ExpanseCategory>
     <WBSCode>A5320000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -278,7 +278,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设技术服务费—设计文件评审费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—设计文件评审费</ExpanseCategory>
     <WBSCode>A5330000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -295,7 +295,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设技术服务费—项目后评价费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—项目后评价费</ExpanseCategory>
     <WBSCode>A5340000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -312,7 +312,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—项目建设技术服务费—技术经济标准编制管理费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—技术经济标准编制管理费</ExpanseCategory>
     <WBSCode>A5350000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -329,7 +329,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—工程建设监督检测费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—工程建设监督检测费</ExpanseCategory>
     <WBSCode>A5400000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -346,7 +346,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—生产准备费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—生产准备费</ExpanseCategory>
     <WBSCode>A5500000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -363,7 +363,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—其他费用—基本预备费</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—基本预备费</ExpanseCategory>
     <WBSCode>A5600000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -380,7 +380,7 @@
     <ProjectCode />
     <IndividualProjectName />
     <IndividualProjectCode />
-    <ExpanseCategory>10KV(含20KV)及以下基建项目—建设期贷款利息</ExpanseCategory>
+    <ExpanseCategory>10KV（含20KV）及以下基建项目—建设期贷款利息</ExpanseCategory>
     <WBSCode>A6000000</WBSCode>
     <EstimateNumber />
     <InternalControl />
@@ -391,4 +391,9 @@
     <MaxDeductibleVATRatio />
     <MinDeductibleVATRatio />
   </Table1>
+  <Table2>
+    <TailDifference />
+    <ItemWithTailDifference />
+    <CompositeTaxRate />
+  </Table2>
 </Config>

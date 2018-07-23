@@ -29,7 +29,8 @@
                 <Button Content="从Excel导入" Name="button_import" Margin="10 0 0 0" Click="button_import_Click"/>
                 <Button Content="导出至excel" Name="button_export" Margin="10 0 0 0" Click="button_export_Click"/>
             </StackPanel>
-            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False">
+     
+            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" >
                 <DataGrid.Columns>
                     <mui:DataGridTextColumn Header="序号"  Binding="{Binding id}"/>
                     <mui:DataGridTextColumn Header="项目名称"  Binding="{Binding ProjectName}"/>
@@ -48,6 +49,7 @@
                     <mui:DataGridTextColumn Header="可抵扣增值税比例（下限）" Binding="{Binding MinDeductibleVATRatio}"/>
                 </DataGrid.Columns>
             </DataGrid>
+ 
         </DockPanel>
     </Grid>
 </UserControl>

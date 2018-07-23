@@ -65,6 +65,7 @@
     <Compile Include="Bll\ProjectClass.cs" />
     <Compile Include="Bll\ProjectCostCatagory.cs" />
     <Compile Include="Bll\ProjectCostCatagorySet.cs" />
+    <Compile Include="Bll\TailDifferenceViewModel.cs" />
     <Compile Include="Table1Loader.cs" />
     <Page Include="Assets\ModernUI.BingImage.xaml">
       <Generator>MSBuild:Compile</Generator>
