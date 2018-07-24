@@ -43,22 +43,40 @@ namespace CaoJin.HNFinanceTool.Content
         private TailDifferenceViewModel tdvm;
 
         //从文件获取数据
-        private ObservableCollection<ProjectEstimateViewModel> GetData()
+        private void GetData(ref ObservableCollection<ProjectEstimateViewModel>financedata,ref TailDifferenceViewModel tdvm)
         {
 
             string datafile = _datapath + DataFileName;
             DataSet ds = XmlOperate.GetDataSet(datafile);
             DataTable dt = ds.Tables[0];
-
-            var estimate = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToObc(dt);
-            return estimate;
+            DataTable dt2 = ds.Tables[1];
+            financedata = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToObc(dt);
+            tdvm = new TailDifferenceViewModel();
+            tdvm.TailDifference = dt2.DefaultView[0]["TailDifference"].ToString();
+            tdvm.ItemWithTailDifference = dt2.DefaultView[0]["ItemWithTailDifference"].ToString();
+            tdvm.CompositeTaxRate = dt2.DefaultView[0]["CompositeTaxRate"].ToString();
         }
 
         //将obc转换为dt
         private DataTable TranslateVM2DT()
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new DataTable("Estinates");
             dt = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToDt(financedata);
+            return dt;
+        }
+
+        //将taildifferencevm转换为dt
+        private DataTable TranslateTDVM2DT()
+        {
+            DataTable dt = new DataTable("Configure");
+            dt.Columns.Add("TailDifference");
+            dt.Columns.Add("ItemWithTailDifference");
+            dt.Columns.Add("CompositeTaxRate");
+            DataRow dr = dt.NewRow();
+            dr["TailDifference"] = tdvm.TailDifference;
+            dr["ItemWithTailDifference"] = tdvm.ItemWithTailDifference;
+            dr["CompositeTaxRate"] = tdvm.CompositeTaxRate;
+            dt.Rows.Add(dr);
             return dt;
         }
         //全置button
@@ -127,18 +145,19 @@ namespace CaoJin.HNFinanceTool.Content
             {
                 string filename = string.IsNullOrEmpty(financedata[0].ProjectName.Trim()) ? "mould" : financedata[0].ProjectName.Trim() + ".est";
                 string filepath = System.IO.Directory.GetCurrentDirectory() + "\\App\\data\\" + filename;
-                //SaveFileDialog saveFile = new SaveFileDialog() { Filter = "财务工具文件 (*.est)|*.est" };                                   取消自定义文件名的功能
-                //saveFile.Title = "导出文件路径";                                                                                            如果项目名为空，则设置保存为模板
-                //saveFile.FileName =string.IsNullOrEmpty(financedata[0].ProjectName.Trim())?"mould":financedata[0].ProjectName.Trim();       否则保存至%项目名%.est
-                //saveFile.InitialDirectory = System.IO.Directory.GetCurrentDirectory() + "\\App\\data";
-                //if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
-                XmlHelper.SaveTableToFile(TranslateVM2DT(), filepath);
+                DataSet ds = new DataSet("Finance");
+                ds.Tables.Add(TranslateVM2DT());
+                ds.Tables.Add(TranslateTDVM2DT());
+                ds.WriteXml(filepath);
                 this.DataFileName = System.IO.Path.GetFileName(filepath);
             }
             else
             {
                 string datafile = _datapath + DataFileName;
-                XmlHelper.SaveTableToFile(TranslateVM2DT(), datafile);
+                DataSet ds = new DataSet("Finance");
+                ds.Tables.Add(TranslateVM2DT().Copy());
+                ds.Tables.Add(TranslateTDVM2DT().Copy());
+                ds.WriteXml(datafile);
             }
         }
         //导出至excel
@@ -171,9 +190,11 @@ namespace CaoJin.HNFinanceTool.Content
             {
                 DataFileName = "mould";
             }
-            financedata = GetData();
+            GetData(ref financedata,ref tdvm);
             //Bind the DataGrid 
+            this.DataContext = tdvm;
             DG1.DataContext = financedata;
+            
         }
 
         private void button_import_Click(object sender, RoutedEventArgs e)
@@ -186,6 +207,7 @@ namespace CaoJin.HNFinanceTool.Content
         private ProjectClass proc;
         private EstinateOverViewTableCellsSet cellsSet;
         private ProjectCostCatagorySet catagorySet;
+        private ProjectCostCatagory catagory;
         private bool CheckImportFile()
         {
             OpenFileDialog openFile = new OpenFileDialog() { Filter = "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls" };
@@ -212,8 +234,6 @@ namespace CaoJin.HNFinanceTool.Content
             GetEstinateOverViewTableValues(ds.Tables["总概算$"],ref cellsSet);
             GetCatagorySetValues(ds.Tables["总概算$"],cellsSet,ref catagorySet);
             GetCatagorySetValues_Other(ds.Tables["其他费用1$"],ref catagorySet);
-            MessageBox.Show("尾差为"+catagorySet.pcc_weicha.costValue.ToString()+"元");
-
             return true;
         }
 
@@ -326,44 +346,50 @@ namespace CaoJin.HNFinanceTool.Content
             //年价差融入以上项目。
             if (!(cellsSet.NJC_Cell.cell.Row is null))
             {
-                int r= Convert.ToInt32(cellsSet.NJC_Cell.cell.Row);
+                int r = Convert.ToInt32(cellsSet.NJC_Cell.cell.Row);
                 string njc_hj = "";
                 njc_hj = dv[r][cell_hj].ToString();
-                double njc_cost = (string.IsNullOrEmpty(njc_hj) ? 0 : Convert.ToDouble(njc_hj))*10000;
-                if (njc_cost != 0)
+                double njc_cost = (string.IsNullOrEmpty(njc_hj) ? 0 : Convert.ToDouble(njc_hj)) * 10000;
+
+                if (catagorySet.pcc_jk.costValue != 0)
                 {
-                    if (catagorySet.pcc_jk.costValue != 0)
-                    {
-                        catagorySet.pcc_jk.costValue += njc_cost;
-                    }
-                    else if (catagorySet.pcc_dl.costValue != 0)
-                    {
-                        catagorySet.pcc_dl.costValue += njc_cost;
-                    }
-                    else if (catagorySet.pcc_pd_az.costValue != 0)
-                    {
-                        catagorySet.pcc_pd_az.costValue += njc_cost;
-                    }
-                    else if (catagorySet.pcc_pd_sb.costValue != 0)
-                    {
-                        catagorySet.pcc_pd_sb.costValue += njc_cost;
-                    }
-                    else if (catagorySet.pcc_pd_jz.costValue != 0)
-                    {
-                        catagorySet.pcc_pd_jz.costValue += njc_cost;
-                    }
-                    else if (catagorySet.pcc_tx_az.costValue != 0)
-                    {
-                        catagorySet.pcc_tx_az.costValue += njc_cost;
-                    }
-                    else if (catagorySet.pcc_tx_sb.costValue != 0)
-                    {
-                        catagorySet.pcc_tx_sb.costValue += njc_cost;
-                    }
-                    else
-                    {
-                        catagorySet.pcc_tx_jz.costValue += njc_cost;
-                    }
+                    catagorySet.pcc_jk.costValue += njc_cost;
+                    catagory = catagorySet.pcc_jk;
+                }
+                else if (catagorySet.pcc_dl.costValue != 0)
+                {
+                    catagorySet.pcc_dl.costValue += njc_cost;
+                    catagory = catagorySet.pcc_dl;
+                }
+                else if (catagorySet.pcc_pd_az.costValue != 0)
+                {
+                    catagorySet.pcc_pd_az.costValue += njc_cost;
+                    catagory = catagorySet.pcc_pd_az;
+                }
+                else if (catagorySet.pcc_pd_sb.costValue != 0)
+                {
+                    catagorySet.pcc_pd_sb.costValue += njc_cost;
+                    catagory = catagorySet.pcc_pd_sb;
+                }
+                else if (catagorySet.pcc_pd_jz.costValue != 0)
+                {
+                    catagorySet.pcc_pd_jz.costValue += njc_cost;
+                    catagory = catagorySet.pcc_pd_jz;
+                }
+                else if (catagorySet.pcc_tx_az.costValue != 0)
+                {
+                    catagorySet.pcc_tx_az.costValue += njc_cost;
+                    catagory = catagorySet.pcc_tx_az;
+                }
+                else if (catagorySet.pcc_tx_sb.costValue != 0)
+                {
+                    catagorySet.pcc_tx_sb.costValue += njc_cost;
+                    catagory = catagorySet.pcc_tx_sb;
+                }
+                else
+                {
+                    catagorySet.pcc_tx_jz.costValue += njc_cost;
+                    catagory = catagorySet.pcc_tx_jz;
                 }
             }
 
@@ -572,6 +598,17 @@ namespace CaoJin.HNFinanceTool.Content
                 }
             }
 
+
+
+        }
+
+        //尾差处理
+        private void ManageTailDifference(ref TailDifferenceViewModel tailDifferenceViewModel)
+        {
+      
+
+
+            tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
 
 
         }

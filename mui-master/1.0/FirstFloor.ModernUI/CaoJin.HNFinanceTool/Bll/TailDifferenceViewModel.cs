@@ -12,6 +12,7 @@ namespace CaoJin.HNFinanceTool.Bll
         public TailDifferenceViewModel()
         { }
 
+        //尾差
         private string _tailDifference;
         public string TailDifference
         {
@@ -19,13 +20,14 @@ namespace CaoJin.HNFinanceTool.Bll
             set { _tailDifference = value;OnPropertyChanged(TailDifference); }
         }
 
+        //附加尾差的费用类别
         private string _itemWithTailDifference;
         public string ItemWithTailDifference
         {
             get { return _itemWithTailDifference; }
             set { _itemWithTailDifference = value;OnPropertyChanged("ItemWithTailDifference"); }
         }
-
+        //设置的税率
         private string _compositeTaxRate;
         public string CompositeTaxRate
         {

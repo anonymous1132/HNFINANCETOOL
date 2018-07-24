@@ -29,7 +29,14 @@
                 <Button Content="从Excel导入" Name="button_import" Margin="10 0 0 0" Click="button_import_Click"/>
                 <Button Content="导出至excel" Name="button_export" Margin="10 0 0 0" Click="button_export_Click"/>
             </StackPanel>
-     
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock Text="尾差："/>
+                <TextBlock Name="textblock_taildifference" Margin="0 0 20 0" Text="{Binding Path=TailDifference}"/>
+                <TextBlock Text="附加尾差项："/>
+                <TextBlock Name="textblock_itemwithtaildifference" Margin="0 0 20 0" Text="{Binding Path=ItemWithTailDifference}"/>
+                <TextBlock Text="综合税率："/>
+                <TextBox MinWidth="30" Name="textbox_compositetaxrate" Text="{Binding Path=CompositeTaxRate}" />
+            </StackPanel>
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" >
                 <DataGrid.Columns>
                     <mui:DataGridTextColumn Header="序号"  Binding="{Binding id}"/>

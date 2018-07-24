@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="yes"?>
-<Config >
+<Finance>
   <Table1>
     <id>0</id>
     <ProjectName />
@@ -13,9 +13,9 @@
     <DeductibleVATRatio />
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.08</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>1</id>
@@ -26,13 +26,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—配电站（开关站）工程—建筑工程</ExpanseCategory>
     <WBSCode>A1100000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>16.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>2</id>
@@ -43,13 +43,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—配电站（开关站）工程—安装工程</ExpanseCategory>
     <WBSCode>A1200000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>10.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>3</id>
@@ -60,13 +60,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—配电站（开关站）工程—设备购置</ExpanseCategory>
     <WBSCode>A1300000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>16.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>4</id>
@@ -77,13 +77,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—通信及调度自动化—建筑工程</ExpanseCategory>
     <WBSCode>A4100000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>16.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>5</id>
@@ -94,13 +94,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—通信及调度自动化—安装工程</ExpanseCategory>
     <WBSCode>A4200000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>10.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>6</id>
@@ -111,13 +111,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—通信及调度自动化—设备购置</ExpanseCategory>
     <WBSCode>A4300000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>16.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>7</id>
@@ -128,13 +128,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—架空线路工程—架空线路本体工程</ExpanseCategory>
     <WBSCode>A2100000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>8</id>
@@ -145,13 +145,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—电缆线路工程—电缆本体工程</ExpanseCategory>
     <WBSCode>A3100000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>9</id>
@@ -162,13 +162,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—建设场地征用及清理费</ExpanseCategory>
     <WBSCode>A5100000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.11</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>10</id>
@@ -179,13 +179,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—项目管理经费</ExpanseCategory>
     <WBSCode>A5210000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>0.95</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>11</id>
@@ -196,13 +196,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—项目管理经费—其中：业务招待费</ExpanseCategory>
     <WBSCode>TY000009</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.10</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>0.10</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>12</id>
@@ -213,13 +213,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—招标费</ExpanseCategory>
     <WBSCode>A5220000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>0.95</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>13</id>
@@ -230,13 +230,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—工程监理费</ExpanseCategory>
     <WBSCode>A5230000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>6.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>14</id>
@@ -247,13 +247,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—工程勘察费</ExpanseCategory>
     <WBSCode>A5310000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>6.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>15</id>
@@ -264,13 +264,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—工程设计费</ExpanseCategory>
     <WBSCode>A5320000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>6.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>16</id>
@@ -281,13 +281,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—设计文件评审费</ExpanseCategory>
     <WBSCode>A5330000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>6.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>17</id>
@@ -298,13 +298,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—项目后评价费</ExpanseCategory>
     <WBSCode>A5340000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>6.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>18</id>
@@ -315,13 +315,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—技术经济标准编制管理费</ExpanseCategory>
     <WBSCode>A5350000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>6.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>19</id>
@@ -332,13 +332,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—工程建设监督检测费</ExpanseCategory>
     <WBSCode>A5400000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>6.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>20</id>
@@ -349,13 +349,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—生产准备费</ExpanseCategory>
     <WBSCode>A5500000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>21</id>
@@ -366,13 +366,13 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—其他费用—基本预备费</ExpanseCategory>
     <WBSCode>A5600000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>0</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.17</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
   <Table1>
     <id>22</id>
@@ -383,17 +383,17 @@
     <ExpanseCategory>10KV（含20KV）及以下基建项目—建设期贷款利息</ExpanseCategory>
     <WBSCode>A6000000</WBSCode>
     <EstimateNumber />
-    <InternalControl />
-    <DeductibleVATRatio />
+    <InternalControl>0.92</InternalControl>
+    <DeductibleVATRatio>0.00%</DeductibleVATRatio>
     <TotalInvestmentWithTax />
     <TotalInvestmentWithoutTax />
-    <MaxInternalControl />
-    <MaxDeductibleVATRatio />
-    <MinDeductibleVATRatio />
+    <MaxInternalControl>1</MaxInternalControl>
+    <MaxDeductibleVATRatio>0.06</MaxDeductibleVATRatio>
+    <MinDeductibleVATRatio>0.00</MinDeductibleVATRatio>
   </Table1>
-  <Table2>
+  <Configure>
     <TailDifference />
     <ItemWithTailDifference />
-    <CompositeTaxRate />
-  </Table2>
-</Config>
+    <CompositeTaxRate>12%</CompositeTaxRate>
+  </Configure>
+</Finance>
