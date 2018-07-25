@@ -395,5 +395,6 @@
     <TailDifference />
     <ItemWithTailDifference />
     <CompositeTaxRate>12%</CompositeTaxRate>
+    <AnnualPriceDifference />
   </Configure>
 </Finance>

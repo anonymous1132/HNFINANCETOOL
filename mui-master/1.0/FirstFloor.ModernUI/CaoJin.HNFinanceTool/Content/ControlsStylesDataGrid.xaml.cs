@@ -55,6 +55,7 @@ namespace CaoJin.HNFinanceTool.Content
             tdvm.TailDifference = dt2.DefaultView[0]["TailDifference"].ToString();
             tdvm.ItemWithTailDifference = dt2.DefaultView[0]["ItemWithTailDifference"].ToString();
             tdvm.CompositeTaxRate = dt2.DefaultView[0]["CompositeTaxRate"].ToString();
+            tdvm.AnnualPriceDifference = dt2.DefaultView[0]["AnnualPriceDifference"].ToString();
         }
 
         //将obc转换为dt
@@ -72,10 +73,12 @@ namespace CaoJin.HNFinanceTool.Content
             dt.Columns.Add("TailDifference");
             dt.Columns.Add("ItemWithTailDifference");
             dt.Columns.Add("CompositeTaxRate");
+            dt.Columns.Add("AnnualPriceDifference");
             DataRow dr = dt.NewRow();
             dr["TailDifference"] = tdvm.TailDifference;
             dr["ItemWithTailDifference"] = tdvm.ItemWithTailDifference;
             dr["CompositeTaxRate"] = tdvm.CompositeTaxRate;
+            dr["AnnualPriceDifference"] = tdvm.AnnualPriceDifference;
             dt.Rows.Add(dr);
             return dt;
         }
@@ -200,14 +203,16 @@ namespace CaoJin.HNFinanceTool.Content
         private void button_import_Click(object sender, RoutedEventArgs e)
         {
             if (!CheckImportFile()) return;
+            ManageTailDifference(ref tdvm);
             GetDataToFinanceData(proc,catagorySet,ref financedata);
-
+            
         }
 
         private ProjectClass proc;
         private EstinateOverViewTableCellsSet cellsSet;
         private ProjectCostCatagorySet catagorySet;
-        private ProjectCostCatagory catagory;
+  
+        private double njc;//年价差
         private bool CheckImportFile()
         {
             OpenFileDialog openFile = new OpenFileDialog() { Filter = "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls" };
@@ -294,6 +299,7 @@ namespace CaoJin.HNFinanceTool.Content
             int c_other =Convert.ToInt32(cellsSet.Other_Cell_X.cell.Column);//其他列
             int cell_hj =Convert.ToInt32(cellsSet.HJ_Cell.cell.Column);//合计列
             catagorySet = new ProjectCostCatagorySet();
+
             //配电站3层
             if (cellsSet.PDZ_Cell.cell.Row is null)
             {
@@ -343,54 +349,13 @@ namespace CaoJin.HNFinanceTool.Content
                 catagorySet.pcc_dl.costValue = (string.IsNullOrEmpty(dl_hj) ? 0 : Convert.ToDouble(dl_hj))*10000;
             }
 
-            //年价差融入以上项目。
+            //年价差。
             if (!(cellsSet.NJC_Cell.cell.Row is null))
             {
                 int r = Convert.ToInt32(cellsSet.NJC_Cell.cell.Row);
                 string njc_hj = "";
                 njc_hj = dv[r][cell_hj].ToString();
-                double njc_cost = (string.IsNullOrEmpty(njc_hj) ? 0 : Convert.ToDouble(njc_hj)) * 10000;
-
-                if (catagorySet.pcc_jk.costValue != 0)
-                {
-                    catagorySet.pcc_jk.costValue += njc_cost;
-                    catagory = catagorySet.pcc_jk;
-                }
-                else if (catagorySet.pcc_dl.costValue != 0)
-                {
-                    catagorySet.pcc_dl.costValue += njc_cost;
-                    catagory = catagorySet.pcc_dl;
-                }
-                else if (catagorySet.pcc_pd_az.costValue != 0)
-                {
-                    catagorySet.pcc_pd_az.costValue += njc_cost;
-                    catagory = catagorySet.pcc_pd_az;
-                }
-                else if (catagorySet.pcc_pd_sb.costValue != 0)
-                {
-                    catagorySet.pcc_pd_sb.costValue += njc_cost;
-                    catagory = catagorySet.pcc_pd_sb;
-                }
-                else if (catagorySet.pcc_pd_jz.costValue != 0)
-                {
-                    catagorySet.pcc_pd_jz.costValue += njc_cost;
-                    catagory = catagorySet.pcc_pd_jz;
-                }
-                else if (catagorySet.pcc_tx_az.costValue != 0)
-                {
-                    catagorySet.pcc_tx_az.costValue += njc_cost;
-                    catagory = catagorySet.pcc_tx_az;
-                }
-                else if (catagorySet.pcc_tx_sb.costValue != 0)
-                {
-                    catagorySet.pcc_tx_sb.costValue += njc_cost;
-                    catagory = catagorySet.pcc_tx_sb;
-                }
-                else
-                {
-                    catagorySet.pcc_tx_jz.costValue += njc_cost;
-                    catagory = catagorySet.pcc_tx_jz;
-                }
+                njc = (string.IsNullOrEmpty(njc_hj) ? 0 : Convert.ToDouble(njc_hj)) * 10000;
             }
 
             //建设场地征用及清理费
@@ -605,12 +570,105 @@ namespace CaoJin.HNFinanceTool.Content
         //尾差处理
         private void ManageTailDifference(ref TailDifferenceViewModel tailDifferenceViewModel)
         {
-      
+            tailDifferenceViewModel.AnnualPriceDifference = njc.ToString();
+            if (catagorySet.pcc_jk.costValue != 0)
+            {
+                catagorySet.pcc_jk.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_jk.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_jk.costValue += catagorySet.pcc_weicha.costValue;
+            }
+            else if (catagorySet.pcc_dl.costValue != 0)
+            {
+                catagorySet.pcc_dl.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_dl.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_dl.costValue += catagorySet.pcc_weicha.costValue;
+            }
+            else if (catagorySet.pcc_pd_az.costValue != 0)
+            {
+                catagorySet.pcc_pd_az.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_pd_az.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_pd_az.costValue += catagorySet.pcc_weicha.costValue;
+            }
+            else if (catagorySet.pcc_pd_sb.costValue != 0)
+            {
+                catagorySet.pcc_pd_sb.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_pd_sb.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_pd_sb.costValue += catagorySet.pcc_weicha.costValue;
+            }
+            else if (catagorySet.pcc_pd_jz.costValue != 0)
+            {
+                catagorySet.pcc_pd_jz.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_pd_jz.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_pd_jz.costValue += catagorySet.pcc_weicha.costValue;
+            }
+            else if (catagorySet.pcc_tx_az.costValue != 0)
+            {
+                catagorySet.pcc_tx_az.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_tx_az.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_tx_az.costValue += catagorySet.pcc_weicha.costValue;
+            }
+            else if (catagorySet.pcc_tx_sb.costValue != 0)
+            {
+                catagorySet.pcc_tx_sb.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_tx_sb.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_tx_sb.costValue += catagorySet.pcc_weicha.costValue;
+            }
+            else
+            {
+                catagorySet.pcc_tx_jz.costValue += njc;
+                tailDifferenceViewModel.ItemWithTailDifference = catagorySet.pcc_tx_jz.catagoryName;
+                tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
+                catagorySet.pcc_tx_jz.costValue += catagorySet.pcc_weicha.costValue;
+            }
 
+            
+           
+            
+        }
 
-            tailDifferenceViewModel.TailDifference = catagorySet.pcc_weicha.costValue.ToString();
-
-
+        private ProjectCostCatagory WitchNotNull()
+        {
+            ProjectCostCatagory catagory = new ProjectCostCatagory();
+            if (catagorySet.pcc_jk.costValue != 0)
+            {
+                catagory = catagorySet.pcc_jk;
+            }
+            else if (catagorySet.pcc_dl.costValue != 0)
+            {
+                catagory = catagorySet.pcc_dl;
+            }
+            else if (catagorySet.pcc_pd_az.costValue != 0)
+            {
+                catagory = catagorySet.pcc_pd_az;
+            }
+            else if (catagorySet.pcc_pd_sb.costValue != 0)
+            {
+                catagory = catagorySet.pcc_pd_sb;
+            }
+            else if (catagorySet.pcc_pd_jz.costValue != 0)
+            {
+                catagory = catagorySet.pcc_pd_jz;
+            }
+            else if (catagorySet.pcc_tx_az.costValue != 0)
+            {
+                catagory = catagorySet.pcc_tx_az;
+            }
+            else if (catagorySet.pcc_tx_sb.costValue != 0)
+            {
+                catagory = catagorySet.pcc_tx_sb;
+            }
+            else
+            {
+                catagory = catagorySet.pcc_tx_jz;
+            }
+            return catagory;
         }
     }
 

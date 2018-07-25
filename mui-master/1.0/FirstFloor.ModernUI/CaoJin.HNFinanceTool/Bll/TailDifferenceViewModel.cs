@@ -17,7 +17,7 @@ namespace CaoJin.HNFinanceTool.Bll
         public string TailDifference
         {
             get { return _tailDifference; }
-            set { _tailDifference = value;OnPropertyChanged(TailDifference); }
+            set { _tailDifference = value;OnPropertyChanged("TailDifference"); }
         }
 
         //附加尾差的费用类别
@@ -54,6 +54,13 @@ namespace CaoJin.HNFinanceTool.Bll
         public double Double_CompositeTaxRate
         {
             get { return _double_compositeTaxRate; }
+        }
+
+        private string _annualPriceDifference;
+        public string AnnualPriceDifference
+        {
+            get { return _annualPriceDifference; }
+            set { _annualPriceDifference = value;OnPropertyChanged("AnnualPriceDifference"); }
         }
     }
 }
