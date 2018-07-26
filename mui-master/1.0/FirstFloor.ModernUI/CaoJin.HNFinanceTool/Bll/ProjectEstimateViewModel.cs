@@ -113,13 +113,13 @@ namespace CaoJin.HNFinanceTool.Bll
         }
 
 
-        private double? _maxInternalControl = 1;//内控系数上限
+        private double _maxInternalControl = 1;//内控系数上限
         public string MaxInternalControl
         {
             get { return _maxInternalControl.ToString(); }
             set
             {
-                if (ID == 0) { _maxInternalControl = null; return; }
+               // if (ID == 0) { _maxInternalControl = null; return; }
                 try
                 {
                     double test = Convert.ToDouble(((string)value).Trim());
@@ -133,13 +133,13 @@ namespace CaoJin.HNFinanceTool.Bll
             }
         }
 
-        private double? _maxDeductibleVATRatio = 0.17;//可抵扣增值税比例上限
+        private double _maxDeductibleVATRatio = 0.17;//可抵扣增值税比例上限
         public string MaxDeductibleVATRatio
         {
             get { return _maxDeductibleVATRatio.ToString(); }
             set
             {
-                if (ID == 0) { _maxDeductibleVATRatio = null;return; }
+
                 try
                 {
                     double test = Convert.ToDouble(((string)value).Trim());
@@ -149,17 +149,17 @@ namespace CaoJin.HNFinanceTool.Bll
                         OnPropertyChanged("MaxDeductibleVATRatio");
                     }
                 }
-                catch (Exception) { return; }
+                catch (Exception ) {  return; }
             }
         }
 
-        private double? _minDeductibleVATRatio=0;//可抵扣增值税比例下限
+        private double _minDeductibleVATRatio=0;//可抵扣增值税比例下限
         public string MinDeductibleVATRatio
         {
             get { return _minDeductibleVATRatio.ToString(); }
             set
             {
-                if (ID == 0) { _minDeductibleVATRatio = null; return; }
+
                 try
                 {
                     double test = Convert.ToDouble(((string)value).Trim());
@@ -169,8 +169,8 @@ namespace CaoJin.HNFinanceTool.Bll
                         OnPropertyChanged("MinDeductibleVATRatio");
                     }
                 }
-                catch (Exception) { return; }
-                //  _minDeductibleVATRatio = value; OnPropertyChanged("MinDeductibleVATRatio");
+                catch (Exception ) { return; }
+       
             }
         }
 
@@ -195,10 +195,8 @@ namespace CaoJin.HNFinanceTool.Bll
                     OnPropertyChanged("TotalInvestmentWithTax");
                     OnPropertyChanged("TotalInvestmentWithoutTax");
                 }
-                catch (Exception)
-                { return; }
-                
-
+                catch (Exception )
+                {  return; }
             }
 
         }
@@ -207,7 +205,7 @@ namespace CaoJin.HNFinanceTool.Bll
 
 
 
-        private double? _internalControl=0;//内控系数
+        private double _internalControl=0;//内控系数
 
         public string InternalControl
 
@@ -217,7 +215,7 @@ namespace CaoJin.HNFinanceTool.Bll
 
             set
             {
-                if (ID == 0) { _internalControl = null; return; }
+               // if (ID == 0) { _internalControl = null; return; }
                 try
                 {
                     double test = Convert.ToDouble(((string)value).Trim());
@@ -232,22 +230,22 @@ namespace CaoJin.HNFinanceTool.Bll
                     }
                     
                 }
-                catch (Exception)
-                { return; }
+                catch (Exception )
+                {  return; }
             }
 
         }
 
-        private double? _deductibleVATRatio=0;//可抵扣增值税比例
+        private double _deductibleVATRatio=0;//可抵扣增值税比例
         public string DeductibleVATRatio
         {
             get {
-                if (ID == 0) return null;
+               // if (ID == 0) return null;
                 return _deductibleVATRatio.ToString()+"%";
             }
             set
             {
-                if (ID == 0) { _deductibleVATRatio = null; return; }
+               // if (ID == 0) { _deductibleVATRatio = null; return; }
                 try
                 {
                     double test = Convert.ToDouble(((string)value).Replace("%", "").Trim());
@@ -259,44 +257,21 @@ namespace CaoJin.HNFinanceTool.Bll
                         OnPropertyChanged("TotalInvestmentWithoutTax");
                     }
                 }
-                catch (Exception)
+                catch (Exception )
                 { return; }
             }
         }
 
-        private double? _totalInvestmentWithTax=0;//总投资预算（含税）
+        private double _totalInvestmentWithTax=0;//总投资预算（含税）
         public string TotalInvestmentWithTax
         {
             get { return _totalInvestmentWithTax.ToString(); }
-            set
-            {
-                if (ID == 0)
-                {
-                    try
-                    {
-                        double test = Convert.ToDouble(((string)value).Trim());
-                        _totalInvestmentWithTax = test;
-                    }
-                    catch (Exception) { return; }
-                }
-            }
         }
-        private double? _totalInvestmentWithoutTax=0;//总投资预算（不含税）
+        private double _totalInvestmentWithoutTax=0;//总投资预算（不含税）
         public string TotalInvestmentWithoutTax
         {
             get { return _totalInvestmentWithoutTax.ToString(); }
-            set
-            {
-                if (ID == 0)
-                {
-                    try
-                    {
-                        double test = Convert.ToDouble(((string)value).Trim());
-                        _totalInvestmentWithoutTax = test;
-                    }
-                    catch (Exception) { return; }
-                }
-            }
+
         }
 
 

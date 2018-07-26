@@ -21,14 +21,14 @@ namespace CaoJin.HNFinanceTool
             {
                 return new Pages.Introduction();
             }
-            else if (uri.ToString().Contains(".est"))
+            else 
             {
                 ControlsStylesDataGrid cdg = new ControlsStylesDataGrid();
                 cdg.DataFileName = uri.ToString();
                 cdg.isadd = false;
                 return cdg;
             }
-            else { return new ControlsStylesDataGrid(); }
+   
             
         }
 

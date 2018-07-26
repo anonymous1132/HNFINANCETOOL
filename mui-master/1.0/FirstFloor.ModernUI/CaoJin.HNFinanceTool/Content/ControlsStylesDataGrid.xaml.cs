@@ -193,6 +193,8 @@ namespace CaoJin.HNFinanceTool.Content
             {
                 DataFileName = "mould";
             }
+            financedata = new ObservableCollection<ProjectEstimateViewModel>();
+            tdvm = new TailDifferenceViewModel();
             GetData(ref financedata,ref tdvm);
             //Bind the DataGrid 
             this.DataContext = tdvm;

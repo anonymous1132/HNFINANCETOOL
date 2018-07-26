@@ -657,46 +657,7 @@ namespace CaoJin.HNFinanceTool.Basement
             }
             return bytes;
         }
-        /// <summary>
-        /// 从文件读取并反序列化为对象 （解决: 多线程或多进程下读写并发问题）
-        /// </summary>
-        /// <typeparam name="T">返回的对象类型</typeparam>
-        /// <param name="path">文件地址</param>
-        /// <returns></returns>
-        public static T XmlFileDeserialize<T>(string path)
-        {
-            byte[] bytes = ShareReadFile(path);
-            if (bytes.Length < 1)//当文件正在被写入数据时，可能读出为0
-                for (int i = 0; i < 5; i++)
-                { //5次机会
-                    bytes = ShareReadFile(path); // 采用这样诡异的做法避免独占文件和文件正在被写入时读出来的数据为0字节的问题。
-                    if (bytes.Length > 0) break;
-                    System.Threading.Thread.Sleep(50); //悲观情况下总共最多消耗1/4秒，读取文件
-                }
-            XmlDocument doc = new XmlDocument();
-            doc.Load(new MemoryStream(bytes));
-            if (doc.DocumentElement != null)
-                return (T)new XmlSerializer(typeof(T)).Deserialize(new XmlNodeReader(doc.DocumentElement));
-            return default(T);
-            XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
-            xmlReaderSettings.CloseInput = true;
-            using (XmlReader xmlReader = XmlReader.Create(path, xmlReaderSettings))
-            {
-                T obj = (T)new XmlSerializer(typeof(T)).Deserialize(xmlReader);
-                return obj;
-            }
-        }
 
-        /// <summary>
-        /// 使用XmlSerializer反序列化对象
-        /// </summary>
-        /// <param name="xmlOfObject">需要反序列化的xml字符串</param>
-        /// <returns>反序列化后的对象</returns>
-        public static T XmlDeserialize<T>(string xmlOfObject) where T : class
-        {
-            XmlReader xmlReader = XmlReader.Create(new StringReader(xmlOfObject), new XmlReaderSettings());
-            return (T)new XmlSerializer(typeof(T)).Deserialize(xmlReader);
-        }
 
         #endregion
     }
