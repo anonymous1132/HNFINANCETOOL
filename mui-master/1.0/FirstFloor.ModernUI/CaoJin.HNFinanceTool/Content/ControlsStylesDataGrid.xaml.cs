@@ -6,12 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Reflection;
 using CaoJin.HNFinanceTool.Bll;
 using CaoJin.HNFinanceTool.Dal;
 using CaoJin.HNFinanceTool.Basement;
@@ -38,19 +33,19 @@ namespace CaoJin.HNFinanceTool.Content
 
         public string DataFileName = "mould";
 
-        private ObservableCollection<ProjectEstimateViewModel> financedata;
+        private ProjectEstimateSetViewModel projectEstimateSetViewModel ;
 
         private TailDifferenceViewModel tdvm;
 
         //从文件获取数据
-        private void GetData(ref ObservableCollection<ProjectEstimateViewModel>financedata,ref TailDifferenceViewModel tdvm)
+        private void GetData(ref ProjectEstimateSetViewModel projectEstimateSetViewModel,ref TailDifferenceViewModel tdvm)
         {
 
             string datafile = _datapath + DataFileName;
             DataSet ds = XmlOperate.GetDataSet(datafile);
             DataTable dt = ds.Tables[0];
             DataTable dt2 = ds.Tables[1];
-            financedata = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToObc(dt);
+            projectEstimateSetViewModel=new ProjectEstimateSetViewModel(dt);
             tdvm = new TailDifferenceViewModel();
             tdvm.TailDifference = dt2.DefaultView[0]["TailDifference"].ToString();
             tdvm.ItemWithTailDifference = dt2.DefaultView[0]["ItemWithTailDifference"].ToString();
@@ -62,8 +57,62 @@ namespace CaoJin.HNFinanceTool.Content
         private DataTable TranslateVM2DT()
         {
             DataTable dt = new DataTable("Estinates");
-            dt = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToDt(financedata);
+            // dt = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToDt(projectEstimateSetViewModel.EstimateViewModels);
+            ProjectEstimateViewModel temp = new ProjectEstimateViewModel();
+            PropertyInfo[] propertys = temp.GetType().GetProperties();
+            foreach (PropertyInfo pi in propertys)
+            {
+                if (!pi.CanWrite) continue;
+                dt.Columns.Add(pi.Name, GetCoreType(pi.PropertyType));
+            }
+            foreach (ProjectEstimateViewModel t in projectEstimateSetViewModel.EstimateViewModels)
+            {
+                if (t is ProjectTotalEstimateViewModel) continue;
+                PropertyInfo[] property = t.GetType().GetProperties();
+                DataRow dr = dt.NewRow();
+                foreach (PropertyInfo pi in propertys)
+                {
+                    if (!pi.CanWrite) continue;
+
+                    dr[pi.Name] = pi.GetValue(t, null);
+
+                }
+                dt.Rows.Add(dr);
+            }
+              DataRow  dr2 = dt.NewRow();
+           PropertyInfo[] property2 = projectEstimateSetViewModel.TotalEstimateViewModel.GetType().GetProperties();
+            foreach (PropertyInfo pi in propertys)
+            {
+                if (!pi.CanWrite) continue;
+
+                dr2[pi.Name] = pi.GetValue(projectEstimateSetViewModel.TotalEstimateViewModel, null);
+
+            }
+            dt.Rows.InsertAt(dr2,0);
             return dt;
+        }
+        public static Type GetCoreType(Type t)
+        {
+            if (t != null && IsNullable(t))
+            {
+                if (!t.IsValueType)
+                {
+                    return t;
+                }
+                else
+                {
+                    return Nullable.GetUnderlyingType(t);
+                }
+            }
+            else
+            {
+                return t;
+            }
+        }
+
+        public static bool IsNullable(Type t)
+        {
+            return !t.IsValueType || (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
         //将taildifferencevm转换为dt
@@ -88,49 +137,49 @@ namespace CaoJin.HNFinanceTool.Content
             switch (this.combobox_title.SelectedIndex)
             {
                 case 0:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.ProjectName = this.textbox_setcontent.Text;
                     }
                     break;
                 case 1:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.ProjectCode = this.textbox_setcontent.Text;
                     }
                     break;
                 case 2:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.WBSCode = this.textbox_setcontent.Text;
                     }
                     break;
                 case 3:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.InternalControl = this.textbox_setcontent.Text;
                     }
                     break;
                 case 4:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.DeductibleVATRatio = this.textbox_setcontent.Text;
                     }
                     break;
                 case 5:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.MaxInternalControl = this.textbox_setcontent.Text;
                     }
                     break;
                 case 6:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.MaxDeductibleVATRatio = this.textbox_setcontent.Text;
                     }
                     break;
                 case 7:
-                    foreach (ProjectEstimateViewModel pjvm in financedata)
+                    foreach (ProjectEstimateViewModel pjvm in projectEstimateSetViewModel.EstimateViewModels)
                     {
                         pjvm.MinDeductibleVATRatio = this.textbox_setcontent.Text;
                     }
@@ -146,7 +195,7 @@ namespace CaoJin.HNFinanceTool.Content
         {
             if (isadd)
             {
-                string filename = string.IsNullOrEmpty(financedata[0].ProjectName.Trim()) ? "mould" : financedata[0].ProjectName.Trim() + ".est";
+                string filename = string.IsNullOrEmpty(projectEstimateSetViewModel.EstimateViewModels[0].ProjectName.Trim()) ? "mould" : projectEstimateSetViewModel.EstimateViewModels[0].ProjectName.Trim() + ".est";
                 string filepath = System.IO.Directory.GetCurrentDirectory() + "\\App\\data\\" + filename;
                 DataSet ds = new DataSet("Finance");
                 ds.Tables.Add(TranslateVM2DT());
@@ -170,7 +219,7 @@ namespace CaoJin.HNFinanceTool.Content
             saveFile.Title = "导出文件路径";
             System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-CN");
-            saveFile.FileName = DateTime.Now.GetDateTimeFormats('D')[0].ToString() + financedata[0].ProjectName;
+            saveFile.FileName = DateTime.Now.GetDateTimeFormats('D')[0].ToString() + projectEstimateSetViewModel.EstimateViewModels[0].ProjectName;
             if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
             try
             {
@@ -193,12 +242,11 @@ namespace CaoJin.HNFinanceTool.Content
             {
                 DataFileName = "mould";
             }
-            financedata = new ObservableCollection<ProjectEstimateViewModel>();
             tdvm = new TailDifferenceViewModel();
-            GetData(ref financedata,ref tdvm);
+            GetData(ref projectEstimateSetViewModel,ref tdvm);
             //Bind the DataGrid 
             this.DataContext = tdvm;
-            DG1.DataContext = financedata;
+            DG1.DataContext = projectEstimateSetViewModel.EstimateViewModels;
             
         }
 
@@ -206,7 +254,7 @@ namespace CaoJin.HNFinanceTool.Content
         {
             if (!CheckImportFile()) return;
             ManageTailDifference(ref tdvm);
-            GetDataToFinanceData(proc,catagorySet,ref financedata);
+            projectEstimateSetViewModel.GetDataToFinanceData(proc,catagorySet);
             
         }
 
@@ -480,94 +528,7 @@ namespace CaoJin.HNFinanceTool.Content
             { MessageBox.Show(e.Message); }
         }
 
-        //为financdata赋值
-        private void GetDataToFinanceData(ProjectClass proc, ProjectCostCatagorySet catagorySet, ref ObservableCollection<ProjectEstimateViewModel> finacedata)
-        {
-            foreach (ProjectEstimateViewModel pevm in finacedata)
-            {
-                pevm.ProjectName = proc.ProjectName;
-                pevm.ProjectCode = proc.ProjectCode;
-                switch (pevm.ExpanseCategory)
-                {
-                    case "10KV（含20KV）及以下基建项目":
-                        pevm.EstimateNumber = catagorySet.pcc_all.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—配电站（开关站）工程—建筑工程":
-                        pevm.EstimateNumber = catagorySet.pcc_pd_jz.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—配电站（开关站）工程—安装工程":
-                        pevm.EstimateNumber = catagorySet.pcc_pd_az.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—配电站（开关站）工程—设备购置":
-                        pevm.EstimateNumber = catagorySet.pcc_pd_sb.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—通信及调度自动化—建筑工程":
-                        pevm.EstimateNumber = catagorySet.pcc_tx_jz.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—通信及调度自动化—安装工程":
-                        pevm.EstimateNumber = catagorySet.pcc_tx_az.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—通信及调度自动化—设备购置":
-                        pevm.EstimateNumber = catagorySet.pcc_tx_sb.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—架空线路工程—架空线路本体工程":
-                        pevm.EstimateNumber = catagorySet.pcc_jk.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—电缆线路工程—电缆本体工程":
-                        pevm.EstimateNumber = catagorySet.pcc_dl.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—建设场地征用及清理费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_cd.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—项目管理经费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_xmgl.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—项目管理经费—其中：业务招待费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_zd.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—招标费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_zb.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设管理费—工程监理费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_gcjl.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—工程勘察费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_kc.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—工程设计费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_sj.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—设计文件评审费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_ps.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—项目后评价费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_hpj.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—项目建设技术服务费—技术经济标准编制管理费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_bzbz.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—工程建设监督检测费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_jdjc.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—生产准备费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_sczb.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—其他费用—基本预备费":
-                        pevm.EstimateNumber = catagorySet.pcc_other_jbyb.costValue.ToString();
-                        break;
-                    case "10KV（含20KV）及以下基建项目—建设期贷款利息":
-                        pevm.EstimateNumber = catagorySet.pcc_other_dklx.costValue.ToString();
-                        break;
-                    default:
-                        MessageBox.Show("错误：未能识别的费用类别——"+pevm.ExpanseCategory);
-                        break;
-
-                }
-            }
-
-
-
-        }
+        
 
         //尾差处理
         private void ManageTailDifference(ref TailDifferenceViewModel tailDifferenceViewModel)

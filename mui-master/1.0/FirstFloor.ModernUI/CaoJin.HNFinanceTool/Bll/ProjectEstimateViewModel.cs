@@ -200,7 +200,7 @@ namespace CaoJin.HNFinanceTool.Bll
             }
 
         }
-
+        
         private double _estimateNumber = 0;
 
 
