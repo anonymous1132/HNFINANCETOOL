@@ -47,11 +47,11 @@ namespace CaoJin.HNFinanceTool.Bll
             set { return; }
         }
 
-        private string _deductibleVATRatio;
+        private string _totalInvestmentWithTax;
         public new string TotalInvestmentWithTax
         {
-            get { return _deductibleVATRatio; }
-            set { _deductibleVATRatio = value; OnPropertyChanged("TotalInvestmentWithTax"); }
+            get { return _totalInvestmentWithTax; }
+            set { _totalInvestmentWithTax = value; OnPropertyChanged("TotalInvestmentWithTax"); }
         }
 
         private string _totalInvestmentWithoutTax;

@@ -57,14 +57,26 @@ namespace CaoJin.HNFinanceTool.Content
         private DataTable TranslateVM2DT()
         {
             DataTable dt = new DataTable("Estinates");
-            // dt = ModelConvertHelper<ProjectEstimateViewModel>.ConvertToDt(projectEstimateSetViewModel.EstimateViewModels);
             ProjectEstimateViewModel temp = new ProjectEstimateViewModel();
             PropertyInfo[] propertys = temp.GetType().GetProperties();
-            foreach (PropertyInfo pi in propertys)
-            {
-                if (!pi.CanWrite) continue;
-                dt.Columns.Add(pi.Name, GetCoreType(pi.PropertyType));
-            }
+            ProjectTotalEstimateViewModel temp2 = new ProjectTotalEstimateViewModel();
+            PropertyInfo[] property2 = temp2.GetType().GetProperties();
+            dt.Columns.Add("id");
+            dt.Columns.Add("ID");
+            dt.Columns.Add("ProjectName");
+            dt.Columns.Add("ProjectCode");
+            dt.Columns.Add("IndividualProjectName");
+            dt.Columns.Add("IndividualProjectCode");
+            dt.Columns.Add("ExpanseCategory");
+            dt.Columns.Add("WBSCode");
+            dt.Columns.Add("EstimateNumber");
+            dt.Columns.Add("InternalControl");
+            dt.Columns.Add("DeductibleVATRatio");
+            dt.Columns.Add("TotalInvestmentWithTax");
+            dt.Columns.Add("TotalInvestmentWithoutTax");
+            dt.Columns.Add("MaxInternalControl");
+            dt.Columns.Add("MaxDeductibleVATRatio");
+            dt.Columns.Add("MinDeductibleVATRatio");
             foreach (ProjectEstimateViewModel t in projectEstimateSetViewModel.EstimateViewModels)
             {
                 if (t is ProjectTotalEstimateViewModel) continue;
@@ -72,7 +84,7 @@ namespace CaoJin.HNFinanceTool.Content
                 DataRow dr = dt.NewRow();
                 foreach (PropertyInfo pi in propertys)
                 {
-                    if (!pi.CanWrite) continue;
+                    if (!pi.CanRead) continue;
 
                     dr[pi.Name] = pi.GetValue(t, null);
 
@@ -80,14 +92,17 @@ namespace CaoJin.HNFinanceTool.Content
                 dt.Rows.Add(dr);
             }
               DataRow  dr2 = dt.NewRow();
-           PropertyInfo[] property2 = projectEstimateSetViewModel.TotalEstimateViewModel.GetType().GetProperties();
-            foreach (PropertyInfo pi in propertys)
+
+            foreach (PropertyInfo pi in property2)
             {
-                if (!pi.CanWrite) continue;
+                if (!pi.CanRead) continue;
 
                 dr2[pi.Name] = pi.GetValue(projectEstimateSetViewModel.TotalEstimateViewModel, null);
 
             }
+            dr2["EstimateNumber"] = projectEstimateSetViewModel.TotalEstimateViewModel.EstimateNumber;
+            dr2["TotalInvestmentWithTax"] = projectEstimateSetViewModel.TotalEstimateViewModel.TotalInvestmentWithTax;
+            dr2["TotalInvestmentWithoutTax"] = projectEstimateSetViewModel.TotalEstimateViewModel.TotalInvestmentWithoutTax;
             dt.Rows.InsertAt(dr2,0);
             return dt;
         }
@@ -255,7 +270,7 @@ namespace CaoJin.HNFinanceTool.Content
             if (!CheckImportFile()) return;
             ManageTailDifference(ref tdvm);
             projectEstimateSetViewModel.GetDataToFinanceData(proc,catagorySet);
-            
+            projectEstimateSetViewModel.SetToDestCompositeTaxRate(tdvm.Double_CompositeTaxRate);
         }
 
         private ProjectClass proc;

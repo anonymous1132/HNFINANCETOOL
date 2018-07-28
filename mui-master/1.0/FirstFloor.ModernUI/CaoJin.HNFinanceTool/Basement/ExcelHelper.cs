@@ -401,11 +401,11 @@ namespace CaoJin.HNFinanceTool.Basement
 
             for (int r = 0; r < totalCount; r++)
             {
-                for (int i = 1; i < columcount; i++)
+                for (int i = 2; i < columcount; i++)
                 {
                     if (dt.Rows[r][i].ToString() != "")
                     {
-                        worksheet.Cells[r + 3, i ] = dt.Rows[r][i].ToString();
+                        worksheet.Cells[r + 3, i -1] = dt.Rows[r][i].ToString();
                     }
                 }
             }

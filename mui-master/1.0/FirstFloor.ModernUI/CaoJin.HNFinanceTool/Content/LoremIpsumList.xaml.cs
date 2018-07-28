@@ -40,18 +40,18 @@ namespace CaoJin.HNFinanceTool.Content
             if (dir.Exists)
             {
                 FileInfo[] fiList = dir.GetFiles();
-                int i = 1;
+               // int i = 1;
                 foreach (FileInfo f in fiList)
                 {
                     if (f.Extension == ".est")
                     {
-                        if (i > 10) { break; }
+                        //if (i > 10) { break; }
                         Link link = new Link();
                         link.DisplayName =f.Name.Split('.')[0];
                         link.Source = new Uri(f.Name, UriKind.Relative);
                         this.mylist.Links.Add(link);
                        
-                        i++;
+                      //  i++;
                     }
 
                 }

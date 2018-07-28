@@ -3,6 +3,7 @@ using FirstFloor.ModernUI.Presentation;
 using System.Collections.ObjectModel;
 using System.Data;
 using System;
+using System.Collections.Generic;
 namespace CaoJin.HNFinanceTool.Bll
 {
     public class ProjectEstimateSetViewModel : NotifyPropertyChanged
@@ -66,7 +67,7 @@ namespace CaoJin.HNFinanceTool.Bll
                 double temp = 0;
                 foreach (ProjectEstimateViewModel vm in EstimateViewModels)
                 {
-                    if (vm is ProjectTotalEstimateViewModel) { break; }
+                    if (vm is ProjectTotalEstimateViewModel) { continue; }
                     temp += Convert.ToDouble(vm.TotalInvestmentWithTax);
                 }
                 return temp;
@@ -80,7 +81,7 @@ namespace CaoJin.HNFinanceTool.Bll
                 double temp = 0;
                 foreach (ProjectEstimateViewModel vm in EstimateViewModels)
                 {
-                    if (vm is ProjectTotalEstimateViewModel) { break; }
+                    if (vm is ProjectTotalEstimateViewModel) { continue; }
                     temp += Convert.ToDouble(vm.TotalInvestmentWithoutTax);
                 }
                 return temp;
@@ -173,6 +174,123 @@ namespace CaoJin.HNFinanceTool.Bll
                 }
             }
 
+            string temp = TotalEstimateViewModel.TotalInvestmentWithTax;
+            //System.Windows.MessageBox.Show(MinWithoutRate().ToString()+" "+MaxWithoutRate().ToString());
+        }
+
+        private double GetCompositeTaxRate()
+        {
+            return (this.TotalInvestmentWithTax / this.TotalInvestmentWithoutTax) - 1;
+        }
+
+        private double GetDestNumber(double CompositeTaxRate)
+        {
+            return this.TotalInvestmentWithTax / (1 + CompositeTaxRate / 100);
+        }
+
+        private ProjectEstimateViewModel GetProjectInSetByCategoryName(string category)
+        {
+            foreach (ProjectEstimateViewModel pvm in EstimateViewModels)
+            {
+                if (pvm is ProjectTotalEstimateViewModel) continue;
+                if (pvm.ExpanseCategory.Contains(category))
+                { return pvm; }
+            }
+            return null;
+        }
+
+        private double MinWithoutRate()
+        {
+            double d = 0;
+            foreach (ProjectEstimateViewModel pvm in EstimateViewModels)
+            {
+                if (pvm is ProjectTotalEstimateViewModel) continue;
+                d = d +Convert.ToDouble(pvm.TotalInvestmentWithTax) / (1 + Convert.ToDouble(pvm.MaxDeductibleVATRatio));
+            }
+            return d;
+        }
+
+        private double MaxWithoutRate()
+        {
+            double d = 0;
+            foreach (ProjectEstimateViewModel pvm in EstimateViewModels)
+            {
+                if (pvm is ProjectTotalEstimateViewModel) continue;
+                d = d + Convert.ToDouble(pvm.TotalInvestmentWithTax) / (1 + Convert.ToDouble(pvm.MinDeductibleVATRatio));
+            }
+            return d;
+        }
+
+        private bool CheckCanDo(double DestCompositeTaxRate)
+        {
+            double dest = GetDestNumber(DestCompositeTaxRate);
+            if (dest > MaxWithoutRate()) return false;
+            if (dest < MinWithoutRate()) return false;
+            return true;
+        }
+
+        //计算至目标概算
+        public void SetToDestCompositeTaxRate(double DestCompositeTaxRate)
+        {
+            if (!CheckCanDo(DestCompositeTaxRate)) return;
+            List<string> strlist = new List<string> { "架空线路本体工程", "电缆本体工程", "建设场地征用及清理费", "项目管理经费",
+                "业务招待费", "招标费", "工程监理费", "工程勘察费", "工程设计费", "设计文件评审费", "项目后评价费","技术经济标准编制管理费","工程建设监督检测费" ,
+                "配电站（开关站）工程—建筑工程","配电站（开关站）工程—安装工程","配电站（开关站）工程—设备购置","通信及调度自动化—建筑工程","通信及调度自动化—安装工程",
+                "通信及调度自动化—设备购置","生产准备费","基本预备费","建设期贷款利息"};
+            double destNumber = GetDestNumber(DestCompositeTaxRate);
+            double totalWithoutTax = this.TotalInvestmentWithoutTax;
+            double delta = destNumber - totalWithoutTax;
+            if (delta>0)
+            {
+                foreach (string str in strlist)
+                {
+                    ProjectEstimateViewModel pvm = GetProjectInSetByCategoryName(str);
+                    if (pvm == null) continue;
+                    double ldelta = Convert.ToDouble(pvm.TotalInvestmentWithTax) / (1 + Convert.ToDouble(pvm.MinDeductibleVATRatio));
+                    ldelta = ldelta - Convert.ToDouble(pvm.TotalInvestmentWithoutTax);
+                    if (ldelta >= delta)
+                    {
+                        double d_without =Convert.ToDouble( pvm.TotalInvestmentWithoutTax);
+                        double d_with =Convert.ToDouble(pvm.TotalInvestmentWithTax);
+                        double destrate = (d_with / (d_without + delta)) - 1;
+                        destrate = destrate * 100;
+                        pvm.DeductibleVATRatio = destrate.ToString();
+                        break;
+                    }
+                    else
+                    {
+                        pvm.DeductibleVATRatio =(Convert.ToDouble(pvm.MinDeductibleVATRatio)*100).ToString();
+                        delta = destNumber - this.TotalInvestmentWithoutTax; 
+                    }
+                }
+            }
+            else if (delta<0)
+            {
+                foreach (string str in strlist)
+                {
+                    ProjectEstimateViewModel pvm = GetProjectInSetByCategoryName(str);
+                    if (pvm == null) continue;
+                    double ldelta = Convert.ToDouble(pvm.TotalInvestmentWithTax) / (1 + Convert.ToDouble(pvm.MaxDeductibleVATRatio));
+                    ldelta = ldelta - Convert.ToDouble(pvm.TotalInvestmentWithoutTax);
+                    if (ldelta <= delta)
+                    {
+                        double d_without = Convert.ToDouble(pvm.TotalInvestmentWithoutTax);
+                        double d_with = Convert.ToDouble(pvm.TotalInvestmentWithTax);
+                        double destrate = (d_with / (d_without + delta)) - 1;
+                        destrate = destrate * 100;
+                        pvm.DeductibleVATRatio = destrate.ToString();
+                        break;
+                    }
+                    else
+                    {
+                        pvm.DeductibleVATRatio = (Convert.ToDouble(pvm.MaxDeductibleVATRatio) * 100).ToString();
+                        delta = destNumber - this.TotalInvestmentWithoutTax; 
+                    }
+                }
+
+            }
+
+            string temp = TotalEstimateViewModel.TotalInvestmentWithTax;
         }
     }
 }
