@@ -16,6 +16,11 @@
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="项目总览" Source="/Pages/Welcome.xaml" />
                 <mui:Link DisplayName="新建项目" Source="/Pages/Table1.xaml" />
+                <mui:Link DisplayName="预算上限计算表" Source="/Content/BudgetaryUpperLimitAppearance.xaml" />
+                <mui:Link DisplayName="项目部门预算填报" Source="/Content/DepartmentBudgetFilledAppearence.xaml"/>
+                <mui:Link DisplayName="电网基建概算数导入模版" Source="/Content/BudgetEstimateMouldAppearence.xaml"/>
+                <mui:Link DisplayName="编制导入模版" Source="/Content/ImportMouldAppearence.xaml"/>
+                <mui:Link DisplayName="数据管理" Source="/Content/ProjectsGroupImportAppearence.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         

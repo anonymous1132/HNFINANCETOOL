@@ -152,6 +152,35 @@ namespace CaoJin.HNFinanceTool.Basement
             }
             catch { }
         }
+        /// <summary>
+        /// 修改所有子节点数据
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="node">节点</param>
+        /// <param name="attribute">属性名，非空时修改该节点属性值，否则修改节点值</param>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static void UpdateNodes(string path, string node, string attribute, string value)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(path);
+              //  XmlNode xn = doc.SelectSingleNode(node);
+                XmlNodeList xnl = doc.SelectNodes(node);
+                foreach (XmlNode xn in xnl)
+                {
+                    XmlElement xe = (XmlElement)xn;
+                    if (attribute.Equals(""))
+                        xe.InnerText = value;
+                    else
+                        xe.SetAttribute(attribute, value);
+                }
+                doc.Save(path);
+            }
+            catch { }
+
+        }
 
         /// <summary>
         /// 删除数据

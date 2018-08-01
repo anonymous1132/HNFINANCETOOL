@@ -36,6 +36,18 @@
     <ApplicationIcon>budget.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.Microsoft.Office.Core">
+      <HintPath>..\Binaries\Interop.Microsoft.Office.Core.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.Microsoft.Office.Interop.Excel">
+      <HintPath>..\Binaries\Interop.Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.VBIDE">
+      <HintPath>..\Binaries\Interop.VBIDE.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Windows.Shell">
       <HintPath>..\Binaries\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
@@ -61,17 +73,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Basement\ExcelAppHelper.cs" />
     <Compile Include="Basement\ExcelHelper.cs" />
     <Compile Include="Bll\BudgetaryUpperLimit .cs" />
+    <Compile Include="Bll\DepartmentBudgetFilled.cs" />
     <Compile Include="Bll\EstinateOverViewTableCell.cs" />
     <Compile Include="Bll\EstinateOverViewTableCellsSet.cs" />
     <Compile Include="Bll\ExcelCellCoordinate.cs" />
+    <Compile Include="Bll\ExcelOper.cs" />
+    <Compile Include="Bll\MouldDataSet.cs" />
     <Compile Include="Bll\ProjectClass.cs" />
     <Compile Include="Bll\ProjectCostCatagory.cs" />
     <Compile Include="Bll\ProjectCostCatagorySet.cs" />
     <Compile Include="Bll\ProjectEstimateSetViewModel.cs" />
+    <Compile Include="Bll\ProjectFilesViewModel.cs" />
+    <Compile Include="Bll\ProjectGroupImportViewModel.cs" />
+    <Compile Include="Bll\ProjectImportMouldViewModel.cs" />
     <Compile Include="Bll\ProjectTotalEstimateViewModel.cs" />
     <Compile Include="Bll\TailDifferenceViewModel.cs" />
+    <Compile Include="Content\BudgetaryUpperLimitAppearance.xaml.cs">
+      <DependentUpon>BudgetaryUpperLimitAppearance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\BudgetEstimateMouldAppearence.xaml.cs">
+      <DependentUpon>BudgetEstimateMouldAppearence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\DepartmentBudgetFilledAppearence.xaml.cs">
+      <DependentUpon>DepartmentBudgetFilledAppearence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\ImportMouldAppearence.xaml.cs">
+      <DependentUpon>ImportMouldAppearence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\ProjectsGroupImportAppearence.xaml.cs">
+      <DependentUpon>ProjectsGroupImportAppearence.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Table1Loader.cs" />
     <Page Include="Assets\ModernUI.BingImage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -89,9 +123,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Content\BudgetaryUpperLimitAppearance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\BudgetEstimateMouldAppearence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Content\ControlsStylesDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Content\DepartmentBudgetFilledAppearence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\ImportMouldAppearence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Content\LoremIpsum.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +150,10 @@
     <Page Include="Content\LoremIpsumList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Content\ProjectsGroupImportAppearence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Content\SettingsAppearance.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -232,35 +286,6 @@
     <Resource Include="Assets\background.kitty.png" />
     <Resource Include="Assets\background.love.jpg" />
     <Resource Include="Assets\background.snowflakes.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>4</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>6</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="budget.ico" />

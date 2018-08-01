@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="CaoJin.HNFinanceTool.Content.ProjectsGroupImportAppearence"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CaoJin.HNFinanceTool.Content"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    <Grid>
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" DockPanel.Dock="Top">
+                <Button Content="选择文件" Name="button_selectfile" Click="button_selectfile_Click" Margin="0 0 10 0"/>
+                <Button  Content="生成数据文本" Name="button_import" Click="button_import_Click" IsEnabled="False"/>
+            </StackPanel>
+            <Label Content="工程数据一览" DockPanel.Dock="Top" Margin="10 0 20 0" Foreground="DarkBlue" FontWeight="Bold" />
+            <ListBox Name="LB1" DockPanel.Dock="Left" MinWidth="150" Height="600" VerticalAlignment="Top" Margin="10 0 20 0" SelectionMode="Extended">
+                <ListBox.ContextMenu>
+                    <ContextMenu StaysOpen="True">
+                        <MenuItem Header="查看" Name="LB1_MenuItem_Open" Click="LB1_MenuItem_Open_Click" />
+                        <MenuItem Header="删除" Name="LB1_MenuItem_Delete" Click="LB1_MenuItem_Delete_Click" />
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=ProjectName}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ScrollViewer DockPanel.Dock="Right" Margin="0 0 0 20">
+                <DataGrid Name="DG1"  AutoGenerateColumns="False" BorderThickness="1" Margin="5" CanUserAddRows="False"   IsReadOnly="True" HorizontalContentAlignment="Center" >
+                    <DataGrid.Columns>
+                        <mui:DataGridTextColumn  Header="文件名" Width="auto" Binding="{Binding Path=FileName}" />
+                        <mui:DataGridTextColumn Header="项目名称" Width="auto" Binding="{Binding Path=ProjectName}" />
+                        <mui:DataGridTextColumn Header="状态" Width="auto" Binding="{Binding Path=Condition}" />
+                        <mui:DataGridTextColumn Header="生成结果" Width="auto" Binding="{Binding Path=OperationResult}" />
+                        <mui:DataGridTextColumn Header="备注" Width="auto" Binding="{Binding Path=Comment}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</UserControl>

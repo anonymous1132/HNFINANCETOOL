@@ -12,8 +12,8 @@
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8" Orientation="Horizontal">
                 <TextBlock  Text="电网基建概算数表单" Style="{StaticResource Heading2}"  />
-                <ComboBox  MinWidth="100" SelectedIndex="0" Margin="50 0 0 0" Name="combobox_title" >
-                    <ComboBoxItem Content="项目名称" />
+                <ComboBox  MinWidth="100" SelectedIndex="1" Margin="50 0 0 0" Name="combobox_title" >
+                    <ComboBoxItem Content="项目名称" Name="combo_item_projectname"/>
                     <ComboBoxItem Content="项目编码" />
                     <ComboBoxItem Content="wbs识别码" />
                     <ComboBoxItem Content="内控系数" />
@@ -42,7 +42,7 @@
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" >
                 <DataGrid.Columns>
                     <mui:DataGridTextColumn Header="序号"  Binding="{Binding ID}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="项目名称"  Binding="{Binding ProjectName}"/>
+                    <mui:DataGridTextColumn Header="项目名称"  Binding="{Binding ProjectName}" x:Name="Item_projectname"/>
                     <mui:DataGridTextColumn Header="项目编码" Binding="{Binding ProjectCode}" />
                     <mui:DataGridTextColumn Header="单项工程名称" Binding="{Binding IndividualProjectName}"/>
                     <mui:DataGridTextColumn Header="单项工程编码" Binding="{Binding IndividualProjectCode}"/>

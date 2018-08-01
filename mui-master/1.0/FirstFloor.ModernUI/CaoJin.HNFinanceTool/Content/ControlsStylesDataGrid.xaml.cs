@@ -106,6 +106,30 @@ namespace CaoJin.HNFinanceTool.Content
             dt.Rows.InsertAt(dr2,0);
             return dt;
         }
+
+        private DataTable TranslateBudgetaryBlank2DT()
+        {
+            DataTable dt = new DataTable("BudgetaryUpperLimit");
+            dt.Columns.Add("AccumulativePlan");
+            dt.Columns.Add("ErpHappenedWithoutTax");
+            dt.Columns.Add("DeductibleVAT");
+            DataRow dr = dt.NewRow();
+            dr[0] = "";
+            dr[1] = "";
+            dr[2] = "";
+            dt.Rows.Add(dr);
+            return dt;
+        }
+
+        private DataTable TranslateDepartmentFilledBlank2DT()
+        {
+            DataTable dt = new DataTable("DepartmentBudgetFilled");
+            dt.Columns.Add("DepartmentFilledBudgetWithTax");
+            DataRow dr = dt.NewRow();
+            dr[0] = "";
+            dt.Rows.Add(dr);
+            return dt;
+        }
         public static Type GetCoreType(Type t)
         {
             if (t != null && IsNullable(t))
@@ -215,16 +239,26 @@ namespace CaoJin.HNFinanceTool.Content
                 DataSet ds = new DataSet("Finance");
                 ds.Tables.Add(TranslateVM2DT());
                 ds.Tables.Add(TranslateTDVM2DT());
+                ds.Tables.Add(TranslateBudgetaryBlank2DT());
+                ds.Tables.Add(TranslateDepartmentFilledBlank2DT());
                 ds.WriteXml(filepath);
                 this.DataFileName = System.IO.Path.GetFileName(filepath);
+                this.Item_projectname.IsReadOnly = true;
+                this.combo_item_projectname.IsEnabled = false;
+                if (this.combobox_title.SelectedIndex == 0)
+                {
+                    this.combobox_title.SelectedIndex = 1;
+                }
             }
             else
             {
                 string datafile = _datapath + DataFileName;
                 DataSet ds = new DataSet("Finance");
-                ds.Tables.Add(TranslateVM2DT().Copy());
+                ds.Tables.Add(TranslateVM2DT());
                 ds.Tables.Add(TranslateTDVM2DT().Copy());
-                ds.WriteXml(datafile);
+                ds.Tables.Add(XmlHelper.GetTable(datafile, XmlHelper.XmlType.File, "BudgetaryUpperLimit").Copy());
+                ds.Tables.Add(XmlHelper.GetTable(datafile,XmlHelper.XmlType.File, "DepartmentBudgetFilled").Copy());
+                 ds.WriteXml(datafile);
             }
         }
         //导出至excel
@@ -257,6 +291,7 @@ namespace CaoJin.HNFinanceTool.Content
             {
                 DataFileName = "mould";
             }
+            else { this.Item_projectname.IsReadOnly = true;this.combo_item_projectname.IsEnabled = false; }
             tdvm = new TailDifferenceViewModel();
             GetData(ref projectEstimateSetViewModel,ref tdvm);
             //Bind the DataGrid 
@@ -264,7 +299,7 @@ namespace CaoJin.HNFinanceTool.Content
             DG1.DataContext = projectEstimateSetViewModel.EstimateViewModels;
             
         }
-
+        //从excel导入
         private void button_import_Click(object sender, RoutedEventArgs e)
         {
             if (!CheckImportFile()) return;
@@ -611,43 +646,43 @@ namespace CaoJin.HNFinanceTool.Content
             
         }
 
-        private ProjectCostCatagory WitchNotNull()
-        {
-            ProjectCostCatagory catagory = new ProjectCostCatagory();
-            if (catagorySet.pcc_jk.costValue != 0)
-            {
-                catagory = catagorySet.pcc_jk;
-            }
-            else if (catagorySet.pcc_dl.costValue != 0)
-            {
-                catagory = catagorySet.pcc_dl;
-            }
-            else if (catagorySet.pcc_pd_az.costValue != 0)
-            {
-                catagory = catagorySet.pcc_pd_az;
-            }
-            else if (catagorySet.pcc_pd_sb.costValue != 0)
-            {
-                catagory = catagorySet.pcc_pd_sb;
-            }
-            else if (catagorySet.pcc_pd_jz.costValue != 0)
-            {
-                catagory = catagorySet.pcc_pd_jz;
-            }
-            else if (catagorySet.pcc_tx_az.costValue != 0)
-            {
-                catagory = catagorySet.pcc_tx_az;
-            }
-            else if (catagorySet.pcc_tx_sb.costValue != 0)
-            {
-                catagory = catagorySet.pcc_tx_sb;
-            }
-            else
-            {
-                catagory = catagorySet.pcc_tx_jz;
-            }
-            return catagory;
-        }
+        //private ProjectCostCatagory WitchNotNull()
+        //{
+        //    ProjectCostCatagory catagory = new ProjectCostCatagory();
+        //    if (catagorySet.pcc_jk.costValue != 0)
+        //    {
+        //        catagory = catagorySet.pcc_jk;
+        //    }
+        //    else if (catagorySet.pcc_dl.costValue != 0)
+        //    {
+        //        catagory = catagorySet.pcc_dl;
+        //    }
+        //    else if (catagorySet.pcc_pd_az.costValue != 0)
+        //    {
+        //        catagory = catagorySet.pcc_pd_az;
+        //    }
+        //    else if (catagorySet.pcc_pd_sb.costValue != 0)
+        //    {
+        //        catagory = catagorySet.pcc_pd_sb;
+        //    }
+        //    else if (catagorySet.pcc_pd_jz.costValue != 0)
+        //    {
+        //        catagory = catagorySet.pcc_pd_jz;
+        //    }
+        //    else if (catagorySet.pcc_tx_az.costValue != 0)
+        //    {
+        //        catagory = catagorySet.pcc_tx_az;
+        //    }
+        //    else if (catagorySet.pcc_tx_sb.costValue != 0)
+        //    {
+        //        catagory = catagorySet.pcc_tx_sb;
+        //    }
+        //    else
+        //    {
+        //        catagory = catagorySet.pcc_tx_jz;
+        //    }
+        //    return catagory;
+        //}
     }
 
 
