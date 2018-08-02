@@ -30,7 +30,7 @@
             <ScrollViewer DockPanel.Dock="Right" Margin="0 0 0 20">
                 <DataGrid Name="DG1"  AutoGenerateColumns="False" BorderThickness="1" Margin="5" CanUserAddRows="False"   IsReadOnly="True" HorizontalContentAlignment="Center" >
                     <DataGrid.Columns>
-                        <mui:DataGridTextColumn  Header="文件名" Width="auto" Binding="{Binding Path=FileName}" />
+                        <mui:DataGridTextColumn  Header="文件名" Width="auto" Binding="{Binding Path=FilePath}" />
                         <mui:DataGridTextColumn Header="项目名称" Width="auto" Binding="{Binding Path=ProjectName}" />
                         <mui:DataGridTextColumn Header="状态" Width="auto" Binding="{Binding Path=Condition}" />
                         <mui:DataGridTextColumn Header="生成结果" Width="auto" Binding="{Binding Path=OperationResult}" />

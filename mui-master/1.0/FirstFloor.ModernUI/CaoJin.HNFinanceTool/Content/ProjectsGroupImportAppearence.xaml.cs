@@ -23,24 +23,35 @@ namespace CaoJin.HNFinanceTool.Content
         private ObservableCollection<ProjectFilesViewModel> obc_file;
         private void button_selectfile_Click(object sender, RoutedEventArgs e)
         {
+
             OpenFileDialog openFile = new OpenFileDialog() { Filter = "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls" };
             openFile.Multiselect = true;
             if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return ;
+            this.obc_group.Clear();
             foreach (string filename in  openFile.FileNames)
             {
                 if (!System.IO.File.Exists(filename)) continue;
                  ProjectGroupImportViewModel importViewModel=new ProjectGroupImportViewModel(filename);
                 obc_group.Add(importViewModel);
             }
-            this.DG1.ItemsSource = obc_group;
+           // this.DG1.ItemsSource = obc_group;
             this.button_import.IsEnabled = true;
+
         }
 
         private void button_import_Click(object sender, RoutedEventArgs e)
         {
+            List<string> projectList = new List<string>();
             foreach (ProjectGroupImportViewModel importvm in obc_group)
             {
+                if (projectList.Contains(importvm.ProjectName))
+                {
+                    importvm.Comment = "队列已经存在该项目文件";
+                    importvm.OperationResult = "取消操作";
+                    continue;
+                }
                 importvm.OutputToFile();
+                projectList.Add(importvm.ProjectName);
             }
             this.button_import.IsEnabled = false;
             LoadLB1();
@@ -49,19 +60,18 @@ namespace CaoJin.HNFinanceTool.Content
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             this.obc_group = new ObservableCollection<ProjectGroupImportViewModel>();
+            this.DG1.ItemsSource = obc_group;
             LoadLB1();
         }
 
         private void LB1_MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
             ControlsStylesDataGrid cdg = new ControlsStylesDataGrid();
-            //cdg.DataFileName = uri.ToString();
             cdg.isadd = false;
             cdg.DataFileName=((ProjectFilesViewModel)(LB1.SelectedItem)).ProjectName+".est";
-             this.Content = cdg;
-            //FirstFloor.ModernUI.Windows.Controls.ModernWindow modernWindow = new FirstFloor.ModernUI.Windows.Controls.ModernWindow();
-            //modernWindow.ContentSource = FirstFloor.ModernUI.Windows.Navigation.NavigationHelper.ToUri(cdg);
-            //modernWindow.ShowDialog();
+            var modernWindow = new Window();
+            modernWindow.Content = cdg;
+            modernWindow.ShowDialog();
 
         }
 

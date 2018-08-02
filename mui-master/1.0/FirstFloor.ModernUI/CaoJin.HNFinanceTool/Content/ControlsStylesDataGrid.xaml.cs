@@ -249,6 +249,7 @@ namespace CaoJin.HNFinanceTool.Content
                 {
                     this.combobox_title.SelectedIndex = 1;
                 }
+                this.button_import.IsEnabled = false;
             }
             else
             {
@@ -291,7 +292,7 @@ namespace CaoJin.HNFinanceTool.Content
             {
                 DataFileName = "mould";
             }
-            else { this.Item_projectname.IsReadOnly = true;this.combo_item_projectname.IsEnabled = false; }
+            else { this.Item_projectname.IsReadOnly = true;this.combo_item_projectname.IsEnabled = false;this.button_import.IsEnabled = false; }
             tdvm = new TailDifferenceViewModel();
             GetData(ref projectEstimateSetViewModel,ref tdvm);
             //Bind the DataGrid 

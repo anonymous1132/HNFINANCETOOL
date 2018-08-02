@@ -7,6 +7,7 @@ using FirstFloor.ModernUI.Presentation;
 using CaoJin.HNFinanceTool.Basement;
 using System.Data;
 using System.Reflection;
+using CaoJin.HNFinanceTool.Dal;
 
 namespace CaoJin.HNFinanceTool.Bll
 {
@@ -83,6 +84,7 @@ namespace CaoJin.HNFinanceTool.Bll
             GetEstinateOverViewTableValues(ds.Tables["总概算$"], ref cellsSet);
             GetCatagorySetValues(ds.Tables["总概算$"], cellsSet, ref catagorySet);
             GetCatagorySetValues_Other(ds.Tables["其他费用1$"], ref catagorySet);
+            this.ProjectName = proc.ProjectName;
             return true;
         }
 
@@ -390,12 +392,41 @@ namespace CaoJin.HNFinanceTool.Bll
         public void GetData()
         {
             if (!CheckImportFile()) return;
-            ManageTailDifference(ref tdvm);
-           estimateSetViewModel.GetDataToFinanceData(proc, catagorySet);
-           estimateSetViewModel.SetToDestCompositeTaxRate(tdvm.Double_CompositeTaxRate);
-            this.ProjectName = proc.ProjectName;
-            if (CheckFIleExist()) { this.Condition = "待更新"; }
-            else { this.Condition = "待生成"; }
+            if (CheckFIleExist())
+            {
+                this.Condition = "待更新";
+                string datafile = "App\\data\\"+ProjectName+".est";
+                DataSet ds = XmlOperate.GetDataSet(datafile);
+                DataTable dt = ds.Tables[0];
+                DataTable dt2 = ds.Tables[1];
+                estimateSetViewModel = new ProjectEstimateSetViewModel(dt);
+                tdvm = new TailDifferenceViewModel();
+                tdvm.TailDifference = dt2.DefaultView[0]["TailDifference"].ToString();
+                tdvm.ItemWithTailDifference = dt2.DefaultView[0]["ItemWithTailDifference"].ToString();
+                tdvm.CompositeTaxRate = dt2.DefaultView[0]["CompositeTaxRate"].ToString();
+                tdvm.AnnualPriceDifference = dt2.DefaultView[0]["AnnualPriceDifference"].ToString();
+                ManageTailDifference(ref tdvm);
+                estimateSetViewModel.GetDataToFinanceData(proc, catagorySet);
+                estimateSetViewModel.SetToDestCompositeTaxRate(tdvm.Double_CompositeTaxRate);
+            }
+
+            else {
+                this.Condition = "待生成";
+                string mouldpath = "App\\data\\mould";
+                DataSet ds = XmlOperate.GetDataSet(mouldpath);
+                DataTable dt = ds.Tables[0];
+                DataTable dt2 = ds.Tables[1];
+                estimateSetViewModel = new ProjectEstimateSetViewModel(dt);
+                tdvm = new TailDifferenceViewModel();
+                tdvm.TailDifference = dt2.DefaultView[0]["TailDifference"].ToString();
+                tdvm.ItemWithTailDifference = dt2.DefaultView[0]["ItemWithTailDifference"].ToString();
+                tdvm.CompositeTaxRate = dt2.DefaultView[0]["CompositeTaxRate"].ToString();
+                tdvm.AnnualPriceDifference = dt2.DefaultView[0]["AnnualPriceDifference"].ToString();
+
+                ManageTailDifference(ref tdvm);
+                estimateSetViewModel.GetDataToFinanceData(proc, catagorySet);
+                estimateSetViewModel.SetToDestCompositeTaxRate(tdvm.Double_CompositeTaxRate);
+            }
         }
 
         private bool CheckFIleExist()
@@ -410,17 +441,28 @@ namespace CaoJin.HNFinanceTool.Bll
             { this.OperationResult = "未执行生成操作"; return; }
 
             string datafile = "App\\data\\" + ProjectName.Trim() + ".est";
+            string mouldfile = "App\\data\\mould";
             DataSet ds = new DataSet("Finance");
+            if (this.Condition == "待生成")
+            {
+                try
+                {
+                    System.IO.File.Copy(mouldfile, datafile);
+                }
+                catch (Exception)
+                {
+                    if (!System.IO.File.Exists("App\\data\\mould")) { this.Comment = "App\\data\\mould文件丢失"; this.OperationResult = "取消操作"; }
+                    else { this.Comment = "未知错误"; this.OperationResult = "取消操作"; }
+                    return;
+                }
+            }
             ds.Tables.Add(TranslateVM2DT());
             ds.Tables.Add(TranslateTDVM2DT().Copy());
             ds.Tables.Add(XmlHelper.GetTable(datafile, XmlHelper.XmlType.File, "BudgetaryUpperLimit").Copy());
             ds.Tables.Add(XmlHelper.GetTable(datafile, XmlHelper.XmlType.File, "DepartmentBudgetFilled").Copy());
             ds.WriteXml(datafile);
             this.OperationResult = "操作成功";
-            if (CheckFIleExist())
-            { this.Comment = "更新"; }
-            else
-            { this.Comment = "新建"; }
+          
         }
 
         //将obc转换为dt
