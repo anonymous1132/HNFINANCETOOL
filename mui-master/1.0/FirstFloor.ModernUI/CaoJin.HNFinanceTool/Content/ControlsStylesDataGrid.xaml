@@ -46,7 +46,7 @@
                     <mui:DataGridTextColumn Header="项目编码" Binding="{Binding ProjectCode}" />
                     <mui:DataGridTextColumn Header="单项工程名称" Binding="{Binding IndividualProjectName}"/>
                     <mui:DataGridTextColumn Header="单项工程编码" Binding="{Binding IndividualProjectCode}"/>
-                    <mui:DataGridTextColumn Header="费用类别" Binding="{Binding ExpanseCategory}"/>
+                    <mui:DataGridTextColumn Header="费用类别" Binding="{Binding ExpanseCategory}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="WBS识别码" Binding="{Binding WBSCode}"/>
                     <mui:DataGridTextColumn Header="概算数" Binding="{Binding EstimateNumber}"/>
                     <mui:DataGridTextColumn Header="内控系数" Binding="{Binding InternalControl}"/>

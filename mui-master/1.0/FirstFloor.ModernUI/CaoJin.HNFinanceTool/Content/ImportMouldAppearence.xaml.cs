@@ -44,6 +44,16 @@ namespace CaoJin.HNFinanceTool.Content
                             import.GetData(pvm);
                             obc_import.Add(import);
                         }
+                        DepartmentBudgetFilled department = new DepartmentBudgetFilled(setViewModel.TotalEstimateViewModel.ProjectName);
+                        obc_import[obc_import.Count-23].DepartmentFilledBudgetWithTax = department.DepartmentFilledBudgetWithTax;
+                        obc_import[obc_import.Count-23].YearBudgetWithoutTax = 0;
+                        for (int i = obc_import.Count-1; i >obc_import.Count-23; i--)
+                        {
+                            obc_import[i].DepartmentFilledBudgetWithTax = (setViewModel.EstimateViewModels[i%23].totalInvestmentWithTax / setViewModel.TotalInvestmentWithTax) * department.DepartmentFilledBudgetWithTax;
+                            obc_import[i].YearBudgetWithoutTax = obc_import[i].DepartmentFilledBudgetWithTax / (1 + obc_import[i].deductibleVATRatio / 100);
+                            obc_import[obc_import.Count-23].YearBudgetWithoutTax += obc_import[i].YearBudgetWithoutTax;
+                        }
+                      
                     }
                 }
             }

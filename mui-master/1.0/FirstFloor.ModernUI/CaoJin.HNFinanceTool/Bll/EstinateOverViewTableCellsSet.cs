@@ -21,6 +21,7 @@ namespace CaoJin.HNFinanceTool.Bll
         public EstinateOverViewTableCell Other_JSCDQL_Cell = new EstinateOverViewTableCell("建设场地征用及清理费");
         public EstinateOverViewTableCell Other_SCZB_DL_Cell = new EstinateOverViewTableCell("生产准备费：电缆工程");
         public EstinateOverViewTableCell Other_SCZB_FDL_Cell = new EstinateOverViewTableCell("生产准备费：非电缆工程");
+        public EstinateOverViewTableCell Other_SCZB_Cell = new EstinateOverViewTableCell("生产准备费");
         public EstinateOverViewTableCell GCDT_Cell = new EstinateOverViewTableCell("工程动态投资");
 
         public EstinateOverViewTableCell JZGC_Cell = new EstinateOverViewTableCell("建筑工程费");

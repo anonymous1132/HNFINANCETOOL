@@ -267,15 +267,22 @@ namespace CaoJin.HNFinanceTool.Bll
         {
             get { return _totalInvestmentWithTax.ToString(); }
         }
+        public double totalInvestmentWithTax
+        {
+            get { return _totalInvestmentWithTax; }
+        }
         private double _totalInvestmentWithoutTax=0;//总投资预算（不含税）
         public string TotalInvestmentWithoutTax
         {
             get { return _totalInvestmentWithoutTax.ToString(); }
 
         }
+        public double totalInvestmentWithoutTax
+        {
+            get { return _totalInvestmentWithoutTax; }
+        }
 
 
-  
     }
 
 }

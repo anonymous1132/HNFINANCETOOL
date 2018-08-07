@@ -60,6 +60,33 @@ namespace CaoJin.HNFinanceTool.Bll
         private ProjectCostCatagorySet catagorySet;
         private TailDifferenceViewModel tdvm=new TailDifferenceViewModel();
         private ProjectEstimateSetViewModel estimateSetViewModel;
+        private bool? isWanYuan;
+        //private bool CheckImportFile()
+        //{
+        //    ExcelHelper exceloper = new ExcelHelper();
+        //    DataSet ds = exceloper.ExcelToDS(this.FilePath);
+        //    string tablenames = "";
+        //    //所有表名称拼接
+        //    for (int i = 0; i < ds.Tables.Count; i++)
+        //    {
+        //        tablenames = tablenames + ds.Tables[i].TableName;
+        //    }
+        //    if (!(tablenames.Contains("封面") && tablenames.Contains("总概算") && tablenames.Contains("其他费用1")))
+        //    {
+        //        this.Comment = "Excel文件至少包含《封面》、《总概算》、《其他费用1》3个sheet！";
+        //        this.Condition = "无法生成";
+        //        return false;
+        //    }
+        //    //获取《封面》内容，根据封面内容获取项目名称、项目编号
+        //    proc.ProjectName = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工 程 名 称");
+        //    proc.ProjectCode = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工程编号", 6);
+        //    //获取《总概算》内容
+        //    GetEstinateOverViewTableValues(ds.Tables["总概算$"], ref cellsSet);
+        //    GetCatagorySetValues(ds.Tables["总概算$"], cellsSet, ref catagorySet);
+        //    GetCatagorySetValues_Other(ds.Tables["其他费用1$"], ref catagorySet);
+        //    this.ProjectName = proc.ProjectName;
+        //    return true;
+        //}
 
         private bool CheckImportFile()
         {
@@ -71,29 +98,217 @@ namespace CaoJin.HNFinanceTool.Bll
             {
                 tablenames = tablenames + ds.Tables[i].TableName;
             }
-            if (!(tablenames.Contains("封面") && tablenames.Contains("总概算") && tablenames.Contains("其他费用1")))
+            if (!(tablenames.Contains("总概算") && tablenames.Contains("其他费用")))
             {
-                this.Comment = "Excel文件至少包含《封面》、《总概算》、《其他费用1》3个sheet！";
+                this.Comment =  "Excel文件至少得包含《总概算》、《其他费用》或《其他费用1、2、3……》表";
                 this.Condition = "无法生成";
                 return false;
             }
             //获取《封面》内容，根据封面内容获取项目名称、项目编号
-            proc.ProjectName = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工 程 名 称");
-            proc.ProjectCode = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工程编号", 6);
+            proc = new ProjectClass();
+            try
+            {
+                proc.ProjectName = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工 程 名 称");
+                proc.ProjectCode = exceloper.GetXValueByContainKeyWord(ds.Tables["封面$"], "工程编号", 6);
+            }
+            catch (Exception) { }
             //获取《总概算》内容
             GetEstinateOverViewTableValues(ds.Tables["总概算$"], ref cellsSet);
             GetCatagorySetValues(ds.Tables["总概算$"], cellsSet, ref catagorySet);
-            GetCatagorySetValues_Other(ds.Tables["其他费用1$"], ref catagorySet);
-            this.ProjectName = proc.ProjectName;
+
+            GetCatagorySetValues_Other(ds, ref catagorySet);
             return true;
         }
+
+        ////给cellsSet赋值:总概算
+        //private void GetEstinateOverViewTableValues(DataTable dt, ref EstinateOverViewTableCellsSet cellsSet)
+        //{
+        //    ExcelHelper excel = new ExcelHelper();
+        //    int[] topcell = excel.CellindexContain(dt, "工程或费用名称");
+        //    //rows
+        //    int? r_pd = excel.RowIndexContain(dt, "配电站", topcell[1]);
+        //    int? r_tx = excel.RowIndexContain(dt, "通信及调度自动化", topcell[1]);
+        //    int? r_jkxl = excel.RowIndexContain(dt, "架空线路", topcell[1]);
+        //    int? r_dlxl = excel.RowIndexContain(dt, "电缆线路", topcell[1]);
+        //    int? r_njc = excel.RowIndexContain(dt, "当地编制年价差", topcell[1]);
+        //    int? r_other = excel.RowIndexContain(dt, "其他费用", topcell[1]);
+        //    int? r_jbyb = excel.RowIndexContain(dt, "基本预备费", topcell[1]);
+        //    int? r_dklx = excel.RowIndexContain(dt, "贷款利息", topcell[1]);
+        //    //other费用项
+        //    int? r_jscd = excel.RowIndexContain(dt, "建设场地征用及清理费", topcell[1]);
+        //    int? r_sczb_dl = excel.RowIndexContain(dt, "生产准备费(电缆工程)", topcell[1]);
+        //    int? r_sczb_fdl = excel.RowIndexContain(dt, "生产准备费(非电缆工程)", topcell[1]);
+        //    int? r_all = excel.RowIndexContain(dt, "工程动态投资", topcell[1]);
+        //    //columns
+        //    int? c_jzgc = excel.ColumnIndexContain(dt, "建筑工程费", topcell[0]);
+        //    int? c_sbgz = excel.ColumnIndexContain(dt, "设备购置费", topcell[0]);
+        //    int? c_azgc = excel.ColumnIndexContain(dt, "安装工程费", topcell[0]);
+        //    int? c_other = excel.ColumnIndexContain(dt, "其他费用", topcell[0]);
+        //    int? c_sum = excel.ColumnIndexContain(dt, "合计", topcell[0]);
+
+        //    cellsSet = new EstinateOverViewTableCellsSet();
+        //    cellsSet.PDZ_Cell.cell = new ExcelCellCoordinate(r_pd, topcell[1]);
+        //    cellsSet.TXAuto_Cell.cell = new ExcelCellCoordinate(r_tx, topcell[1]);
+        //    cellsSet.JKXL_Cell.cell = new ExcelCellCoordinate(r_jkxl, topcell[1]);
+        //    cellsSet.DLXL_Cell.cell = new ExcelCellCoordinate(r_dlxl, topcell[1]);
+        //    cellsSet.NJC_Cell.cell = new ExcelCellCoordinate(r_njc, topcell[1]);
+        //    cellsSet.Other_Cell_Y.cell = new ExcelCellCoordinate(r_other, topcell[1]);
+        //    cellsSet.JBYB_Cell.cell = new ExcelCellCoordinate(r_jbyb, topcell[1]);
+        //    cellsSet.DKLX_Cell.cell = new ExcelCellCoordinate(r_dklx, topcell[1]);
+        //    cellsSet.Other_JSCDQL_Cell.cell = new ExcelCellCoordinate(r_jscd, topcell[1]);
+        //    cellsSet.Other_SCZB_DL_Cell.cell = new ExcelCellCoordinate(r_sczb_dl, topcell[1]);
+        //    cellsSet.Other_SCZB_FDL_Cell.cell = new ExcelCellCoordinate(r_sczb_fdl, topcell[1]);
+        //    cellsSet.JZGC_Cell.cell = new ExcelCellCoordinate(topcell[0], c_jzgc);
+        //    cellsSet.SBGZ_Cell.cell = new ExcelCellCoordinate(topcell[0], c_sbgz);
+        //    cellsSet.AZGC_Cell.cell = new ExcelCellCoordinate(topcell[0], c_azgc);
+        //    cellsSet.Other_Cell_X.cell = new ExcelCellCoordinate(topcell[0], c_other);
+        //    cellsSet.HJ_Cell.cell = new ExcelCellCoordinate(topcell[0], c_sum);
+        //    cellsSet.GCDT_Cell.cell = new ExcelCellCoordinate(r_all, topcell[1]);
+
+        //}
+
+        ////catagorySet赋值：总概算
+        //private void GetCatagorySetValues(DataTable dt, EstinateOverViewTableCellsSet cellsSet, ref ProjectCostCatagorySet catagorySet)
+        //{
+        //    DataView dv = dt.DefaultView;
+        //    int c_jz = Convert.ToInt32(cellsSet.AZGC_Cell.cell.Column);//建筑列
+        //    int c_sb = Convert.ToInt32(cellsSet.SBGZ_Cell.cell.Column);//设备列
+        //    int c_az = Convert.ToInt32(cellsSet.AZGC_Cell.cell.Column);//安装列
+        //    int c_other = Convert.ToInt32(cellsSet.Other_Cell_X.cell.Column);//其他列
+        //    int cell_hj = Convert.ToInt32(cellsSet.HJ_Cell.cell.Column);//合计列
+        //    catagorySet = new ProjectCostCatagorySet();
+
+        //    //配电站3层
+        //    if (cellsSet.PDZ_Cell.cell.Row is null)
+        //    {
+
+        //    }
+        //    else
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.PDZ_Cell.cell.Row);
+        //        string pd_jz = "";
+        //        string pd_az = "";
+        //        string pd_sb = "";
+        //        pd_az = dv[r][c_az].ToString();
+        //        pd_jz = dv[r][c_jz].ToString();
+        //        pd_sb = dv[r][c_sb].ToString();
+        //        catagorySet.pcc_pd_az.costValue = (string.IsNullOrEmpty(pd_az) ? 0 : Convert.ToDouble(pd_az)) * 10000;
+        //        catagorySet.pcc_pd_jz.costValue = (string.IsNullOrEmpty(pd_jz) ? 0 : Convert.ToDouble(pd_jz)) * 10000;
+        //        catagorySet.pcc_pd_sb.costValue = (string.IsNullOrEmpty(pd_sb) ? 0 : Convert.ToDouble(pd_sb)) * 10000;
+        //    }
+        //    //通信自动化3层
+        //    if (!(cellsSet.TXAuto_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.TXAuto_Cell.cell.Row);
+        //        string tx_jz = "";
+        //        string tx_az = "";
+        //        string tx_sb = "";
+        //        tx_az = dv[r][c_az].ToString();
+        //        tx_jz = dv[r][c_jz].ToString();
+        //        tx_sb = dv[r][c_sb].ToString();
+        //        catagorySet.pcc_pd_az.costValue = (string.IsNullOrEmpty(tx_az) ? 0 : Convert.ToDouble(tx_az)) * 10000;
+        //        catagorySet.pcc_pd_jz.costValue = (string.IsNullOrEmpty(tx_jz) ? 0 : Convert.ToDouble(tx_jz)) * 10000;
+        //        catagorySet.pcc_pd_sb.costValue = (string.IsNullOrEmpty(tx_sb) ? 0 : Convert.ToDouble(tx_sb)) * 10000;
+        //    }
+        //    //架空线路1层
+        //    if (!(cellsSet.JKXL_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.JKXL_Cell.cell.Row);
+        //        string jk_hj = "";
+        //        jk_hj = dv[r][cell_hj].ToString();
+        //        catagorySet.pcc_jk.costValue = (string.IsNullOrEmpty(jk_hj) ? 0 : Convert.ToDouble(jk_hj)) * 10000;
+        //    }
+        //    //电缆线路1层
+        //    if (!(cellsSet.DLXL_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.DLXL_Cell.cell.Row);
+        //        string dl_hj = "";
+        //        dl_hj = dv[r][cell_hj].ToString();
+        //        catagorySet.pcc_dl.costValue = (string.IsNullOrEmpty(dl_hj) ? 0 : Convert.ToDouble(dl_hj)) * 10000;
+        //    }
+
+        //    //年价差。
+        //    if (!(cellsSet.NJC_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.NJC_Cell.cell.Row);
+        //        string njc_hj = "";
+        //        njc_hj = dv[r][cell_hj].ToString();
+        //        njc = (string.IsNullOrEmpty(njc_hj) ? 0 : Convert.ToDouble(njc_hj)) * 10000;
+        //    }
+
+        //    //建设场地征用及清理费
+        //    if (!(cellsSet.Other_JSCDQL_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.Other_JSCDQL_Cell.cell.Row);
+        //        string jscd = "";
+        //        jscd = dv[r][cell_hj].ToString();
+        //        catagorySet.pcc_other_cd.costValue = (string.IsNullOrEmpty(jscd) ? 0 : Convert.ToDouble(jscd)) * 10000;
+        //    }
+
+        //    //生产准备费=生产准备费(电缆工程)+生产准备费(非电缆工程)+基本预备费
+        //    string sczb_dl = "";
+        //    string sczb_fdl = "";
+        //    string sczb_jbyb = "";
+        //    if (!(cellsSet.Other_SCZB_DL_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.Other_SCZB_DL_Cell.cell.Row);
+        //        sczb_dl = dv[r][cell_hj].ToString();
+        //    }
+        //    if (!(cellsSet.Other_SCZB_FDL_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.Other_SCZB_FDL_Cell.cell.Row);
+        //        sczb_fdl = dv[r][cell_hj].ToString();
+        //    }
+        //    if (!(cellsSet.JBYB_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.JBYB_Cell.cell.Row);
+        //        sczb_jbyb = dv[r][cell_hj].ToString();
+        //    }
+        //    catagorySet.pcc_other_sczb.costValue = ((string.IsNullOrEmpty(sczb_dl) ? 0 : Convert.ToDouble(sczb_dl)) + (string.IsNullOrEmpty(sczb_fdl) ? 0 : Convert.ToDouble(sczb_fdl)) + (string.IsNullOrEmpty(sczb_jbyb) ? 0 : Convert.ToDouble(sczb_jbyb))) * 10000;
+
+        //    //贷款利息
+        //    if (!(cellsSet.DKLX_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.DKLX_Cell.cell.Row);
+        //        string dklx = "";
+        //        dklx = dv[r][cell_hj].ToString();
+        //        catagorySet.pcc_other_dklx.costValue = (string.IsNullOrEmpty(dklx) ? 0 : Convert.ToDouble(dklx)) * 10000;
+        //    }
+
+        //    //动态投资
+        //    if (!(cellsSet.GCDT_Cell.cell.Row is null))
+        //    {
+        //        int r = Convert.ToInt32(cellsSet.GCDT_Cell.cell.Row);
+        //        string all = "";
+        //        all = dv[r][cell_hj].ToString();
+        //        catagorySet.pcc_all.costValue = (string.IsNullOrEmpty(all) ? 0 : Convert.ToDouble(all)) * 10000;
+        //    }
+        //}
+
+        //catagorySet赋值：总概算
+        //-----------------debug:万元单位判断--------------------------------------------------
 
         //给cellsSet赋值:总概算
         private void GetEstinateOverViewTableValues(DataTable dt, ref EstinateOverViewTableCellsSet cellsSet)
         {
             ExcelHelper excel = new ExcelHelper();
-            int[] topcell = excel.CellindexContain(dt, "工程或费用名称");
+
+            //-------------------------debug:从总概算页获取工程名称--------------------------------------------
+            int[] title = excel.CellindexContain(dt, "概算书");
+            proc.ProjectName = string.IsNullOrEmpty(proc.ProjectName) & (!(title is null)) ? dt.DefaultView[title[0]][title[1]].ToString().Replace("概算书", "").Trim() : proc.ProjectName;
+            proc.ProjectCode = string.IsNullOrEmpty(proc.ProjectCode) ? "" : proc.ProjectCode;
+            //-------------------------------------------------------------------------------------------------
+            this.ProjectName = proc.ProjectName;
+            //---------------------------debug:万元还是元？----------------------------------------------------------------------
+            int[] unit = excel.CellindexContain(dt, "金额单位");
+            if (unit is null) isWanYuan = null;
+            else
+            {
+                isWanYuan = dt.DefaultView[unit[0]][unit[1]].ToString().Contains("万元");
+            }
+            //-------------------------------------------------------------------------------------------------
             //rows
+            int[] topcell = excel.CellindexContain(dt, "工程或费用名称");
             int? r_pd = excel.RowIndexContain(dt, "配电站", topcell[1]);
             int? r_tx = excel.RowIndexContain(dt, "通信及调度自动化", topcell[1]);
             int? r_jkxl = excel.RowIndexContain(dt, "架空线路", topcell[1]);
@@ -106,6 +321,7 @@ namespace CaoJin.HNFinanceTool.Bll
             int? r_jscd = excel.RowIndexContain(dt, "建设场地征用及清理费", topcell[1]);
             int? r_sczb_dl = excel.RowIndexContain(dt, "生产准备费(电缆工程)", topcell[1]);
             int? r_sczb_fdl = excel.RowIndexContain(dt, "生产准备费(非电缆工程)", topcell[1]);
+            int? r_sczb = excel.RowIndex(dt, "生产准备费", topcell[1]);
             int? r_all = excel.RowIndexContain(dt, "工程动态投资", topcell[1]);
             //columns
             int? c_jzgc = excel.ColumnIndexContain(dt, "建筑工程费", topcell[0]);
@@ -126,6 +342,7 @@ namespace CaoJin.HNFinanceTool.Bll
             cellsSet.Other_JSCDQL_Cell.cell = new ExcelCellCoordinate(r_jscd, topcell[1]);
             cellsSet.Other_SCZB_DL_Cell.cell = new ExcelCellCoordinate(r_sczb_dl, topcell[1]);
             cellsSet.Other_SCZB_FDL_Cell.cell = new ExcelCellCoordinate(r_sczb_fdl, topcell[1]);
+            cellsSet.Other_SCZB_Cell.cell = new ExcelCellCoordinate(r_sczb, topcell[1]);
             cellsSet.JZGC_Cell.cell = new ExcelCellCoordinate(topcell[0], c_jzgc);
             cellsSet.SBGZ_Cell.cell = new ExcelCellCoordinate(topcell[0], c_sbgz);
             cellsSet.AZGC_Cell.cell = new ExcelCellCoordinate(topcell[0], c_azgc);
@@ -133,13 +350,12 @@ namespace CaoJin.HNFinanceTool.Bll
             cellsSet.HJ_Cell.cell = new ExcelCellCoordinate(topcell[0], c_sum);
             cellsSet.GCDT_Cell.cell = new ExcelCellCoordinate(r_all, topcell[1]);
 
-        }
 
-        //catagorySet赋值：总概算
+        }
         private void GetCatagorySetValues(DataTable dt, EstinateOverViewTableCellsSet cellsSet, ref ProjectCostCatagorySet catagorySet)
         {
             DataView dv = dt.DefaultView;
-            int c_jz = Convert.ToInt32(cellsSet.AZGC_Cell.cell.Column);//建筑列
+            int c_jz = Convert.ToInt32(cellsSet.JZGC_Cell.cell.Column);//建筑列
             int c_sb = Convert.ToInt32(cellsSet.SBGZ_Cell.cell.Column);//设备列
             int c_az = Convert.ToInt32(cellsSet.AZGC_Cell.cell.Column);//安装列
             int c_other = Convert.ToInt32(cellsSet.Other_Cell_X.cell.Column);//其他列
@@ -160,9 +376,9 @@ namespace CaoJin.HNFinanceTool.Bll
                 pd_az = dv[r][c_az].ToString();
                 pd_jz = dv[r][c_jz].ToString();
                 pd_sb = dv[r][c_sb].ToString();
-                catagorySet.pcc_pd_az.costValue = (string.IsNullOrEmpty(pd_az) ? 0 : Convert.ToDouble(pd_az)) * 10000;
-                catagorySet.pcc_pd_jz.costValue = (string.IsNullOrEmpty(pd_jz) ? 0 : Convert.ToDouble(pd_jz)) * 10000;
-                catagorySet.pcc_pd_sb.costValue = (string.IsNullOrEmpty(pd_sb) ? 0 : Convert.ToDouble(pd_sb)) * 10000;
+                catagorySet.pcc_pd_az.costValue = (string.IsNullOrEmpty(pd_az) ? 0 : Convert.ToDouble(pd_az));
+                catagorySet.pcc_pd_jz.costValue = (string.IsNullOrEmpty(pd_jz) ? 0 : Convert.ToDouble(pd_jz));
+                catagorySet.pcc_pd_sb.costValue = (string.IsNullOrEmpty(pd_sb) ? 0 : Convert.ToDouble(pd_sb));
             }
             //通信自动化3层
             if (!(cellsSet.TXAuto_Cell.cell.Row is null))
@@ -174,9 +390,9 @@ namespace CaoJin.HNFinanceTool.Bll
                 tx_az = dv[r][c_az].ToString();
                 tx_jz = dv[r][c_jz].ToString();
                 tx_sb = dv[r][c_sb].ToString();
-                catagorySet.pcc_pd_az.costValue = (string.IsNullOrEmpty(tx_az) ? 0 : Convert.ToDouble(tx_az)) * 10000;
-                catagorySet.pcc_pd_jz.costValue = (string.IsNullOrEmpty(tx_jz) ? 0 : Convert.ToDouble(tx_jz)) * 10000;
-                catagorySet.pcc_pd_sb.costValue = (string.IsNullOrEmpty(tx_sb) ? 0 : Convert.ToDouble(tx_sb)) * 10000;
+                catagorySet.pcc_pd_az.costValue = (string.IsNullOrEmpty(tx_az) ? 0 : Convert.ToDouble(tx_az));
+                catagorySet.pcc_pd_jz.costValue = (string.IsNullOrEmpty(tx_jz) ? 0 : Convert.ToDouble(tx_jz));
+                catagorySet.pcc_pd_sb.costValue = (string.IsNullOrEmpty(tx_sb) ? 0 : Convert.ToDouble(tx_sb));
             }
             //架空线路1层
             if (!(cellsSet.JKXL_Cell.cell.Row is null))
@@ -184,7 +400,7 @@ namespace CaoJin.HNFinanceTool.Bll
                 int r = Convert.ToInt32(cellsSet.JKXL_Cell.cell.Row);
                 string jk_hj = "";
                 jk_hj = dv[r][cell_hj].ToString();
-                catagorySet.pcc_jk.costValue = (string.IsNullOrEmpty(jk_hj) ? 0 : Convert.ToDouble(jk_hj)) * 10000;
+                catagorySet.pcc_jk.costValue = (string.IsNullOrEmpty(jk_hj) ? 0 : Convert.ToDouble(jk_hj));
             }
             //电缆线路1层
             if (!(cellsSet.DLXL_Cell.cell.Row is null))
@@ -192,7 +408,7 @@ namespace CaoJin.HNFinanceTool.Bll
                 int r = Convert.ToInt32(cellsSet.DLXL_Cell.cell.Row);
                 string dl_hj = "";
                 dl_hj = dv[r][cell_hj].ToString();
-                catagorySet.pcc_dl.costValue = (string.IsNullOrEmpty(dl_hj) ? 0 : Convert.ToDouble(dl_hj)) * 10000;
+                catagorySet.pcc_dl.costValue = (string.IsNullOrEmpty(dl_hj) ? 0 : Convert.ToDouble(dl_hj));
             }
 
             //年价差。
@@ -201,7 +417,7 @@ namespace CaoJin.HNFinanceTool.Bll
                 int r = Convert.ToInt32(cellsSet.NJC_Cell.cell.Row);
                 string njc_hj = "";
                 njc_hj = dv[r][cell_hj].ToString();
-                njc = (string.IsNullOrEmpty(njc_hj) ? 0 : Convert.ToDouble(njc_hj)) * 10000;
+                njc = (string.IsNullOrEmpty(njc_hj) ? 0 : Convert.ToDouble(njc_hj));
             }
 
             //建设场地征用及清理费
@@ -210,13 +426,14 @@ namespace CaoJin.HNFinanceTool.Bll
                 int r = Convert.ToInt32(cellsSet.Other_JSCDQL_Cell.cell.Row);
                 string jscd = "";
                 jscd = dv[r][cell_hj].ToString();
-                catagorySet.pcc_other_cd.costValue = (string.IsNullOrEmpty(jscd) ? 0 : Convert.ToDouble(jscd)) * 10000;
+                catagorySet.pcc_other_cd.costValue = (string.IsNullOrEmpty(jscd) ? 0 : Convert.ToDouble(jscd));
             }
 
-            //生产准备费=生产准备费(电缆工程)+生产准备费(非电缆工程)+基本预备费
+            //生产准备费=生产准备费(电缆工程)+生产准备费(非电缆工程)+基本预备费+生产准备费
             string sczb_dl = "";
             string sczb_fdl = "";
             string sczb_jbyb = "";
+            string sczb = "";
             if (!(cellsSet.Other_SCZB_DL_Cell.cell.Row is null))
             {
                 int r = Convert.ToInt32(cellsSet.Other_SCZB_DL_Cell.cell.Row);
@@ -232,7 +449,12 @@ namespace CaoJin.HNFinanceTool.Bll
                 int r = Convert.ToInt32(cellsSet.JBYB_Cell.cell.Row);
                 sczb_jbyb = dv[r][cell_hj].ToString();
             }
-            catagorySet.pcc_other_sczb.costValue = ((string.IsNullOrEmpty(sczb_dl) ? 0 : Convert.ToDouble(sczb_dl)) + (string.IsNullOrEmpty(sczb_fdl) ? 0 : Convert.ToDouble(sczb_fdl)) + (string.IsNullOrEmpty(sczb_jbyb) ? 0 : Convert.ToDouble(sczb_jbyb))) * 10000;
+            if (!(cellsSet.Other_SCZB_Cell.cell.Row is null))
+            {
+                int r = Convert.ToInt32(cellsSet.Other_SCZB_Cell.cell.Row);
+                sczb = dv[r][cell_hj].ToString();
+            }
+            catagorySet.pcc_other_sczb.costValue = ((string.IsNullOrEmpty(sczb_dl) ? 0 : Convert.ToDouble(sczb_dl)) + (string.IsNullOrEmpty(sczb_fdl) ? 0 : Convert.ToDouble(sczb_fdl)) + (string.IsNullOrEmpty(sczb_jbyb) ? 0 : Convert.ToDouble(sczb_jbyb)) + (string.IsNullOrEmpty(sczb) ? 0 : Convert.ToDouble(sczb)));
 
             //贷款利息
             if (!(cellsSet.DKLX_Cell.cell.Row is null))
@@ -240,7 +462,7 @@ namespace CaoJin.HNFinanceTool.Bll
                 int r = Convert.ToInt32(cellsSet.DKLX_Cell.cell.Row);
                 string dklx = "";
                 dklx = dv[r][cell_hj].ToString();
-                catagorySet.pcc_other_dklx.costValue = (string.IsNullOrEmpty(dklx) ? 0 : Convert.ToDouble(dklx)) * 10000;
+                catagorySet.pcc_other_dklx.costValue = (string.IsNullOrEmpty(dklx) ? 0 : Convert.ToDouble(dklx));
             }
 
             //动态投资
@@ -249,82 +471,200 @@ namespace CaoJin.HNFinanceTool.Bll
                 int r = Convert.ToInt32(cellsSet.GCDT_Cell.cell.Row);
                 string all = "";
                 all = dv[r][cell_hj].ToString();
-                catagorySet.pcc_all.costValue = (string.IsNullOrEmpty(all) ? 0 : Convert.ToDouble(all)) * 10000;
+                catagorySet.pcc_all.costValue = (string.IsNullOrEmpty(all) ? 0 : Convert.ToDouble(all));
             }
+            if (isWanYuan == true || ((isWanYuan == null) & catagorySet.pcc_all.costValue < 10000))
+            {
+                catagorySet.pcc_all.costValue *= 10000;
+                catagorySet.pcc_dl.costValue *= 10000;
+                catagorySet.pcc_jk.costValue *= 10000;
+                catagorySet.pcc_pd_az.costValue *= 10000;
+                catagorySet.pcc_pd_jz.costValue *= 10000;
+                catagorySet.pcc_pd_sb.costValue *= 10000;
+                catagorySet.pcc_tx_az.costValue *= 10000;
+                catagorySet.pcc_tx_jz.costValue *= 10000;
+                catagorySet.pcc_tx_sb.costValue *= 10000;
+                njc *= 10000;
+                catagorySet.pcc_other_cd.costValue *= 10000;
+                catagorySet.pcc_other_sczb.costValue *= 10000;
+                catagorySet.pcc_other_dklx.costValue *= 10000;
+            }
+
         }
 
+        ////catagorySet赋值：其他费用
+        //private void GetCatagorySetValues_Other(DataTable dt, ref ProjectCostCatagorySet catagorySet)
+        //{
+        //    ExcelHelper excel = new ExcelHelper();
+        //    DataView dv = dt.DefaultView;
+        //    int[] topcell = excel.CellindexContain(dt, "项目名称");
+        //    int? c_sum = excel.ColumnIndexContain(dt, "合价", topcell[0]);
+        //    int col = Convert.ToInt32(c_sum);
+        //    int? r_xmjs_dl = excel.RowIndexContain(dt, "项目管理经费(电缆工程)", topcell[1]);
+        //    int? r_xmjs_fdl = excel.RowIndexContain(dt, "项目管理经费(非电缆工程)", topcell[1]);
+        //    int? r_xmjs_zb = excel.RowIndexContain(dt, "招标费", topcell[1]);
+        //    int? r_jl_dl = excel.RowIndexContain(dt, "监理费(电缆工程)", topcell[1]);
+        //    int? r_jl_fdl = excel.RowIndexContain(dt, "监理费(非电缆工程)", topcell[1]);
+        //    int? r_qq_dl = excel.RowIndexContain(dt, "项目前期工作费(电缆工程)", topcell[1]);
+        //    int? r_qq_fdl = excel.RowIndexContain(dt, "项目前期工作费(非电缆工程)", topcell[1]);
+        //    int? r_jbsj_fpd = excel.RowIndexContain(dt, "基本设计费(非配电站工程)", topcell[1]);
+        //    int? r_sgtys = excel.RowIndexContain(dt, "施工图预算编制费", topcell[1]);
+        //    int? r_jgtys = excel.RowIndexContain(dt, "竣工图文件编制费", topcell[1]);
+        //    int? r_cswj = excel.RowIndexContain(dt, "初步设计文件评审费", topcell[1]);
+        //    int? r_sgtwjsc = excel.RowIndexContain(dt, "施工图文件审查费", topcell[1]);
+        //    int? r_xmhpj_dl = excel.RowIndexContain(dt, "项目后评价费(电缆工程)", topcell[1]);
+        //    int? r_xmhpj_fdl = excel.RowIndexContain(dt, "项目后评价费(非电缆工程)", topcell[1]);
+        //    int? r_gcjs_dl = excel.RowIndexContain(dt, "工程结算审查费(电缆工程)", topcell[1]);
+        //    int? r_gcjs_fdl = excel.RowIndexContain(dt, "工程结算审查费(非电缆工程)", topcell[1]);
+        //    int? r_jsjc_dl = excel.RowIndexContain(dt, "工程建设检测费(电缆工程)", topcell[1]);
+        //    int? r_jsjc_fdl = excel.RowIndexContain(dt, "工程建设检测费(非电缆工程)", topcell[1]);
+
+        //    //赋值开始
+        //    string xmjs_dl, xmjs_fdl, xmjs_zb, jl_dl, jl_fdl, qq_dl, qq_fdl, jbsj_fpd, sgtys, jgtys, cswj, sgtwjsc, xmhpj_dl, xmhpj_fdl, gcjs_dl, gcjs_fdl, jsjc_dl, jsjc_fdl;
+        //    try
+        //    {
+        //        xmjs_dl = dv[Convert.ToInt32(r_xmjs_dl)][col].ToString();
+        //        xmjs_fdl = dv[Convert.ToInt32(r_xmjs_fdl)][col].ToString();
+        //        xmjs_zb = dv[Convert.ToInt32(r_xmjs_zb)][col].ToString();
+        //        jl_dl = dv[Convert.ToInt32(r_jl_dl)][col].ToString();
+        //        jl_fdl = dv[Convert.ToInt32(r_jl_fdl)][col].ToString();
+        //        qq_dl = dv[Convert.ToInt32(r_qq_dl)][col].ToString();
+        //        qq_fdl = dv[Convert.ToInt32(r_qq_fdl)][col].ToString();
+        //        jbsj_fpd = dv[Convert.ToInt32(r_jbsj_fpd)][col].ToString();
+        //        sgtys = dv[Convert.ToInt32(r_sgtys)][col].ToString();
+        //        jgtys = dv[Convert.ToInt32(r_jgtys)][col].ToString();
+        //        cswj = dv[Convert.ToInt32(r_cswj)][col].ToString();
+        //        sgtwjsc = dv[Convert.ToInt32(r_sgtwjsc)][col].ToString();
+        //        xmhpj_dl = dv[Convert.ToInt32(r_xmhpj_dl)][col].ToString();
+        //        xmhpj_fdl = dv[Convert.ToInt32(r_xmhpj_fdl)][col].ToString();
+        //        gcjs_dl = dv[Convert.ToInt32(r_gcjs_dl)][col].ToString();
+        //        gcjs_fdl = dv[Convert.ToInt32(r_gcjs_fdl)][col].ToString();
+        //        jsjc_dl = dv[Convert.ToInt32(r_jsjc_dl)][col].ToString();
+        //        jsjc_fdl = dv[Convert.ToInt32(r_jsjc_fdl)][col].ToString();
+
+        //        //string转换int
+        //        catagorySet.pcc_other_xmgl.costValue = (string.IsNullOrEmpty(xmjs_dl) ? 0 : Convert.ToDouble(xmjs_dl)) + (string.IsNullOrEmpty(xmjs_fdl) ? 0 : Convert.ToDouble(xmjs_fdl));
+        //        catagorySet.pcc_other_zb.costValue = string.IsNullOrEmpty(xmjs_zb) ? 0 : Convert.ToDouble(xmjs_zb);
+        //        catagorySet.pcc_other_gcjl.costValue = (string.IsNullOrEmpty(jl_dl) ? 0 : Convert.ToDouble(jl_dl)) + (string.IsNullOrEmpty(jl_fdl) ? 0 : Convert.ToDouble(jl_fdl));
+        //        catagorySet.pcc_other_kc.costValue = (string.IsNullOrEmpty(qq_dl) ? 0 : Convert.ToDouble(qq_dl)) + (string.IsNullOrEmpty(qq_fdl) ? 0 : Convert.ToDouble(qq_fdl));
+        //        //工程设计费=基本设计费+施工图预算编制费+竣工图文件编制费
+        //        catagorySet.pcc_other_sj.costValue = (string.IsNullOrEmpty(jbsj_fpd) ? 0 : Convert.ToDouble(jbsj_fpd)) + (string.IsNullOrEmpty(sgtys) ? 0 : Convert.ToDouble(sgtys)) + (string.IsNullOrEmpty(jgtys) ? 0 : Convert.ToDouble(jgtys));
+        //        //2个评审
+        //        catagorySet.pcc_other_ps.costValue = (string.IsNullOrEmpty(cswj) ? 0 : Convert.ToDouble(cswj)) + (string.IsNullOrEmpty(sgtwjsc) ? 0 : Convert.ToDouble(sgtwjsc));
+        //        //2个后评价
+        //        catagorySet.pcc_other_hpj.costValue = (string.IsNullOrEmpty(xmhpj_dl) ? 0 : Convert.ToDouble(xmhpj_dl)) + (string.IsNullOrEmpty(xmhpj_fdl) ? 0 : Convert.ToDouble(xmhpj_fdl));
+        //        //技术经济标准编制管理费=2个结算审查
+        //        catagorySet.pcc_other_bzbz.costValue = (string.IsNullOrEmpty(gcjs_dl) ? 0 : Convert.ToDouble(gcjs_dl)) + (string.IsNullOrEmpty(gcjs_fdl) ? 0 : Convert.ToDouble(gcjs_fdl));
+        //        //工程建设监督检测费
+        //        catagorySet.pcc_other_jdjc.costValue = (string.IsNullOrEmpty(jsjc_dl) ? 0 : Convert.ToDouble(jsjc_dl)) + (string.IsNullOrEmpty(jsjc_fdl) ? 0 : Convert.ToDouble(jsjc_fdl));
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        this.Condition = "无法生成";
+        //        this.Comment = e.Message;
+        //    }
+        //}
+
         //catagorySet赋值：其他费用
-        private void GetCatagorySetValues_Other(DataTable dt, ref ProjectCostCatagorySet catagorySet)
+        private void GetCatagorySetValues_Other(DataSet ds, ref ProjectCostCatagorySet catagorySet)
         {
             ExcelHelper excel = new ExcelHelper();
-            DataView dv = dt.DefaultView;
-            int[] topcell = excel.CellindexContain(dt, "项目名称");
-            int? c_sum = excel.ColumnIndexContain(dt, "合价", topcell[0]);
-            int col = Convert.ToInt32(c_sum);
-            int? r_xmjs_dl = excel.RowIndexContain(dt, "项目管理经费(电缆工程)", topcell[1]);
-            int? r_xmjs_fdl = excel.RowIndexContain(dt, "项目管理经费(非电缆工程)", topcell[1]);
-            int? r_xmjs_zb = excel.RowIndexContain(dt, "招标费", topcell[1]);
-            int? r_jl_dl = excel.RowIndexContain(dt, "监理费(电缆工程)", topcell[1]);
-            int? r_jl_fdl = excel.RowIndexContain(dt, "监理费(非电缆工程)", topcell[1]);
-            int? r_qq_dl = excel.RowIndexContain(dt, "项目前期工作费(电缆工程)", topcell[1]);
-            int? r_qq_fdl = excel.RowIndexContain(dt, "项目前期工作费(非电缆工程)", topcell[1]);
-            int? r_jbsj_fpd = excel.RowIndexContain(dt, "基本设计费(非配电站工程)", topcell[1]);
-            int? r_sgtys = excel.RowIndexContain(dt, "施工图预算编制费", topcell[1]);
-            int? r_jgtys = excel.RowIndexContain(dt, "竣工图文件编制费", topcell[1]);
-            int? r_cswj = excel.RowIndexContain(dt, "初步设计文件评审费", topcell[1]);
-            int? r_sgtwjsc = excel.RowIndexContain(dt, "施工图文件审查费", topcell[1]);
-            int? r_xmhpj_dl = excel.RowIndexContain(dt, "项目后评价费(电缆工程)", topcell[1]);
-            int? r_xmhpj_fdl = excel.RowIndexContain(dt, "项目后评价费(非电缆工程)", topcell[1]);
-            int? r_gcjs_dl = excel.RowIndexContain(dt, "工程结算审查费(电缆工程)", topcell[1]);
-            int? r_gcjs_fdl = excel.RowIndexContain(dt, "工程结算审查费(非电缆工程)", topcell[1]);
-            int? r_jsjc_dl = excel.RowIndexContain(dt, "工程建设检测费(电缆工程)", topcell[1]);
-            int? r_jsjc_fdl = excel.RowIndexContain(dt, "工程建设检测费(非电缆工程)", topcell[1]);
+            string xmjs_dl = "", xmjs_fdl = "", xmjs_zb = "", jl_dl = "", jl_fdl = "", qq_dl = "", qq_fdl = "", jbsj_fpd = "", sgtys = "", jgtys = "", cswj = "", sgtwjsc = "", xmhpj_dl = "", xmhpj_fdl = "", gcjs_dl = "", gcjs_fdl = "", jsjc_dl = "", jsjc_fdl = "", jl = "", xmjs = "", gckc = "", gcsjf = "";
+            string sjwjps = "", bzbz = "", jsjc = "";
+            foreach (DataTable dt in ds.Tables)
+            {
+                if (!dt.TableName.Contains("其他费用")) continue;
+                DataView dv = dt.DefaultView;
+                int[] topcell = excel.CellindexContain(dt, "项目名称");
+                int? c_sum = excel.ColumnIndexContain(dt, "合价", topcell[0]);
+                int col = Convert.ToInt32(c_sum);
+                int? r_xmjs_dl = excel.RowIndexContain(dt, "项目管理经费(电缆工程)", topcell[1]);
+                int? r_xmjs_fdl = excel.RowIndexContain(dt, "项目管理经费(非电缆工程)", topcell[1]);
+                int? r_xmjs_zb = excel.RowIndexContain(dt, "招标费", topcell[1]);
+                int? r_jl_dl = excel.RowIndexContain(dt, "监理费(电缆工程)", topcell[1]);
+                int? r_jl_fdl = excel.RowIndexContain(dt, "监理费(非电缆工程)", topcell[1]);
+                //勘察
+                int? r_qq_dl = excel.RowIndexContain(dt, "项目前期工作费(电缆工程)", topcell[1]);
+                int? r_qq_fdl = excel.RowIndexContain(dt, "项目前期工作费(非电缆工程)", topcell[1]);
+                int? r_gckc = excel.RowIndex(dt, "工程勘察费", topcell[1]);
+                //设计
+                int? r_jbsj_fpd = excel.RowIndexContain(dt, "基本设计费(非配电站工程)", topcell[1]);
+                int? r_sgtys = excel.RowIndexContain(dt, "施工图预算编制费", topcell[1]);
+                int? r_jgtys = excel.RowIndexContain(dt, "竣工图文件编制费", topcell[1]);
+                int? r_gcsjf = excel.RowIndex(dt, "工程设计费", topcell[1]);
+                //评审
+                int? r_cswj = excel.RowIndexContain(dt, "初步设计文件评审费", topcell[1]);
+                int? r_sgtwjsc = excel.RowIndexContain(dt, "施工图文件审查费", topcell[1]);
+                int? r_sjwjps = excel.RowIndexContain(dt, "设计文件评审费", topcell[1]);
 
+                int? r_xmhpj_dl = excel.RowIndexContain(dt, "项目后评价费(电缆工程)", topcell[1]);
+                int? r_xmhpj_fdl = excel.RowIndexContain(dt, "项目后评价费(非电缆工程)", topcell[1]);
+
+                //技术经济标准编制管理费
+                int? r_gcjs_dl = excel.RowIndexContain(dt, "工程结算审查费(电缆工程)", topcell[1]);
+                int? r_gcjs_fdl = excel.RowIndexContain(dt, "工程结算审查费(非电缆工程)", topcell[1]);
+                int? r_bzbz = excel.RowIndexContain(dt, "技术经济标准编制管理费", topcell[1]);
+
+                int? r_jsjc_dl = excel.RowIndexContain(dt, "工程建设检测费(电缆工程)", topcell[1]);
+                int? r_jsjc_fdl = excel.RowIndexContain(dt, "工程建设检测费(非电缆工程)", topcell[1]);
+                int? r_jsjc = excel.RowIndexContain(dt, "工程建设监督检测费", topcell[1]);
+                //debug----
+                int? r_xmjs = excel.RowIndex(dt, "项目管理经费", topcell[1]);
+                //----
+                //debug--------
+                int? r_jl = excel.RowIndexContain(dt, "工程监理费", topcell[1]);
+                //----------------
+                xmjs_dl = (r_xmjs_dl is null) ? xmjs_dl : dv[Convert.ToInt32(r_xmjs_dl)][col].ToString();
+                xmjs_fdl = (r_xmjs_fdl is null) ? xmjs_fdl : dv[Convert.ToInt32(r_xmjs_fdl)][col].ToString();
+                xmjs_zb = (r_xmjs_zb is null) ? xmjs_zb : dv[Convert.ToInt32(r_xmjs_zb)][col].ToString();
+                xmjs = (r_xmjs is null) ? xmjs : dv[Convert.ToInt32(r_xmjs)][col].ToString();
+                jl_dl = (r_jl_dl is null) ? jl_dl : dv[Convert.ToInt32(r_jl_dl)][col].ToString();
+                jl_fdl = (r_jl_fdl is null) ? jl_fdl : dv[Convert.ToInt32(r_jl_fdl)][col].ToString();
+                jl = (r_jl is null) ? jl : dv[Convert.ToInt32(r_jl)][col].ToString();
+                qq_dl = (r_qq_dl is null) ? qq_dl : dv[Convert.ToInt32(r_qq_dl)][col].ToString();
+                qq_fdl = (r_qq_fdl is null) ? qq_fdl : dv[Convert.ToInt32(r_qq_fdl)][col].ToString();
+                jbsj_fpd = (r_jbsj_fpd is null) ? jbsj_fpd : dv[Convert.ToInt32(r_jbsj_fpd)][col].ToString();
+                sgtys = (r_sgtys is null) ? sgtys : dv[Convert.ToInt32(r_sgtys)][col].ToString();
+                jgtys = (r_jgtys is null) ? jgtys : dv[Convert.ToInt32(r_jgtys)][col].ToString();
+                cswj = (r_cswj is null) ? cswj : dv[Convert.ToInt32(r_cswj)][col].ToString();
+                sgtwjsc = (r_sgtwjsc is null) ? sgtwjsc : dv[Convert.ToInt32(r_sgtwjsc)][col].ToString();
+                xmhpj_dl = (r_xmhpj_dl is null) ? xmhpj_dl : dv[Convert.ToInt32(r_xmhpj_dl)][col].ToString();
+                xmhpj_fdl = (r_xmhpj_fdl is null) ? xmhpj_fdl : dv[Convert.ToInt32(r_xmhpj_fdl)][col].ToString();
+                gcjs_dl = (r_gcjs_dl is null) ? gcjs_dl : dv[Convert.ToInt32(r_gcjs_dl)][col].ToString();
+                gcjs_fdl = (r_gcjs_fdl is null) ? gcjs_fdl : dv[Convert.ToInt32(r_gcjs_fdl)][col].ToString();
+                jsjc_dl = (r_jsjc_dl is null) ? jsjc_dl : dv[Convert.ToInt32(r_jsjc_dl)][col].ToString();
+                jsjc_fdl = (r_jsjc_fdl is null) ? jsjc_fdl : dv[Convert.ToInt32(r_jsjc_fdl)][col].ToString();
+                gckc = (r_gckc is null) ? gckc : dv[Convert.ToInt32(r_gckc)][col].ToString();
+                gcsjf = (r_gcsjf is null) ? gcsjf : dv[Convert.ToInt32(r_gcsjf)][col].ToString();
+                sjwjps = (r_sjwjps is null) ? sjwjps : dv[Convert.ToInt32(r_sjwjps)][col].ToString();
+                bzbz = (r_bzbz is null) ? bzbz : dv[Convert.ToInt32(r_bzbz)][col].ToString();
+                jsjc = (r_jsjc is null) ? jsjc : dv[Convert.ToInt32(r_jsjc)][col].ToString();
+            }
             //赋值开始
-            string xmjs_dl, xmjs_fdl, xmjs_zb, jl_dl, jl_fdl, qq_dl, qq_fdl, jbsj_fpd, sgtys, jgtys, cswj, sgtwjsc, xmhpj_dl, xmhpj_fdl, gcjs_dl, gcjs_fdl, jsjc_dl, jsjc_fdl;
+
             try
             {
-                xmjs_dl = dv[Convert.ToInt32(r_xmjs_dl)][col].ToString();
-                xmjs_fdl = dv[Convert.ToInt32(r_xmjs_fdl)][col].ToString();
-                xmjs_zb = dv[Convert.ToInt32(r_xmjs_zb)][col].ToString();
-                jl_dl = dv[Convert.ToInt32(r_jl_dl)][col].ToString();
-                jl_fdl = dv[Convert.ToInt32(r_jl_fdl)][col].ToString();
-                qq_dl = dv[Convert.ToInt32(r_qq_dl)][col].ToString();
-                qq_fdl = dv[Convert.ToInt32(r_qq_fdl)][col].ToString();
-                jbsj_fpd = dv[Convert.ToInt32(r_jbsj_fpd)][col].ToString();
-                sgtys = dv[Convert.ToInt32(r_sgtys)][col].ToString();
-                jgtys = dv[Convert.ToInt32(r_jgtys)][col].ToString();
-                cswj = dv[Convert.ToInt32(r_cswj)][col].ToString();
-                sgtwjsc = dv[Convert.ToInt32(r_sgtwjsc)][col].ToString();
-                xmhpj_dl = dv[Convert.ToInt32(r_xmhpj_dl)][col].ToString();
-                xmhpj_fdl = dv[Convert.ToInt32(r_xmhpj_fdl)][col].ToString();
-                gcjs_dl = dv[Convert.ToInt32(r_gcjs_dl)][col].ToString();
-                gcjs_fdl = dv[Convert.ToInt32(r_gcjs_fdl)][col].ToString();
-                jsjc_dl = dv[Convert.ToInt32(r_jsjc_dl)][col].ToString();
-                jsjc_fdl = dv[Convert.ToInt32(r_jsjc_fdl)][col].ToString();
-
                 //string转换int
-                catagorySet.pcc_other_xmgl.costValue = (string.IsNullOrEmpty(xmjs_dl) ? 0 : Convert.ToDouble(xmjs_dl)) + (string.IsNullOrEmpty(xmjs_fdl) ? 0 : Convert.ToDouble(xmjs_fdl));
+                catagorySet.pcc_other_xmgl.costValue = (string.IsNullOrEmpty(xmjs_dl) ? 0 : Convert.ToDouble(xmjs_dl)) + (string.IsNullOrEmpty(xmjs_fdl) ? 0 : Convert.ToDouble(xmjs_fdl)) + (string.IsNullOrEmpty(xmjs) ? 0 : Convert.ToDouble(xmjs));
                 catagorySet.pcc_other_zb.costValue = string.IsNullOrEmpty(xmjs_zb) ? 0 : Convert.ToDouble(xmjs_zb);
-                catagorySet.pcc_other_gcjl.costValue = (string.IsNullOrEmpty(jl_dl) ? 0 : Convert.ToDouble(jl_dl)) + (string.IsNullOrEmpty(jl_fdl) ? 0 : Convert.ToDouble(jl_fdl));
-                catagorySet.pcc_other_kc.costValue = (string.IsNullOrEmpty(qq_dl) ? 0 : Convert.ToDouble(qq_dl)) + (string.IsNullOrEmpty(qq_fdl) ? 0 : Convert.ToDouble(qq_fdl));
+                catagorySet.pcc_other_gcjl.costValue = (string.IsNullOrEmpty(jl_dl) ? 0 : Convert.ToDouble(jl_dl)) + (string.IsNullOrEmpty(jl_fdl) ? 0 : Convert.ToDouble(jl_fdl)) + (string.IsNullOrEmpty(jl) ? 0 : Convert.ToDouble(jl));
+                //勘察
+                catagorySet.pcc_other_kc.costValue = (string.IsNullOrEmpty(qq_dl) ? 0 : Convert.ToDouble(qq_dl)) + (string.IsNullOrEmpty(qq_fdl) ? 0 : Convert.ToDouble(qq_fdl)) + (string.IsNullOrEmpty(gckc) ? 0 : Convert.ToDouble(gckc));
                 //工程设计费=基本设计费+施工图预算编制费+竣工图文件编制费
-                catagorySet.pcc_other_sj.costValue = (string.IsNullOrEmpty(jbsj_fpd) ? 0 : Convert.ToDouble(jbsj_fpd)) + (string.IsNullOrEmpty(sgtys) ? 0 : Convert.ToDouble(sgtys)) + (string.IsNullOrEmpty(jgtys) ? 0 : Convert.ToDouble(jgtys));
+                catagorySet.pcc_other_sj.costValue = (string.IsNullOrEmpty(jbsj_fpd) ? 0 : Convert.ToDouble(jbsj_fpd)) + (string.IsNullOrEmpty(sgtys) ? 0 : Convert.ToDouble(sgtys)) + (string.IsNullOrEmpty(jgtys) ? 0 : Convert.ToDouble(jgtys)) + (string.IsNullOrEmpty(gcsjf) ? 0 : Convert.ToDouble(gcsjf));
                 //2个评审
-                catagorySet.pcc_other_ps.costValue = (string.IsNullOrEmpty(cswj) ? 0 : Convert.ToDouble(cswj)) + (string.IsNullOrEmpty(sgtwjsc) ? 0 : Convert.ToDouble(sgtwjsc));
+                catagorySet.pcc_other_ps.costValue = (string.IsNullOrEmpty(cswj) ? 0 : Convert.ToDouble(cswj)) + (string.IsNullOrEmpty(sgtwjsc) ? 0 : Convert.ToDouble(sgtwjsc)) + (string.IsNullOrEmpty(sjwjps) ? 0 : Convert.ToDouble(sjwjps));
                 //2个后评价
                 catagorySet.pcc_other_hpj.costValue = (string.IsNullOrEmpty(xmhpj_dl) ? 0 : Convert.ToDouble(xmhpj_dl)) + (string.IsNullOrEmpty(xmhpj_fdl) ? 0 : Convert.ToDouble(xmhpj_fdl));
                 //技术经济标准编制管理费=2个结算审查
-                catagorySet.pcc_other_bzbz.costValue = (string.IsNullOrEmpty(gcjs_dl) ? 0 : Convert.ToDouble(gcjs_dl)) + (string.IsNullOrEmpty(gcjs_fdl) ? 0 : Convert.ToDouble(gcjs_fdl));
+                catagorySet.pcc_other_bzbz.costValue = (string.IsNullOrEmpty(gcjs_dl) ? 0 : Convert.ToDouble(gcjs_dl)) + (string.IsNullOrEmpty(gcjs_fdl) ? 0 : Convert.ToDouble(gcjs_fdl)) + (string.IsNullOrEmpty(bzbz) ? 0 : Convert.ToDouble(bzbz));
                 //工程建设监督检测费
-                catagorySet.pcc_other_jdjc.costValue = (string.IsNullOrEmpty(jsjc_dl) ? 0 : Convert.ToDouble(jsjc_dl)) + (string.IsNullOrEmpty(jsjc_fdl) ? 0 : Convert.ToDouble(jsjc_fdl));
+                catagorySet.pcc_other_jdjc.costValue = (string.IsNullOrEmpty(jsjc_dl) ? 0 : Convert.ToDouble(jsjc_dl)) + (string.IsNullOrEmpty(jsjc_fdl) ? 0 : Convert.ToDouble(jsjc_fdl)) + (string.IsNullOrEmpty(jsjc) ? 0 : Convert.ToDouble(jsjc));
 
             }
             catch (Exception e)
-            {
-                this.Condition = "无法生成";
-                this.Comment = e.Message;
-            }
+            { this.Comment = e.Message; }
         }
 
         //尾差处理

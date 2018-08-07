@@ -13,7 +13,7 @@
                 <mui:BBCodeBlock BBCode="[b]Designed for State Grid[/b], powered by CaoJin" Margin="0,0,0,32" />
                 
                 <TextBlock Text="Automatic Calculation" Style="{StaticResource Heading2}" />
-                <mui:BBCodeBlock BBCode="Current Version：V1.0.0 20180803" Margin="0,0,0,32"/>
+                <mui:BBCodeBlock BBCode="Current Version：V1.1.0 20180808" Margin="0,0,0,32"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

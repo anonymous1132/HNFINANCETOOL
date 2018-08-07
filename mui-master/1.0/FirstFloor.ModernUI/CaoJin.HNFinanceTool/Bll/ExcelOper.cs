@@ -70,7 +70,41 @@ namespace CaoJin.HNFinanceTool.Bll
         //电网基建概算数导入模版
         public void PrintOneProjectEstimateBlcok(ProjectEstimateViewModel project)
         {
-  
+            Range rng = worksheet.Range["A" + curerntRow.ToString(), "N" + curerntRow.ToString()];
+            excelHelper.SetRangeBodersStyle(rng, 1);
+            excelHelper.SetRangeBodersThickness(rng, XlBorderWeight.xlThin);
+            excelHelper.SetRowHeight(rng, 20);
+            rng = worksheet.Range["G" + curerntRow.ToString(), "H" + curerntRow.ToString()];
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
+            rng = worksheet.Range["J" + curerntRow.ToString(), "N" + curerntRow.ToString()];
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
+            rng = worksheet.Range["I" + curerntRow.ToString(), "I" + curerntRow.ToString()];
+            rng.NumberFormatLocal = "0.00%";
+            if (project is ProjectTotalEstimateViewModel)
+            {
+                rng = worksheet.Range["A" + curerntRow.ToString(), "N" + curerntRow.ToString()];
+                excelHelper.SetRangeBackground(rng, 34);
+                worksheet.Cells[curerntRow, "A"] = project.ProjectName;
+                worksheet.Cells[curerntRow, "B"] = project.ProjectCode;
+                worksheet.Cells[curerntRow, "C"] = ((ProjectTotalEstimateViewModel)project).IndividualProjectName;
+                worksheet.Cells[curerntRow, "D"] = ((ProjectTotalEstimateViewModel)project).IndividualProjectCode;
+                worksheet.Cells[curerntRow, "E"] = ((ProjectTotalEstimateViewModel)project).ExpanseCategory;
+                worksheet.Cells[curerntRow, "F"] = ((ProjectTotalEstimateViewModel)project).WBSCode;
+                worksheet.Cells[curerntRow, "G"] = ((ProjectTotalEstimateViewModel)project).EstimateNumber;
+                worksheet.Cells[curerntRow, "H"] = ((ProjectTotalEstimateViewModel)project).InternalControl;
+                worksheet.Cells[curerntRow, "I"] = ((ProjectTotalEstimateViewModel)project).DeductibleVATRatio;
+                worksheet.Cells[curerntRow, "J"] = ((ProjectTotalEstimateViewModel)project).TotalInvestmentWithTax;
+                worksheet.Cells[curerntRow, "K"] = ((ProjectTotalEstimateViewModel)project).TotalInvestmentWithoutTax;
+                worksheet.Cells[curerntRow, "L"] = ((ProjectTotalEstimateViewModel)project).MaxInternalControl;
+                worksheet.Cells[curerntRow, "M"] = ((ProjectTotalEstimateViewModel)project).MaxDeductibleVATRatio;
+                worksheet.Cells[curerntRow, "N"] = ((ProjectTotalEstimateViewModel)project).MinDeductibleVATRatio;
+            }
+            else
+            {
+                rng = worksheet.Range["A" + curerntRow.ToString(), "F" + curerntRow.ToString()];
+                excelHelper.SetRangeBackground(rng, 15);
+                rng = worksheet.Range["L" + curerntRow.ToString(), "N" + curerntRow.ToString()];
+                excelHelper.SetRangeBackground(rng, 15);
                 worksheet.Cells[curerntRow, "A"] = project.ProjectName;
                 worksheet.Cells[curerntRow, "B"] = project.ProjectCode;
                 worksheet.Cells[curerntRow, "C"] = project.IndividualProjectName;
@@ -85,28 +119,11 @@ namespace CaoJin.HNFinanceTool.Bll
                 worksheet.Cells[curerntRow, "L"] = project.MaxInternalControl;
                 worksheet.Cells[curerntRow, "M"] = project.MaxDeductibleVATRatio;
                 worksheet.Cells[curerntRow, "N"] = project.MinDeductibleVATRatio;
-            Range rng= worksheet.Range["A" + curerntRow.ToString(), "N" + curerntRow.ToString()];
-            excelHelper.SetRangeBodersStyle(rng, 1);
-            excelHelper.SetRangeBodersThickness(rng, XlBorderWeight.xlThin);
-            excelHelper.SetRowHeight(rng,20);
-            rng = worksheet.Range["G" + curerntRow.ToString(), "H" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng,"0.00");
-            rng= worksheet.Range["J" + curerntRow.ToString(), "N" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng,"0.00");
-            rng= worksheet.Range["I" + curerntRow.ToString(), "I" + curerntRow.ToString()];
-            rng.NumberFormatLocal = "0.00%";
-            if(project is ProjectTotalEstimateViewModel)
-            {
-                rng = worksheet.Range["A" + curerntRow.ToString(), "N" + curerntRow.ToString()];
-                excelHelper.SetRangeBackground(rng, 34);
             }
-            else
-            {
-                rng = worksheet.Range["A" + curerntRow.ToString(), "F" + curerntRow.ToString()];
-                excelHelper.SetRangeBackground(rng, 15);
-                rng = worksheet.Range["L" + curerntRow.ToString(), "N" + curerntRow.ToString()];
-                excelHelper.SetRangeBackground(rng, 15);
-            }
+
+                
+           
+           
             
             curerntRow++;
         }
@@ -124,7 +141,7 @@ namespace CaoJin.HNFinanceTool.Bll
             worksheet.Cells[curerntRow, "I"] = importvm.VLevel;
             worksheet.Cells[curerntRow, "J"] = importvm.SingleProjectClass;
             worksheet.Cells[curerntRow, "K"] = importvm.TotalInvestmentWithTax;
-            worksheet.Cells[curerntRow, "L"] = importvm.TotalInvestmentWithooutTax;
+            worksheet.Cells[curerntRow, "L"] = importvm.TotalInvestmentWithoutTax;
             worksheet.Cells[curerntRow, "M"] = importvm.CumulativeCost;
             worksheet.Cells[curerntRow, "N"] = importvm.YearCost;
             worksheet.Cells[curerntRow, "O"] = importvm.CumulativedeDeductibleVAT;

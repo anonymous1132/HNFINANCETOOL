@@ -103,7 +103,7 @@ namespace CaoJin.HNFinanceTool.Bll
         }
 
         private string _totalInvestmentWithoutTax;
-        public string TotalInvestmentWithooutTax
+        public string TotalInvestmentWithoutTax
         {
             get { return _totalInvestmentWithoutTax; }
             set { _totalInvestmentWithoutTax = value;OnPropertyChanged("TotalInvestmentWithoutTax"); }
@@ -147,6 +147,22 @@ namespace CaoJin.HNFinanceTool.Bll
             get { return _deductibleVATRatio; }
             set { _deductibleVATRatio = value; }
         }
+        public double deductibleVATRatio
+        {
+            get
+            {
+                string temp = _deductibleVATRatio.Replace("%","");
+                double dou = 0;
+                try
+                {
+                    dou = Convert.ToDouble(temp);
+                }
+                catch (Exception)
+                { }
+                return dou;
+            }
+
+        }
 
         //年度投资预算含税
         private double _departmentFilledBudgetWithTax;
@@ -167,21 +183,34 @@ namespace CaoJin.HNFinanceTool.Bll
 
         public void GetData(ProjectEstimateViewModel project)
         {
-            this.ProjectCode = project.ProjectCode;
-            this.ProjectName = project.ProjectName;
-            this.IndividualProjectCode = project.IndividualProjectCode;
-            this.IndividualProjectName = project.IndividualProjectName;
-            this.ExpanseCategory = project.ExpanseCategory;
-            this.WBSCode = project.WBSCode;
-            this.TotalInvestmentWithTax = project.TotalInvestmentWithTax;
-            this.TotalInvestmentWithooutTax = project.TotalInvestmentWithoutTax;
-            this.DeductibleVATRatio = project.DeductibleVATRatio;
+
             if (project is ProjectTotalEstimateViewModel)
             {
-                this.ExpanseCategory = ((ProjectTotalEstimateViewModel)project).ExpanseCategory ;
-                DepartmentBudgetFilled department = new DepartmentBudgetFilled(ProjectName);
-                this.DepartmentFilledBudgetWithTax = department.DepartmentFilledBudgetWithTax;
-                this.YearBudgetWithoutTax = department.YearBudgetWithoutTax;
+                this.ProjectCode = ((ProjectTotalEstimateViewModel)project).ProjectCode;
+                this.ProjectName = ((ProjectTotalEstimateViewModel)project).ProjectName;
+                this.IndividualProjectCode = ((ProjectTotalEstimateViewModel)project).IndividualProjectCode;
+                this.IndividualProjectName = ((ProjectTotalEstimateViewModel)project).IndividualProjectName;
+                this.WBSCode = ((ProjectTotalEstimateViewModel)project).WBSCode;
+                this.ExpanseCategory = ((ProjectTotalEstimateViewModel)project).ExpanseCategory;
+                this.TotalInvestmentWithTax = ((ProjectTotalEstimateViewModel)project).TotalInvestmentWithTax;
+                this.TotalInvestmentWithoutTax = ((ProjectTotalEstimateViewModel)project).TotalInvestmentWithoutTax;
+               // DepartmentBudgetFilled department = new DepartmentBudgetFilled(ProjectName);
+               // this.DeductibleVATRatio = ((ProjectTotalEstimateViewModel)project).DeductibleVATRatio;
+               // this.DepartmentFilledBudgetWithTax = department.DepartmentFilledBudgetWithTax;
+               // this.YearBudgetWithoutTax = department.YearBudgetWithoutTax;
+            }
+            else
+            {
+                this.ProjectCode = project.ProjectCode;
+                this.ProjectName = project.ProjectName;
+                this.IndividualProjectCode = project.IndividualProjectCode;
+                this.IndividualProjectName = project.IndividualProjectName;
+                this.ExpanseCategory = project.ExpanseCategory;
+                this.WBSCode = project.WBSCode;
+                this.TotalInvestmentWithTax = project.TotalInvestmentWithTax;
+                this.TotalInvestmentWithoutTax = project.TotalInvestmentWithoutTax;
+                this.DeductibleVATRatio = project.DeductibleVATRatio;
+
             }
 
         }
