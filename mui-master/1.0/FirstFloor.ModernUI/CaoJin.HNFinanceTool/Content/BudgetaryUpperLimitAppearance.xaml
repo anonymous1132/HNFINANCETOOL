@@ -12,9 +12,9 @@
             <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8" Orientation="Horizontal">
                 <TextBlock  Text="预算上限计算表" Style="{StaticResource Heading2}"  />
             </StackPanel>
-            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" >
+            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionUnit="FullRow" KeyDown="DG1_KeyDown"  CanUserReorderColumns="False">
                 <DataGrid.Columns>
-                    <mui:DataGridTextColumn Header="项目编号" Binding="{Binding Path=ProjectCode}"/>
+                    <mui:DataGridTextColumn Header="项目编号" Binding="{Binding Path=ProjectCode}" CanUserSort="False"/>
                     <mui:DataGridTextColumn Header="项目名称" Binding="{Binding Path=ProjectName}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="概算" Binding="{Binding Path=EstimateNumber}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="内控系数" Binding="{Binding Path=InternalControl}" IsReadOnly="True"/>
