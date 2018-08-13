@@ -173,6 +173,46 @@ namespace CaoJin.HNFinanceTool.Bll
 
             curerntRow++;
         }
+
+        //项目部门填报表
+        public void PrintOneDepartmentBudgetFilledBlock(DepartmentBudgetFilled department)
+        {
+            worksheet.Cells[curerntRow, "A"] = department.NumberOnly;
+            worksheet.Cells[curerntRow, "B"] = department.ProjectCode;
+            worksheet.Cells[curerntRow, "C"] = department.ProjectName;
+            worksheet.Cells[curerntRow, "D"] = department.MaxBudgetWithTax;
+            worksheet.Cells[curerntRow, "E"] = department.MaxBudgetWithoutTax;
+            worksheet.Cells[curerntRow, "F"] = department.DepartmentFilledBudgetWithTax;
+            //worksheet.Cells[curerntRow, "G"] = department.YearBudgetWithoutTax;
+           
+            //设置格式
+            Range rng = worksheet.Range["A" + curerntRow.ToString(), "I" + curerntRow.ToString()];
+            excelHelper.SetRangeBodersStyle(rng, 1);
+            excelHelper.SetRangeBodersThickness(rng, XlBorderWeight.xlThin);
+            excelHelper.SetRowHeight(rng, 20);
+            excelHelper.SetFontHVCenter(rng);
+            string formula = @"=IF(F"+curerntRow.ToString()+"<=D"+curerntRow.ToString()+",TRUE,FALSE)";
+            rng = worksheet.Range["H" + curerntRow.ToString(), "H" + curerntRow.ToString()];
+            excelHelper.SetRangeFormula(rng,formula);
+            formula = @"=IF(G" + curerntRow.ToString() + "<=E" + curerntRow.ToString() + ",TRUE,FALSE)";
+            rng = worksheet.Range["I" + curerntRow.ToString(), "I" +curerntRow.ToString()];
+            excelHelper.SetRangeFormula(rng, formula);
+            formula = @"=F"+curerntRow.ToString()+" / (1 +"+department.CompositeTaxRate +"/ 100)";
+            rng = worksheet.Range["G" + curerntRow.ToString(), "G" + curerntRow.ToString()];
+            excelHelper.SetRangeFormula(rng,formula);
+            rng = worksheet.Range["D" + curerntRow.ToString(), "G" + curerntRow.ToString()];
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
+
+            //设置条件格式
+            formula = "=INDIRECT(CONCATENATE(\"R\",ROW(),\"C8\"),FALSE) = FALSE";
+            rng = worksheet.Range["H" + curerntRow.ToString(), "H" + curerntRow.ToString()];
+            excelHelper.SetRangeConditionFormat(rng, formula);
+            formula = "=INDIRECT(CONCATENATE(\"R\",ROW(),\"C9\"),FALSE) = FALSE";
+            rng = worksheet.Range["I" + curerntRow.ToString(), "I" + curerntRow.ToString()];
+            excelHelper.SetRangeConditionFormat(rng, formula);
+            curerntRow++;
+            
+        }
         
     }
 }

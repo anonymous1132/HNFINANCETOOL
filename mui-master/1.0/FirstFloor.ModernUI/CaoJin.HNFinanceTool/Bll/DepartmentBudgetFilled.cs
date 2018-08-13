@@ -17,6 +17,12 @@ namespace CaoJin.HNFinanceTool.Bll
             GetData();
         }
 
+        private int _numberOnly;
+        public int NumberOnly
+        {
+            get { return _numberOnly; }
+            set { _numberOnly = value;OnPropertyChanged("NumberOnly"); }
+        }
         private string _projectName;
         public string ProjectName
         {
@@ -47,12 +53,12 @@ namespace CaoJin.HNFinanceTool.Bll
 
         private double _departmentFilledBudgetWithTax;
 
-        private double _compositeTaxRate;
+        public double CompositeTaxRate { get; private set; }
 
         public double DepartmentFilledBudgetWithTax
         {
             get { return _departmentFilledBudgetWithTax; }
-            set { _departmentFilledBudgetWithTax = value;OnPropertyChanged("DepartmentFilledBudgetWithTax");this.YearBudgetWithoutTax = _departmentFilledBudgetWithTax / (1 + _compositeTaxRate / 100); OnPropertyChanged("IsYearBudgetWithTaxLegal"); }
+            set { _departmentFilledBudgetWithTax = value;OnPropertyChanged("DepartmentFilledBudgetWithTax");this.YearBudgetWithoutTax = _departmentFilledBudgetWithTax / (1 + CompositeTaxRate / 100); OnPropertyChanged("IsYearBudgetWithTaxLegal"); }
         }
 
         private double _yearBudgetWithoutTax;
@@ -80,7 +86,7 @@ namespace CaoJin.HNFinanceTool.Bll
             this.MaxBudgetWithoutTax = budgetaryUpperLimit.MaxBudgetWithoutTax;
             this.MaxBudgetWithTax = budgetaryUpperLimit.MaxBudgetWithTax;
             DataTable dt = XmlHelper.GetTable(path,XmlHelper.XmlType.File, "Configure");
-            this._compositeTaxRate = GetDouble(dt.DefaultView[0]["CompositeTaxRate"].ToString().Replace("%", ""));
+            this.CompositeTaxRate = GetDouble(dt.DefaultView[0]["CompositeTaxRate"].ToString().Replace("%", ""));
             dt= XmlHelper.GetTable(path, XmlHelper.XmlType.File, "DepartmentBudgetFilled");
             this.DepartmentFilledBudgetWithTax = GetDouble(dt.DefaultView[0]["DepartmentFilledBudgetWithTax"]);
         }

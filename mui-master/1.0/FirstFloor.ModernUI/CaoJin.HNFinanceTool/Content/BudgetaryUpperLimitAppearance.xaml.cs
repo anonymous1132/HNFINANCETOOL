@@ -144,6 +144,77 @@ namespace CaoJin.HNFinanceTool.Content
                 
             }
 
+            if (columnname == "累计综合计划下达")
+            {
+                for (int i = 0; i < data.GetLength(0); i++)
+                {
+                    try
+                    {
+                        obc_budgetary[rowindex + i].AccumulativePlan = Convert.ToDouble(data[i, 0].ToString());
+                    }
+                    catch (Exception) { }
+                 
+                    if (tnum >=2)
+                    {
+                        try
+                        {
+                            obc_budgetary[rowindex + i].ErpHappenedWithoutTax = Convert.ToDouble(data[i, 1].ToString());
+                        }
+                        catch (Exception) { }
+                        try
+                        {
+                            obc_budgetary[rowindex + i].DeductibleVAT = Convert.ToDouble(data[i, 2].ToString());
+                        }
+                        catch (Exception) { }
+                    }
+                    else if (tnum >= 1)
+                    {
+                        try
+                        {
+                            obc_budgetary[rowindex + i].ErpHappenedWithoutTax = Convert.ToDouble(data[i, 1].ToString());
+                        }
+                        catch (Exception) { }
+                    }
+                    if (rowindex + i == obc_budgetary.Count - 1) break;
+                }
+            }
+
+            if (columnname == "截至上年ERP已发生（不含税）")
+            {
+                 for (int i = 0; i < data.GetLength(0); i++)
+                {
+                    try
+                    {
+                        obc_budgetary[rowindex + i].ErpHappenedWithoutTax = Convert.ToDouble(data[i, 0].ToString());
+                    }
+                    catch (Exception) { }
+                 
+     
+                   if (tnum >= 1)
+                    {
+                        try
+                        {
+                            obc_budgetary[rowindex + i].DeductibleVAT = Convert.ToDouble(data[i, 1].ToString());
+                        }
+                        catch (Exception) { }
+                    }
+                    if (rowindex + i == obc_budgetary.Count - 1) break;
+                }
+            }
+
+            if (columnname == "截至上年累计已抵扣增值税")
+            {
+                for (int i = 0; i < data.GetLength(0); i++)
+                {
+                    try
+                    {
+                        obc_budgetary[rowindex + i].DeductibleVAT = Convert.ToDouble(data[i, 0].ToString());
+                    }
+                    catch (Exception) { }
+
+                    if (rowindex + i == obc_budgetary.Count - 1) break;
+                }
+            }
         }
 
 

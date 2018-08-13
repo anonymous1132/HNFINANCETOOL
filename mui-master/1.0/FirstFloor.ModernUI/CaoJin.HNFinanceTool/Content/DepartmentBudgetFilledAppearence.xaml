@@ -11,9 +11,12 @@
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8" Orientation="Horizontal">
                 <TextBlock  Text="项目部门预算填报" Style="{StaticResource Heading2}"  />
+                <Button Content="导出至EXCEL" Name="button_export" Click="button_export_Click" Margin="10 0 10 0"/>
+                <Button Content="从EXCEL导入"  Name="button_import" Click="button_import_Click"/>
             </StackPanel>
-            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" >
+            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserReorderColumns="False">
                 <DataGrid.Columns>
+                    <mui:DataGridTextColumn Header="序号" Binding="{Binding Path=NumberOnly}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="项目编号" Binding="{Binding Path=ProjectCode}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="项目名称" Binding="{Binding Path=ProjectName}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithTax}" IsReadOnly="True" >

@@ -167,6 +167,24 @@ namespace CaoJin.HNFinanceTool.Basement
             range.NumberFormat = "@";
         }
 
+        //设置单元格为公式
+        // @"=IF(RC[-3]=""H"",""Survivor"",""Donor"")"
+        public void SetRangeFormula(Range range,string formula)
+        {
+            range.Formula = formula;
+        }
+        //设置单元格条件格式
+        public void SetRangeConditionFormat(Range range,string formula,int colorindex=3)
+        {
+            FormatCondition myCond = range.FormatConditions.Add(XlFormatConditionType.xlExpression,Type.Missing,formula);
+            myCond.Font.ColorIndex = colorindex;
+
+        }
+  
+
+
+
+
         //设置区域复制
         public void Copy(Range sRange,Range dRang)
         {
