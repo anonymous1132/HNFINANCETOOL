@@ -8,9 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <Grid>
-        <mui:ModernTab  Layout="List" Name="mylist" SelectedSource="/Pages/Introduction.xaml">
-            <mui:ModernTab.Links >
-                <mui:Link DisplayName="首页" Source="home" />
+        <mui:ModernTab  Layout="List" Name="mylist" SelectedSource="/Pages/Introduction.xaml" ListWidth="250">
+            <mui:ModernTab.Links  >
+                <mui:Link DisplayName="首页" Source="home"/>
             </mui:ModernTab.Links>
 
             <mui:ModernTab.ContentLoader>

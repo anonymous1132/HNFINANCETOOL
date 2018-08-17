@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CaoJin.HNFinanceTool.Dal;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Data;
 using System.IO;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Controls;
@@ -40,18 +32,20 @@ namespace CaoJin.HNFinanceTool.Content
             if (dir.Exists)
             {
                 FileInfo[] fiList = dir.GetFiles();
-               // int i = 1;
                 foreach (FileInfo f in fiList)
                 {
                     if (f.Extension == ".est")
                     {
-                        //if (i > 10) { break; }
-                        Link link = new Link();
-                        link.DisplayName =f.Name.Split('.')[0];
-                        link.Source = new Uri(f.Name, UriKind.Relative);
-                        this.mylist.Links.Add(link);
+                        using (DataSet ds = XmlOperate.GetDataSet(f.FullName))
+                        {
+                            Link link = new Link();
+
+                            link.DisplayName = f.Name.Split('.')[0] +"\n"+ ds.Tables[0].DefaultView[0]["ProjectCode"].ToString();
+                            link.Source = new Uri(f.Name, UriKind.Relative);
+                            this.mylist.Links.Add(link);
+                        }
                        
-                      //  i++;
+                       
                     }
 
                 }

@@ -11,6 +11,8 @@
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8" Orientation="Horizontal">
                 <TextBlock  Text="预算上限计算表" Style="{StaticResource Heading2}"  />
+                <Button Content="导出至EXCEL" Name="button_export" Click="button_export_Click" Margin="10 0 10 0"/>
+                <Button Content="从EXCEL导入"  Name="button_import" Click="button_import_Click"/>
             </StackPanel>
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionUnit="FullRow" KeyDown="DG1_KeyDown"  CanUserReorderColumns="False" CanUserSortColumns="False">
                 <DataGrid.Columns>

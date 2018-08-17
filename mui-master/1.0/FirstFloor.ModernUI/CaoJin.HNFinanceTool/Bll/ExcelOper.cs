@@ -213,6 +213,23 @@ namespace CaoJin.HNFinanceTool.Bll
             curerntRow++;
             
         }
-        
+
+        //预算上限计算表
+        public void PrintOneBudgetaryUpperLimitBlock(BudgetaryUpperLimit limit)
+        {
+            worksheet.Cells[curerntRow, "A"] = limit.ProjectCode;
+            worksheet.Cells[curerntRow, "B"] = limit.ProjectName;
+            worksheet.Cells[curerntRow, "C"] = limit.AccumulativePlan;
+            worksheet.Cells[curerntRow, "D"] = limit.ErpHappenedWithoutTax;
+            worksheet.Cells[curerntRow, "E"] = limit.DeductibleVAT;
+            Range rng = worksheet.Range["A" + curerntRow.ToString(), "E" + curerntRow.ToString()];
+            excelHelper.SetRangeBodersStyle(rng, 1);
+            excelHelper.SetRangeBodersThickness(rng, XlBorderWeight.xlThin);
+            excelHelper.SetRowHeight(rng, 20);
+            excelHelper.SetFontHVCenter(rng);
+            rng = worksheet.Range["C" + curerntRow.ToString(), "E" + curerntRow.ToString()];
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
+            curerntRow++;
+        }
     }
 }

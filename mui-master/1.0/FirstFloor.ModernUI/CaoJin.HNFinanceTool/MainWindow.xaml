@@ -7,7 +7,7 @@
                   Width="1000" Height="700" WindowState="Maximized" >
     
     <mui:ModernWindow.TitleLinks>
-        <mui:Link DisplayName="Settings" Source="/Pages/Settings.xaml" />
+        <mui:Link DisplayName="Settings" Source="/Pages/Settings.xaml"/>
         <mui:Link DisplayName="Help" Source="/Pages/Introduction.xaml" />
     </mui:ModernWindow.TitleLinks>
 
@@ -15,12 +15,12 @@
         <mui:LinkGroup DisplayName="Welcome">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="项目总览" Source="/Pages/Welcome.xaml" />
-                <mui:Link DisplayName="定义模板" Source="/Pages/Table1.xaml" />
-                <mui:Link DisplayName="数据管理" Source="/Content/ProjectsGroupImportAppearence.xaml"/>
+                <mui:Link DisplayName="基础参数表" Source="/Pages/Table1.xaml" />
+                <mui:Link DisplayName="概数导入" Source="/Content/ProjectsGroupImportAppearence.xaml"/>
                 <mui:Link DisplayName="预算上限计算表" Source="/Content/BudgetaryUpperLimitAppearance.xaml" />
-                <mui:Link DisplayName="项目部门预算填报" Source="/Content/DepartmentBudgetFilledAppearence.xaml"/>
-                <mui:Link DisplayName="电网基建概算数导入模版" Source="/Content/BudgetEstimateMouldAppearence.xaml"/>
-                <mui:Link DisplayName="编制导入模版" Source="/Content/ImportMouldAppearence.xaml"/>
+                <mui:Link DisplayName="项目部门预算需求" Source="/Content/DepartmentBudgetFilledAppearence.xaml"/>
+                <mui:Link DisplayName="总投资预算导入模板"  Source="/Content/BudgetEstimateMouldAppearence.xaml"/>
+                <mui:Link DisplayName="年度预算导入模板" Source="/Content/ImportMouldAppearence.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         

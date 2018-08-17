@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using CaoJin.HNFinanceTool.Basement;
 using System.Windows.Input;
 using CaoJin.HNFinanceTool.Bll;
 using System.Collections.ObjectModel;
 using System.IO;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+
 
 namespace CaoJin.HNFinanceTool.Content
 {
@@ -217,6 +216,99 @@ namespace CaoJin.HNFinanceTool.Content
             }
         }
 
+        private void button_export_Click(object sender, RoutedEventArgs e)
+        {
+            if (obc_budgetary.Count == 0) return;
+            string filepath = "";
+            SaveFile(ref filepath);
+            if (string.IsNullOrEmpty(filepath)) { return; }
+            ExcelOper excel = new ExcelOper(filepath);
+            try
+            {
+                foreach (BudgetaryUpperLimit limit in obc_budgetary)
+                {
+                    excel.PrintOneBudgetaryUpperLimitBlock(limit);
+                }
+                MessageBox.Show("成功导出", "Information");
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                excel.Save();
+                excel.Quit();
+            }
+        }
 
+        private void button_import_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog() { Filter = "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls" };
+            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
+            string filepath = openFile.FileName;
+            ExcelHelper exceloper = new ExcelHelper();
+            DataTable dt = exceloper.ExcelToDT(filepath, false, "预算上限计算表");
+            if (dt == null)
+            {
+                MessageBox.Show("EXCEL文件必须包含名为《预算上限计算表》的sheet", "ERROR");
+                return;
+            }
+            for (int i = 2; i < dt.Rows.Count; i++)
+            {
+                foreach (BudgetaryUpperLimit limit in obc_budgetary)
+                {
+                    if (limit.ProjectName == dt.DefaultView[i][1].ToString())
+                    {
+                        try
+                        {
+                            limit.AccumulativePlan = Convert.ToDouble(dt.DefaultView[i][2].ToString());
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("无法将第" + (i + 1).ToString() + "行C列内容转换为数字，请检查文件规范性！   项目名称：" + limit.ProjectName, "ERROR");
+                            break;
+                        }
+                        try
+                        {
+                            limit.ErpHappenedWithoutTax = Convert.ToDouble(dt.DefaultView[i][3].ToString());
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("无法将第" + (i + 1).ToString() + "行D列内容转换为数字，请检查文件规范性！   项目名称：" + limit.ProjectName, "ERROR");
+                            break;
+                        }
+
+                        try
+                        {
+                            limit.DeductibleVAT = Convert.ToDouble(dt.DefaultView[i][4].ToString());
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("无法将第" + (i + 1).ToString() + "行E列内容转换为数字，请检查文件规范性！   项目名称：" + limit.ProjectName, "ERROR");
+                            break;
+                        }
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        private void SaveFile(ref string filepath)
+        {
+            System.Windows.Forms.SaveFileDialog saveFile = new System.Windows.Forms.SaveFileDialog();
+            saveFile.Filter = "Excel工作表(*.xlsx)|*.xlsx|Excel 97-2003工作表(*.xls)|*.xls";
+            saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("en-US");
+            saveFile.FileName = "预算上限计算表-" + DateTime.Now.ToString("yyyyMMdd");
+            if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+            filepath = saveFile.FileName;
+            string mouldpath = "App\\excel\\mould4.xlsx";
+            if (!File.Exists(mouldpath)) { MessageBox.Show("Not Found The Mould File \"mould4.xlsx!\"", "Error"); filepath = ""; return; }
+            if (File.Exists(filepath)) { try { File.Delete(filepath); } catch (Exception ex) { MessageBox.Show(ex.Message); filepath = ""; return; } }
+            File.Copy(mouldpath, filepath);
+        }
     }
 }

@@ -7,14 +7,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
         <ScrollViewer>
             <StackPanel >
                 <TextBlock Text="财务概算工具" Style="{StaticResource Heading1}" Margin="0,0,0,8"/>
                 <mui:BBCodeBlock BBCode="[b]Designed for State Grid[/b], powered by CaoJin" Margin="0,0,0,32" />
-
-                <TextBlock Text="Automatic Calculation" Style="{StaticResource Heading2}" />
-                <mui:BBCodeBlock BBCode="Current Version：V1.2.0 20180813" Margin="0,0,0,32"/>
+                <TextBlock Text="小贴士" Style="{StaticResource Heading2}" Margin="0,0,0,8"/>
+                <mui:BBCodeBlock BBCode="● 综合税率和可抵扣增值税表示为“数字%”格式，不能转换成小数" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 可抵扣增值税比例上限、下限都不带百分号，以小数表示" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 更改可抵扣增值税比例不能超过上限、下限的限制，否则不生效" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 《基础参数表》中设置第一行项目名称，再点击保存不会保存为模板，而是新建或更新该项目" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 导入数据时会自动调节综合税率，调节税率前会先验证理论上可否调节，如果不能则不会进行调节操作" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 年价差和尾差默认会附加在一起，程序会按照设定好的顺序查找哪一项非0，首先找到的费用类别会被附加" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 更改可抵扣增值税比例不能超过上限、下限的限制，否则不生效" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 《概算导入》页面用于删除、批量导入项目数据。删除项目可右键选中左边项目名称，再单击删除，选中前按住ctrl或shift可多选删除。" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 导入项目数据的EXCEL文件需包含《总概算》、《其他费用》或《其他费用X》Sheet页" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● 项目数据文件保存在App\data文件夹下，后缀名为.est。该文件夹下的mould文件为模板文件，存储《基础参数表》数据。" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● App\excel文件夹下2个excel文件分别是导出《总投资预算导入模板》、《年度预算导入模板》需要的模板文件。" Margin="0 0 0 3"/>
+                    <mui:BBCodeBlock BBCode="● App\bak存放备份的模板文件" Margin="0 0 0 3"/>
             </StackPanel>
         </ScrollViewer>
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Automatic Calculation" Style="{StaticResource Heading2}" />
+            <mui:BBCodeBlock BBCode="Current Version：V1.2.0 20180813" Margin="0,0,0,32"/>
+        </StackPanel>
     </Grid>
 </UserControl>
