@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CaoJin.HNFinanceTool.Basement;
 using Microsoft.Office.Interop.Excel;
 using System.Data;
-using System.Runtime.InteropServices;
 
 namespace CaoJin.HNFinanceTool.Bll
 {
@@ -63,47 +62,8 @@ namespace CaoJin.HNFinanceTool.Bll
 
         public void Quit()
         {
-            // excelHelper.QuitExcel(app, workbook);
-            CloseExcel(app,workbook);
+            excelHelper.QuitExcel(app, workbook);
         }
-
-        /// <summary>
-        /// 关闭Excel进程
-        /// </summary>
-        private class KeyMyExcelProcess
-        {
-            [DllImport("User32.dll", CharSet = CharSet.Auto)]
-            public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
-            public static void Kill(Microsoft.Office.Interop.Excel.Application excel)
-            {
-                try
-                {
-                    IntPtr t = new IntPtr(excel.Hwnd);   //得到这个句柄，具体作用是得到这块内存入口 
-                    int k = 0;
-                    GetWindowThreadProcessId(t, out k);   //得到本进程唯一标志k
-                    System.Diagnostics.Process p = System.Diagnostics.Process.GetProcessById(k);   //得到对进程k的引用
-                    p.Kill();     //关闭进程k
-                }
-                catch (System.Exception ex)
-                {
-                    throw ex;
-                }
-            }
-        }
-
-
-        //关闭打开的Excel方法
-        private void CloseExcel(Microsoft.Office.Interop.Excel.Application ExcelApplication, Microsoft.Office.Interop.Excel.Workbook ExcelWorkbook)
-        {
-            ExcelWorkbook.Close(false, Type.Missing, Type.Missing);
-            ExcelWorkbook = null;
-            ExcelApplication.Quit();
-            GC.Collect();
-            KeyMyExcelProcess.Kill(ExcelApplication);
-        }
-
-
-
 
         int curerntRow = 3;
 
@@ -115,15 +75,15 @@ namespace CaoJin.HNFinanceTool.Bll
             excelHelper.SetRangeBodersThickness(rng, XlBorderWeight.xlThin);
             excelHelper.SetRowHeight(rng, 20);
             rng = worksheet.Range["G" + curerntRow.ToString(), "H" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng, "#,##0.00");
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
             rng = worksheet.Range["J" + curerntRow.ToString(), "N" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng, "#,##0.00");
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
             rng = worksheet.Range["I" + curerntRow.ToString(), "I" + curerntRow.ToString()];
             rng.NumberFormatLocal = "0.00%";
             if (project is ProjectTotalEstimateViewModel)
             {
                 rng = worksheet.Range["A" + curerntRow.ToString(), "N" + curerntRow.ToString()];
-                excelHelper.SetRangeBackground(rng, 35);
+                excelHelper.SetRangeBackground(rng, 34);
                 worksheet.Cells[curerntRow, "A"] = project.ProjectName;
                 worksheet.Cells[curerntRow, "B"] = project.ProjectCode;
                 worksheet.Cells[curerntRow, "C"] = ((ProjectTotalEstimateViewModel)project).IndividualProjectName;
@@ -195,15 +155,15 @@ namespace CaoJin.HNFinanceTool.Bll
             excelHelper.SetRangeBodersThickness(rng, XlBorderWeight.xlThin);
             excelHelper.SetRowHeight(rng, 20);
             rng = worksheet.Range["K" + curerntRow.ToString(), "P" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng, "#,##0.00");
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
             rng = worksheet.Range["R" + curerntRow.ToString(), "S" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng, "#,##0.00");
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
             rng = worksheet.Range["Q" + curerntRow.ToString(), "Q" + curerntRow.ToString()];
             rng.NumberFormatLocal = "0.00%";
             if (importvm.ExpanseCategory == "10KV（含20KV）及以下基建项目")
             {
                 rng = worksheet.Range["A" + curerntRow.ToString(), "S" + curerntRow.ToString()];
-                excelHelper.SetRangeBackground(rng, 35);
+                excelHelper.SetRangeBackground(rng, 34);
             }
             else
             {
@@ -241,7 +201,7 @@ namespace CaoJin.HNFinanceTool.Bll
             rng = worksheet.Range["G" + curerntRow.ToString(), "G" + curerntRow.ToString()];
             excelHelper.SetRangeFormula(rng,formula);
             rng = worksheet.Range["D" + curerntRow.ToString(), "G" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng, "#,##0.00");
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
 
             //设置条件格式
             formula = "=INDIRECT(CONCATENATE(\"R\",ROW(),\"C8\"),FALSE) = FALSE";
@@ -268,7 +228,7 @@ namespace CaoJin.HNFinanceTool.Bll
             excelHelper.SetRowHeight(rng, 20);
             excelHelper.SetFontHVCenter(rng);
             rng = worksheet.Range["C" + curerntRow.ToString(), "E" + curerntRow.ToString()];
-            excelHelper.SetRangeValueStyleNumber(rng, "#,##0.00");
+            excelHelper.SetRangeValueStyleNumber(rng, "0.00");
             curerntRow++;
         }
     }

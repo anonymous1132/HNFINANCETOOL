@@ -202,9 +202,9 @@ namespace CaoJin.HNFinanceTool.Basement
         //关闭excel
         public void QuitExcel(Excel.Application app, Excel.Workbook workbook)
         {
-            workbook.Saved = true;
             workbook.Close();
             app.Quit();
+
             System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
             app= null;
         }

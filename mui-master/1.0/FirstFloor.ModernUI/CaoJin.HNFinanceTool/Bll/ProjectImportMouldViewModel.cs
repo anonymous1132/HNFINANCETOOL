@@ -181,7 +181,6 @@ namespace CaoJin.HNFinanceTool.Bll
             set { _yearBudgetWithoutTax = value;OnPropertyChanged("YearBudgetWithoutTax"); }
         }
 
-
         public void GetData(ProjectEstimateViewModel project)
         {
 

@@ -4,7 +4,8 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   Title="财务概算工具" IsTitleVisible="True"
                   ContentSource="/Pages/Welcome.xaml"
-                  Width="1000" Height="700" WindowState="Maximized">
+                  Width="1000" Height="700" WindowState="Maximized" >
+    
     <mui:ModernWindow.TitleLinks>
         <mui:Link DisplayName="Settings" Source="/Pages/Settings.xaml"/>
         <mui:Link DisplayName="Help" Source="/Pages/Introduction.xaml" />
@@ -18,28 +19,22 @@
                 <mui:Link DisplayName="概数导入" Source="/Content/ProjectsGroupImportAppearence.xaml"/>
                 <mui:Link DisplayName="预算上限计算表" Source="/Content/BudgetaryUpperLimitAppearance.xaml" />
                 <mui:Link DisplayName="项目部门预算需求" Source="/Content/DepartmentBudgetFilledAppearence.xaml"/>
-                <!--<mui:Link DisplayName="年度预算导入模板" Source="/Content/ImportMouldAppearence.xaml" />-->
-            </mui:LinkGroup.Links>
-        </mui:LinkGroup>
-
-        <mui:LinkGroup DisplayName="Outputs">
-            <mui:LinkGroup.Links>
                 <mui:Link DisplayName="总投资预算导入模板"  Source="/Content/BudgetEstimateMouldAppearence.xaml"/>
-                <mui:Link DisplayName="年度预算导入模板" Source="/Content/ImportMouldAppearence.xaml" />
+                <mui:Link DisplayName="年度预算导入模板" Source="/Content/ImportMouldAppearence.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
-
+        
         <mui:LinkGroup DisplayName="Help" GroupKey="help">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Help" Source="/Pages/Introduction.xaml" />
-                <!--<mui:Link DisplayName="welcome" Source="/Pages/Welcome.xaml" />-->
+                <mui:Link DisplayName="welcome" Source="/Pages/Welcome.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         
         <mui:LinkGroup DisplayName="Settings" GroupKey="settings">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Software" Source="/Pages/Settings.xaml" />
-                <!--<mui:Link DisplayName="welcome" Source="/Pages/Welcome.xaml" />-->
+                <mui:Link DisplayName="welcome" Source="/Pages/Welcome.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </mui:ModernWindow.MenuLinkGroups>

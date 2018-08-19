@@ -52,25 +52,14 @@ namespace CaoJin.HNFinanceTool.Content
             SaveFile(ref filepath);
             if (string.IsNullOrEmpty(filepath)) { return; }
             ExcelOper excel = new ExcelOper(filepath);
-            try
+            foreach (ProjectEstimateViewModel project in obc_project)
             {
-                foreach (ProjectEstimateViewModel project in obc_project)
-                {
-                    excel.PrintOneProjectEstimateBlcok(project);
+                excel.PrintOneProjectEstimateBlcok(project);
 
-                }
-                MessageBox.Show("成功导出", "Information");
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message,"Error");
-            }
-            finally
-            {
-                excel.Save();
-                excel.Quit();
-            }
-           
+            excel.Save();
+            excel.Quit();
+            MessageBox.Show("成功导出", "Information");
         }
 
         private void SaveFile(ref string filepath)
@@ -79,7 +68,7 @@ namespace CaoJin.HNFinanceTool.Content
             saveFile.Filter = "Excel工作表(*.xlsx)|*.xlsx|Excel 97-2003工作表(*.xls)|*.xls";
             saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("en-US");
-            saveFile.FileName = "总投资预算导入模版-" + DateTime.Now.ToString("yyyyMMdd");
+            saveFile.FileName = "电网基建概算数导入模版-" + DateTime.Now.ToString("yyyyMMdd");
             if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
             {
                 return;

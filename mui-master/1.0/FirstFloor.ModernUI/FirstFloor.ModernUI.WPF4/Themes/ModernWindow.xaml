@@ -16,7 +16,6 @@
         <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
         <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="Foreground" Value="{DynamicResource WindowText}" />
-        <!--<Setter Property="Foreground" Value="Red" />-->
         <Setter Property="BorderBrush" Value="{DynamicResource WindowBorder}" />
         <Setter Property="Width" Value="800" />
         <Setter Property="Height" Value="640" />
@@ -205,11 +204,6 @@
                 <shell:WindowChrome CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False"  NonClientFrameEdges="None" />
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style TargetType="controls:ModernMenu">
-        <Setter Property="Foreground" Value="Red" />
-
     </Style>
 
 </ResourceDictionary>

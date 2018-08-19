@@ -10,14 +10,11 @@
         <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-
-
     <Style TargetType="controls:ModernWindow">
         <Setter Property="BackgroundContent" Value="{DynamicResource WindowBackgroundContent}" />
         <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
         <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="Foreground" Value="{DynamicResource WindowText}" />
-        <!--<Setter Property="Foreground" Value="Red" />-->
         <Setter Property="BorderBrush" Value="{DynamicResource WindowBorder}" />
         <Setter Property="Width" Value="800" />
         <Setter Property="Height" Value="640" />
@@ -157,8 +154,7 @@
                                         <!-- main menu -->
                                         <controls:ModernMenu Grid.Column="1"
                                                              SelectedSource="{Binding Source, ElementName=ContentFrame, Mode=TwoWay}"
-                                                             LinkGroups="{TemplateBinding MenuLinkGroups}">
-                                        </controls:ModernMenu>
+                                                             LinkGroups="{TemplateBinding MenuLinkGroups}" />
                                     </Grid>
 
                                     <!-- content frame -->

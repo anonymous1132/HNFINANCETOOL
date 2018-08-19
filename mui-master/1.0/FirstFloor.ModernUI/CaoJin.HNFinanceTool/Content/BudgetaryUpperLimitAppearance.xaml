@@ -18,21 +18,21 @@
                 <DataGrid.Columns>
                     <mui:DataGridTextColumn Header="项目编号" Binding="{Binding Path=ProjectCode}" CanUserSort="False"/>
                     <mui:DataGridTextColumn Header="项目名称" Binding="{Binding Path=ProjectName}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="概算" Binding="{Binding Path=EstimateNumber,StringFormat={}{0:N2}}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="概算" Binding="{Binding Path=EstimateNumber}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="内控系数" Binding="{Binding Path=InternalControl}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="总投资预算（含税）"  Binding="{Binding Path=TotalInvestmentWithTax,StringFormat={}{0:N2}}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="总投资预算（不含税）" Binding="{Binding Path=TotalInvestmentWithoutTax,StringFormat={}{0:N2}}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="累计综合计划下达" Binding="{Binding Path=AccumulativePlan,StringFormat={}{0:N2}}" IsReadOnly="False"/>
-                    <mui:DataGridTextColumn Header="截至上年ERP已发生（不含税）" Binding="{Binding Path=ErpHappenedWithoutTax,StringFormat={}{0:N2}}" IsReadOnly="False"/>
-                    <mui:DataGridTextColumn Header="截至上年累计已抵扣增值税"  Binding="{Binding Path=DeductibleVAT,StringFormat={}{0:N2}}" IsReadOnly="False"/>
-                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithTax,StringFormat={}{0:N2}}" IsReadOnly="True" >
+                    <mui:DataGridTextColumn Header="总投资预算（含税）"  Binding="{Binding Path=TotalInvestmentWithTax}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="总投资预算（不含税）" Binding="{Binding Path=TotalInvestmentWithoutTax}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="累计综合计划下达" Binding="{Binding Path=AccumulativePlan}" IsReadOnly="False"/>
+                    <mui:DataGridTextColumn Header="截至上年ERP已发生（不含税）" Binding="{Binding Path=ErpHappenedWithoutTax}" IsReadOnly="False"/>
+                    <mui:DataGridTextColumn Header="截至上年累计已抵扣增值税"  Binding="{Binding Path=DeductibleVAT}" IsReadOnly="False"/>
+                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithTax}" IsReadOnly="True" >
                         <mui:DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="本年预算可发生最大数（含税）" TextWrapping="Wrap" HorizontalAlignment="Center" MaxWidth="150" MinWidth="100"></TextBlock>
                             </DataTemplate>
                         </mui:DataGridTextColumn.HeaderTemplate>
                     </mui:DataGridTextColumn>
-                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithoutTax,StringFormat={}{0:N2}}" IsReadOnly="True" MaxWidth="150" MinWidth="100">
+                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithoutTax}" IsReadOnly="True" MaxWidth="150" MinWidth="100">
                         <mui:DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="本年预算可发生最大数（不含税）" TextWrapping="Wrap"></TextBlock>

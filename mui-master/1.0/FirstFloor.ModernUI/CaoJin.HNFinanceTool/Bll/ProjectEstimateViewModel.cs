@@ -180,7 +180,7 @@ namespace CaoJin.HNFinanceTool.Bll
 
         {
 
-            get { return _estimateNumber.ToString("N"); }
+            get { return _estimateNumber.ToString(); }
 
             set
             {
@@ -265,7 +265,7 @@ namespace CaoJin.HNFinanceTool.Bll
         private double _totalInvestmentWithTax=0;//总投资预算（含税）
         public string TotalInvestmentWithTax
         {
-            get { return _totalInvestmentWithTax.ToString("N"); }
+            get { return _totalInvestmentWithTax.ToString(); }
         }
         public double totalInvestmentWithTax
         {
@@ -274,7 +274,7 @@ namespace CaoJin.HNFinanceTool.Bll
         private double _totalInvestmentWithoutTax=0;//总投资预算（不含税）
         public string TotalInvestmentWithoutTax
         {
-            get { return _totalInvestmentWithoutTax.ToString("N"); }
+            get { return _totalInvestmentWithoutTax.ToString(); }
 
         }
         public double totalInvestmentWithoutTax

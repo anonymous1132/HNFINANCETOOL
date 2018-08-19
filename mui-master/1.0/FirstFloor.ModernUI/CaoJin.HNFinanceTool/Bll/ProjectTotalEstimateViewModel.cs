@@ -34,23 +34,11 @@ namespace CaoJin.HNFinanceTool.Bll
             set { return; }
         }
 
-        private double _estimateNumber=0;
+        private string _estimateNumber;
         public new string EstimateNumber
         {
-            get { return _estimateNumber.ToString("N"); }
-
-            set
-            {
-                try
-
-                {
-                    double test = Convert.ToDouble((((string)value)).Trim());
-                    _estimateNumber = test;
-                    OnPropertyChanged("EstimateNumber");
-                }
-                catch (Exception)
-                { return; }
-            }
+            get { return _estimateNumber; }
+            set { _estimateNumber=value;OnPropertyChanged("EstimateNumber"); }
         }
 
         public new string DeductibleVATRatio
@@ -59,28 +47,18 @@ namespace CaoJin.HNFinanceTool.Bll
             set { return; }
         }
 
-        private double _totalInvestmentWithTax;
+        private string _totalInvestmentWithTax;
         public new string TotalInvestmentWithTax
         {
-            get { return _totalInvestmentWithTax.ToString("N"); }
-            set
-            {
-                double test = Convert.ToDouble((((string)value)).Trim());
-                _totalInvestmentWithTax=test;
-                OnPropertyChanged("TotalInvestmentWithTax");
-            }
+            get { return _totalInvestmentWithTax; }
+            set { _totalInvestmentWithTax = value; OnPropertyChanged("TotalInvestmentWithTax"); }
         }
 
-        private double _totalInvestmentWithoutTax;
+        private string _totalInvestmentWithoutTax;
         public new string TotalInvestmentWithoutTax
         {
-            get { return _totalInvestmentWithoutTax.ToString("N"); }
-            set
-            {
-                double test = Convert.ToDouble((((string)value)).Trim());
-                _totalInvestmentWithoutTax = test;
-                OnPropertyChanged("TotalInvestmentWithoutTax");
-            }
+            get { return _totalInvestmentWithoutTax; }
+            set { _totalInvestmentWithoutTax = value;OnPropertyChanged("TotalInvestmentWithoutTax"); }
         }
 
         public new string ExpanseCategory

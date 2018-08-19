@@ -29,6 +29,5 @@ namespace FirstFloor.ModernUI.Presentation
                 }
             }
         }
-
     }
 }
