@@ -19,28 +19,28 @@
                     <mui:DataGridTextColumn Header="序号" Binding="{Binding Path=NumberOnly}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="项目编号" Binding="{Binding Path=ProjectCode}" IsReadOnly="True"/>
                     <mui:DataGridTextColumn Header="项目名称" Binding="{Binding Path=ProjectName}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithTax}" IsReadOnly="True" >
+                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithTax,StringFormat={}{0:N2}}" IsReadOnly="True" >
                         <mui:DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="本年预算可发生最大数（含税）" TextWrapping="Wrap" HorizontalAlignment="Center" MaxWidth="150" MinWidth="100"></TextBlock>
                             </DataTemplate>
                         </mui:DataGridTextColumn.HeaderTemplate>
                     </mui:DataGridTextColumn>
-                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithoutTax}" IsReadOnly="True" MaxWidth="150" MinWidth="100">
+                    <mui:DataGridTextColumn  Binding="{Binding MaxBudgetWithoutTax,StringFormat={}{0:N2}}" IsReadOnly="True" MaxWidth="150" MinWidth="100">
                         <mui:DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="本年预算可发生最大数（不含税）" TextWrapping="Wrap"></TextBlock>
                             </DataTemplate>
                         </mui:DataGridTextColumn.HeaderTemplate>
                     </mui:DataGridTextColumn>
-                    <mui:DataGridTextColumn MaxWidth="150" Binding="{Binding DepartmentFilledBudgetWithTax}">
+                    <mui:DataGridTextColumn MaxWidth="150" Binding="{Binding DepartmentFilledBudgetWithTax,StringFormat={}{0:N2}}">
                         <mui:DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="项目部门提报本年预算（含税）" TextWrapping="Wrap"></TextBlock>
                             </DataTemplate>
                         </mui:DataGridTextColumn.HeaderTemplate>
                     </mui:DataGridTextColumn>
-                    <mui:DataGridTextColumn Header="本年预算(不含税)" Binding="{Binding Path=YearBudgetWithoutTax}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="本年预算(不含税)" Binding="{Binding Path=YearBudgetWithoutTax,StringFormat={}{0:N2}}" IsReadOnly="True"/>
                     <mui:DataGridCheckBoxColumn MaxWidth="150" Binding="{Binding Path=IsYearBudgetWithTaxLegal, Mode=OneWay}" IsReadOnly="True">
                         <mui:DataGridCheckBoxColumn.HeaderTemplate>
                             <DataTemplate>
@@ -52,6 +52,13 @@
                         <mui:DataGridCheckBoxColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="年度不含税数是否符合要求" TextWrapping="Wrap"></TextBlock>
+                            </DataTemplate>
+                        </mui:DataGridCheckBoxColumn.HeaderTemplate>
+                    </mui:DataGridCheckBoxColumn>
+                    <mui:DataGridCheckBoxColumn MaxWidth="150" Binding="{Binding Path=IsUsedBelowLimit,Mode=OneWay}" IsReadOnly="True">
+                        <mui:DataGridCheckBoxColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="截至本年累计发生（含税）是否符合概算要求" TextWrapping="Wrap"></TextBlock>
                             </DataTemplate>
                         </mui:DataGridCheckBoxColumn.HeaderTemplate>
                     </mui:DataGridCheckBoxColumn>

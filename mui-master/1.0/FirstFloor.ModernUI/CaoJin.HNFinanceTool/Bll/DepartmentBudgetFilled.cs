@@ -58,7 +58,7 @@ namespace CaoJin.HNFinanceTool.Bll
         public double DepartmentFilledBudgetWithTax
         {
             get { return _departmentFilledBudgetWithTax; }
-            set { _departmentFilledBudgetWithTax = value;OnPropertyChanged("DepartmentFilledBudgetWithTax");this.YearBudgetWithoutTax = _departmentFilledBudgetWithTax / (1 + CompositeTaxRate / 100); OnPropertyChanged("IsYearBudgetWithTaxLegal"); }
+            set { _departmentFilledBudgetWithTax = value;OnPropertyChanged("DepartmentFilledBudgetWithTax");this.YearBudgetWithoutTax = _departmentFilledBudgetWithTax / (1 + CompositeTaxRate / 100); OnPropertyChanged("IsYearBudgetWithTaxLegal"); OnPropertyChanged("IsUsedBelowLimit"); }
         }
 
         private double _yearBudgetWithoutTax;
@@ -78,13 +78,21 @@ namespace CaoJin.HNFinanceTool.Bll
             get { return MaxBudgetWithoutTax > _yearBudgetWithoutTax; }
         }
 
+        //debug 20180815
+        public bool IsUsedBelowLimit
+        {
+            get { return limit.ErpHappenedWithoutTax + limit.DeductibleVAT +DepartmentFilledBudgetWithTax <=limit.EstimateNumber; }
+        }
+
+        private BudgetaryUpperLimit limit;
+
         private void GetData()
         {
             string path = "App\\data\\" + this.ProjectName + ".est";
-            BudgetaryUpperLimit budgetaryUpperLimit = new BudgetaryUpperLimit(this.ProjectName);
-            this.ProjectCode = budgetaryUpperLimit.ProjectCode;
-            this.MaxBudgetWithoutTax = budgetaryUpperLimit.MaxBudgetWithoutTax;
-            this.MaxBudgetWithTax = budgetaryUpperLimit.MaxBudgetWithTax;
+            this.limit = new BudgetaryUpperLimit(this.ProjectName);
+            this.ProjectCode = limit.ProjectCode;
+            this.MaxBudgetWithoutTax = limit.MaxBudgetWithoutTax;
+            this.MaxBudgetWithTax = limit.MaxBudgetWithTax;
             DataTable dt = XmlHelper.GetTable(path,XmlHelper.XmlType.File, "Configure");
             this.CompositeTaxRate = GetDouble(dt.DefaultView[0]["CompositeTaxRate"].ToString().Replace("%", ""));
             dt= XmlHelper.GetTable(path, XmlHelper.XmlType.File, "DepartmentBudgetFilled");

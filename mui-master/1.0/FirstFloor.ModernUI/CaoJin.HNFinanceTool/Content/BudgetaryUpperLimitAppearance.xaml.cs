@@ -231,8 +231,10 @@ namespace CaoJin.HNFinanceTool.Content
                 }
                 MessageBox.Show("成功导出", "Information");
             }
-            catch (Exception)
-            { }
+            catch (Exception ex)
+            {
+                MessageBox.Show("过程出现错误","Error");
+            }
             finally
             {
                 excel.Save();

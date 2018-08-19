@@ -84,7 +84,7 @@ namespace CaoJin.HNFinanceTool.Content
             saveFile.Filter = "Excel工作表(*.xlsx)|*.xlsx|Excel 97-2003工作表(*.xls)|*.xls";
             saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("en-US");
-            saveFile.FileName = "编制导入模版-" + DateTime.Now.ToString("yyyyMMdd");
+            saveFile.FileName = "年度预算导入模版-" + DateTime.Now.ToString("yyyyMMdd");
             if (saveFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
             {
                 return;

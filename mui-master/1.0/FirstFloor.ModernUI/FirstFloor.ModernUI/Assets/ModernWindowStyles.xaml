@@ -30,7 +30,7 @@
                             </Storyboard>
                         </Border.Resources>
 
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" >
                             <AdornerDecorator>
                                 <Grid x:Name="LayoutRoot">
                                     <Grid.RowDefinitions>
