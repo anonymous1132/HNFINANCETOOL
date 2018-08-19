@@ -10,7 +10,7 @@
     <Grid>
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8" Orientation="Horizontal">
-                <TextBlock  Text="编制导入模版" Style="{StaticResource Heading2}"  />
+                <TextBlock  Text="年度预算导入模版" Style="{StaticResource Heading2}"  />
                 <Button Content="导出至excel" Name="button_export" Margin="10 0 0 0" Click="button_export_Click"/>
             </StackPanel>
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
@@ -32,8 +32,8 @@
                     <mui:DataGridTextColumn Header="累计抵扣增值税" Binding="{Binding CumulativedeDeductibleVAT}" CanUserSort="False"/>
                     <mui:DataGridTextColumn Header="本年抵扣增值税" Binding="{Binding YearDeductibleVAT}" CanUserSort="False"/>
                     <mui:DataGridTextColumn Header="可抵扣增值税比例" Binding="{Binding DeductibleVATRatio}" CanUserSort="False"/>
-                    <mui:DataGridTextColumn Header="年度投资预算（含税）" Binding="{Binding DepartmentFilledBudgetWithTax}" CanUserSort="False"/>
-                    <mui:DataGridTextColumn Header="年度投资预算（不含税）" Binding="{Binding YearBudgetWithoutTax}" CanUserSort="False"/>
+                    <mui:DataGridTextColumn Header="年度投资预算（含税）"  Binding="{Binding DepartmentFilledBudgetWithTax,StringFormat={}{0:N2}}" CanUserSort="False"/>
+                    <mui:DataGridTextColumn Header="年度投资预算（不含税）" Binding="{Binding YearBudgetWithoutTax,StringFormat={}{0:N2}}" CanUserSort="False"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

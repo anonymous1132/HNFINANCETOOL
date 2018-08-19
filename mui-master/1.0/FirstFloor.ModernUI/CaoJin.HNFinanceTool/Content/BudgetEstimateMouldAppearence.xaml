@@ -10,7 +10,7 @@
     <Grid>
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8" Orientation="Horizontal">
-                <TextBlock  Text="电网基建概算数导入模版" Style="{StaticResource Heading2}"  />
+                <TextBlock  Text="总投资预算导入模版" Style="{StaticResource Heading2}"  />
                 <Button Content="导出至excel" Name="button_export" Margin="10 0 0 0" Click="button_export_Click"/>
             </StackPanel>
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" >
